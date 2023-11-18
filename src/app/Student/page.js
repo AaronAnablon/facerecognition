@@ -29,7 +29,7 @@ const Page = () => {
                 {profile?.firstName} {profile?.lastName} &#40;Student&#41;
             </div>
             <ConfirmationDialog />
-            <p className="ml-2">Student's Information</p>
+            <p className="ml-2">Student&#39;s Information</p>
             <Layout />
             <div className="w-full absolute bottom-8 flex md:justify-start md:pl-4 justify-center items-center">
                 <button className="bg-green-700 text-white px-4 py-2 rounded-lg"
