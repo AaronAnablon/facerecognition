@@ -19,7 +19,7 @@ import SelectImage from "@/components/SelectImage";
 import { IoMdCloseCircle } from "react-icons/io";
 import { useAccount } from "@/app/contextProvider/AccountProvider";
 
-const page = () => {
+const Page = () => {
     const profile = useAccount()
     const [viewLetter, setViewLetter] = useState(false)
     const [uploadLetter, setUploadLetter] = useState(false)
@@ -164,4 +164,4 @@ const page = () => {
     );
 }
 
-export default page;
+export default Page;

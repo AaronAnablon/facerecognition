@@ -12,7 +12,7 @@ import AddTeacherAccount from "./AddTeacherAccount";
 import { LoadingSpin } from "@/utils/LoadingSpin";
 import { url, headers } from "@/utils/api";
 
-const page = () => {
+const Page = () => {
     const [add, setAdd] = useState(false)
     const [teachers, setTeachers] = useState()
     const [success, setSuccess] = useState(false)
@@ -74,4 +74,4 @@ const page = () => {
     );
 }
 
-export default page;
+export default Page;

@@ -16,7 +16,7 @@ import EditSchedule from "./EditSchedule";
 import useConfirmation from "@/utils/ConfirmationHook";
 import { FcDataProtection } from "react-icons/fc";
 
-const page = () => {
+const Page = () => {
     const { showConfirmation, ConfirmationDialog } = useConfirmation();
     const [add, setAdd] = useState(false)
     const [edit, setEdit] = useState(false)
@@ -166,4 +166,4 @@ const page = () => {
     );
 }
 
-export default page;
+export default Page;

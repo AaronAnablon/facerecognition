@@ -10,7 +10,7 @@ import { url, headers } from "@/utils/api";
 import { useSearchParams } from "next/navigation";
 import { useSession } from 'next-auth/react';
 
-const page = () => {
+const Page = () => {
     const [schedule, setSchedule] = useState()
     const [teacher, setTeacher] = useState()
     const [loading, setLoading] = useState(false)
@@ -114,4 +114,4 @@ const page = () => {
     );
 }
 
-export default page;
+export default Page;

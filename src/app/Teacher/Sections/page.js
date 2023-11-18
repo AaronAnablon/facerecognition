@@ -11,7 +11,7 @@ import { useSearchParams } from "next/navigation";
 import { useSession } from 'next-auth/react';
 import Link from "next/link";
 
-const page = () => {
+const Page = () => {
     const [section, setSection] = useState()
     const [loading, setLoading] = useState(false)
     const currentPathname = usePathname()
@@ -75,4 +75,4 @@ const page = () => {
     );
 }
 
-export default page;
+export default Page;

@@ -17,7 +17,7 @@ import { FcDataProtection } from "react-icons/fc";
 import Link from "next/link";
 import useConfirmation from "@/utils/ConfirmationHook";
 
-const page = () => {
+const Page = () => {
     const [add, setAdd] = useState(false)
     const [edit, setEdit] = useState(false)
     const [clickedStudent, setClickedStudent] = useState()
@@ -143,4 +143,4 @@ const page = () => {
     );
 }
 
-export default page;
+export default Page;

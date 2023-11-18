@@ -8,7 +8,7 @@ import Layout from "./Layout";
 import useConfirmation from "@/utils/ConfirmationHook";
 import { url } from "@/utils/api";
 
-const page = () => {
+const Page = () => {
     const profile = useAccount();
     const { showConfirmation, ConfirmationDialog } = useConfirmation();
     const handleSignOut = (e) => {
@@ -39,4 +39,4 @@ const page = () => {
     );
 }
 
-export default page;
+export default Page;

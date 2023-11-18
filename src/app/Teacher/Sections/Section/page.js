@@ -16,7 +16,7 @@ import SelectImage from "@/components/SelectImage";
 import { FcDataProtection } from "react-icons/fc";
 import Link from "next/link";
 
-const page = () => {
+const Page = () => {
     const { showConfirmation, ConfirmationDialog } = useConfirmation();
     const [section, setSection] = useState();
     const [studentProfile, setStudentProfile] = useState();
@@ -192,4 +192,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default Page;

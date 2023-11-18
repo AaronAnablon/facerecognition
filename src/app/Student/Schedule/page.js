@@ -9,7 +9,7 @@ import { LoadingSpin } from "@/utils/LoadingSpin";
 import { url, headers } from "@/utils/api";
 import { useAccount } from "@/app/contextProvider/AccountProvider";
 
-const page = () => {
+const Page = () => {
     const profile = useAccount()
     const [schedule, setSchedule] = useState()
     const [loading, setLoading] = useState(false)
@@ -64,14 +64,10 @@ const page = () => {
     };
     const groupedSchedule = groupByDay(schedule);
 
-
+    console.log(groupedSchedule)
 
     return (
         <Layout>
-            <ConfirmationDialog />
-            <div className="w-full flex justify-center gap-4">
-                <div className="bg-green-700 w-full text-white mx-4 py-2 rounded-lg mb-4 text-center">{profile?.firstName} {profile?.lastName}</div>
-            </div>
             {loading && <LoadingSpin loading={loading} />}
             <div className="w-full flex justify-center gap-4">
                 <div className="grid gap-4 w-full mx-4">
@@ -96,4 +92,4 @@ const page = () => {
     );
 }
 
-export default page;
+export default Page;

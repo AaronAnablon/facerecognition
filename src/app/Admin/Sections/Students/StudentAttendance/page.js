@@ -19,7 +19,7 @@ import { MdOutlineMailOutline } from "react-icons/md";
 import SelectImage from "@/components/SelectImage";
 import { IoMdCloseCircle } from "react-icons/io";
 
-const page = () => {
+const Page = () => {
     const { showConfirmation, ConfirmationDialog } = useConfirmation();
     const [viewLetter, setViewLetter] = useState(false)
     const [uploadLetter, setUploadLetter] = useState(false)
@@ -212,4 +212,4 @@ const page = () => {
     );
 }
 
-export default page;
+export default Page;

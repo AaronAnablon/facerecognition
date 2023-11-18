@@ -3,8 +3,9 @@
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { url } from '@/utils/api';
+import { LoadingSpin } from '@/utils/LoadingSpin';
 
-const page = () => {
+const Page = () => {
     const { data: session } = useSession();
     const router = useRouter()
     if (!session) {
@@ -20,8 +21,9 @@ const page = () => {
     return (
         <div className="w-screen h-screen grid items-center justify-center">
             <p>Authenticating...</p>
+            <LoadingSpin loading={true} />
         </div>
     );
 }
 
-export default page;
+export default Page;
