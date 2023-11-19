@@ -3,35 +3,33 @@ import ListView from "./ListView";
 import { faceDescData } from "./faceDescData";
 
 const TrxDashBoard = (props) => {
-    const { participants } = props;
+    const { participants, present } = props;
 
-    // Create a map of studentIds for faster lookup
-    const participantsMap = new Map(participants?.map(({ studentId }) => [studentId, true]));
+
+    const presentSet = new Set(present);
 
     // Filter faceDescData based on participant's studentId
-    const updatedFaceDescData = faceDescData.map((student) => {
-        const isPresent = participantsMap.has(student.studentId);
-
+    const updatedFaceDescData = participants.map((student) => {
+        const isPresent = presentSet?.has(student.id);
         return {
             ...student,
             status: isPresent ? "Present" : "Absent",
+            attend_at: ""
         };
     });
 
-    // Filter participants based on the "Present" status
+
+
+    // Filter fullDesc based on the "Present" status
     const attendees = updatedFaceDescData.filter((student) => student.status === "Present");
 
+    // console.log("attendees", attendees)
     return (
-        <div className="bg-white p-4 rounded-md">
+        <div className="p-4 border">
             <p className="text-center font-bold text-2xl">
-                Attendance: {attendees.length}/{faceDescData.length}
+                Attendance: {attendees?.length}/{participants?.length}
             </p>
-            <div className="w-1/2 pl-2">
-                <div className="border p-4">
-                    <p className="font-bold text-lg">Attendee: {updatedFaceDescData.length}</p>
-                    <ListView studentList={updatedFaceDescData} />
-                </div>
-            </div>
+            <ListView studentList={updatedFaceDescData} />
         </div>
     );
 };
@@ -39,4 +37,4 @@ const TrxDashBoard = (props) => {
 TrxDashBoard.displayName = 'TrxDashBoard';
 
 
-export default TrxDashBoard ;
+export default TrxDashBoard;

@@ -1,31 +1,25 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
+import { FaCheck } from "react-icons/fa";
+import { IoClose } from "react-icons/io5";
 
 const ListView = ({ studentList }) => {
 
     return (
-        <ul className="divide-y divide-gray-200">
+        <ul className="grid gap-1">
             {studentList.map((student) => (
-                <li key={student._id} className="py-4 flex justify-center">
-                    <div className="ml-4 flex gap-4">
-                        <p className="">
-                            {student.firstName} {student.lastName}
-                            ({student._id}){"  "}
-                        </p>
-                        <p className="">
-                            {student.status}
-                        </p>
-                        <div className="flex flex-col">
-                            <div>
-                                <p>
-                                    Check in:{" "}
-                                    {student.attend_at
-                                        ? moment(student.attend_at).format("DD/MM/YYYY h:mm:ss a")
-                                        : "-"}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                <li key={student._id} className=" flex justify-between items-center text-white py-1 bg-green-700 px-4 rounded-lg">
+                    <p className="">
+                        {student.firstName} {student.lastName}
+                    </p>
+                    <p className="">
+                        {student.status === "Present" ?
+                            <div className="bg-white rounded-full text-green-700 p-1">
+                                <FaCheck size={14} /></div> :
+                            <div className="bg-white rounded-full text-red-700 p-1">
+                                <IoClose size={16} /></div>
+                        }
+                    </p>
                 </li>
             ))}
         </ul>

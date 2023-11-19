@@ -28,6 +28,7 @@ const ProcessFaceRecognition = (props) => {
     const [loadingMessageError, setLoadingMessageError] = useState("");
     const [fullDesc, setFullDesc] = useState(null);
     const [waitText, setWaitText] = useState("");
+    const [present, setPresent] = useState([]);
 
     useEffect(() => {
         async function loadingtheModel() {
@@ -86,6 +87,19 @@ const ProcessFaceRecognition = (props) => {
 
                 drawRectAndLabelFace(fullDesc, faceMatcher, participants, ctx);
 
+                if (!!fullDesc) {
+
+                    fullDesc.map((desc) => {
+                        if (faceMatcher && faceMatcher.findBestMatch !== null) {
+                            const bestMatch = faceMatcher.findBestMatch(desc.descriptor);
+
+                            if (bestMatch._label != "unknown") {
+                                setPresent(prevPresent => [...prevPresent, bestMatch._label]);
+                            }
+                        }
+                    });
+                }
+
             }
         }
 
@@ -112,41 +126,7 @@ const ProcessFaceRecognition = (props) => {
     return (
         <div className="content">
             <div className="card">
-                <form>
-                    <div className="form-item">
-                        <label>Webcam</label>
-                        <select
-                            className="w-64"
-                            defaultValue="Select Webcam"
-                            onChange={(e) => handleSelectWebcam(e.target.value)}
-                        >
-                            {inputDevices?.inputDevice?.map((device) => (
-                                <option key={device.deviceId} value={device.deviceId}>
-                                    {device.label}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="form-item">
-                        <label>Webcam Size</label>
-                        <select
-                            className="w-32"
-                            defaultValue={DEFAULT_WEBCAM_RESOLUTION.label}
-                            onChange={(e) => handleWebcamResolution(e.target.value)}
-                        >
-                            {webcamResolutionType.map((type) => (
-                                <option key={type.label} value={type.label}>
-                                    {type.label}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                </form>
-
-
-
                 {!isAllModelLoaded && <ModelLoadStatus errorMessage={loadingMessageError} />}
-
                 {!isAllModelLoaded ? (
                     <ModelLoading loadingMessage={loadingMessage} />
                 ) : loadingMessageError ? (
@@ -154,40 +134,74 @@ const ProcessFaceRecognition = (props) => {
                 ) : (
                     <div></div>
                 )}
-
-                {isAllModelLoaded && loadingMessageError.length == 0 && (
-                    <div className="card takeAttendance__card__webcam">
-                        <>
-                            <p>{waitText}</p>
-                            <div className="flex justify-center items-center">
-                                <Webcam
-                                    muted={true}
-                                    ref={webcamRef}
-                                    audio={false}
-                                    width={camWidth}
-                                    height={camHeight}
-                                    screenshotFormat="image/jpeg"
-                                    videoConstraints={{
-                                        deviceId: selectedWebcam,
-                                    }}
-                                    mirrored
-                                />
-                                <canvas
-                                    ref={canvasRef}
-                                    style={{
-                                        position: "absolute",
-                                        textAlign: "center",
-                                        zIndex: 8,
-                                        width: camWidth,
-                                        height: camHeight,
-                                    }}
-                                />
-                            </div>
-                        </>
+                <div className="grid grid-cols-8">
+                    <div className="col-span-2">
+                        <TrxDashboard {...props} present={present} participants={participants} />
                     </div>
-                )}
+                    <div className="col-span-6">
+                        {isAllModelLoaded && loadingMessageError.length == 0 && (
+                            <div className="grid justify-center">
+                                <>
+                                    <p>{waitText}</p>
+                                    <div className="flex justify-center items-center">
+                                        <Webcam
+                                            muted={true}
+                                            ref={webcamRef}
+                                            audio={false}
+                                            width={camWidth}
+                                            height={camHeight}
+                                            screenshotFormat="image/jpeg"
+                                            videoConstraints={{
+                                                deviceId: selectedWebcam,
+                                            }}
+                                            mirrored
+                                        />
+                                        <canvas
+                                            ref={canvasRef}
+                                            style={{
+                                                position: "absolute",
+                                                textAlign: "center",
+                                                zIndex: 8,
+                                                width: camWidth,
+                                                height: camHeight,
+                                            }}
+                                        />
+                                    </div>
+                                </>
+                                <div className="mt-4 flex">
+                                    <label className="block text-sm font-semibold mb-2">Webcam Size:</label>
+                                    <select
+                                        className="p-2 border border-gray-300 rounded-md"
+                                        defaultValue={DEFAULT_WEBCAM_RESOLUTION.label}
+                                        onChange={(e) => handleWebcamResolution(e.target.value)}
+                                    >
+                                        {webcamResolutionType.map((type) => (
+                                            <option key={type.label} value={type.label}>
+                                                {type.label}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                {inputDevices && <div className="mb-4 flex">
+                                    <label className="block text-sm font-semibold mb-2">Webcam:</label>
+                                    <select
+                                        defaultValue="Select Webcam"
+                                        className="p-2 border border-gray-300 rounded-md"
+                                        onChange={handleSelectWebcam}
+                                    >
+                                        {inputDevices?.inputDevice?.map((device) => (
+                                            <option key={device.deviceId} value={device.deviceId}>
+                                                {device.label}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>}
+                            </div>
+                        )}
+                    </div>
+
+                </div>
             </div>
-            <TrxDashboard {...props} participants={fullDesc} />
         </div>
     );
 };

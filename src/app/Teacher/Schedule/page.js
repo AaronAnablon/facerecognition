@@ -9,6 +9,7 @@ import { LoadingSpin } from "@/utils/LoadingSpin";
 import { url, headers } from "@/utils/api";
 import { useSearchParams } from "next/navigation";
 import { useSession } from 'next-auth/react';
+import Link from "next/link";
 
 const Page = () => {
     const [schedule, setSchedule] = useState()
@@ -35,7 +36,7 @@ const Page = () => {
     const handleGetTeacher = async () => {
         setLoading(true)
         try {
-            const response = await axios.get(`${url}/api/people/${session.id}`, { headers });
+            const response = await axios.get(`${url}/api/people/${teacherId}`, { headers });
             setTeacher(response.data)
             setLoading(false)
         } catch (err) {
@@ -49,7 +50,7 @@ const Page = () => {
     const handleGetData = async () => {
         setLoading(true)
         try {
-            const response = await axios.get(`${url}/api/attendance/${session.id}`, { headers });
+            const response = await axios.get(`${url}/api/attendance/${teacherId}`, { headers });
             setSchedule(response.data)
             setLoading(false)
         } catch (err) {
@@ -99,6 +100,9 @@ const Page = () => {
                             {groupedSchedule[day].map((item, itemIndex) => (
                                 <li className="flex flex-wrap justify-between w-full my-1" key={itemIndex}>
                                     <p>{item.time} {item.section}</p>
+                                    <Link href={`Schedule/RecordAttendance?AttendanceId=${item.id}`}>
+                                        Record Attendance
+                                    </Link>
                                 </li>
                             ))}
                         </ul>

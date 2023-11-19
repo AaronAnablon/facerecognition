@@ -51,8 +51,8 @@ export async function createMatcher(faceProfile, maxDescriptorDistance) {
     let labeledDescriptors = faceProfile.map(
         (profile) =>
             new faceapi.LabeledFaceDescriptors(
-                profile._id,
-                profile.facePhotos.map(
+                profile.owner,
+                profile.photos.map(
                     (photo) => new Float32Array(photo.faceDescriptor.match(/-?\d+(?:\.\d+)?/g).map(Number))
                 )
             )
