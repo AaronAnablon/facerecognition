@@ -36,4 +36,7 @@ const TrxDashBoard = (props) => {
     );
 };
 
+ModelLoadStatus.displayName = 'TrxDashBoard';
+
+
 export default TrxDashBoard ;

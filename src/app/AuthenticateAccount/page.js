@@ -9,7 +9,7 @@ const Page = () => {
     const { data: session } = useSession();
     const router = useRouter()
     if (!session) {
-        router.pathname !== "/" && router.push(`${url}`)
+        router.push(`${url}`)
     } else if (session.role === 0) {
         router.push(`${url}/Admin`)
     } else if (session.role === 1) {

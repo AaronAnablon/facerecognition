@@ -32,4 +32,7 @@ const ListView = ({ studentList }) => {
     );
 };
 
+ModelLoadStatus.displayName = 'ListView';
+
+
 export default ListView

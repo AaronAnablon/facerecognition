@@ -46,4 +46,6 @@ const ModelLoadStatus = ({ errorMessage }) => (
   </div>
 );
 
+ModelLoadStatus.displayName = 'ModelLoadStatus';
+
 export default ModelLoadStatus;

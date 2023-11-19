@@ -22,4 +22,6 @@ const ModelLoading = ({ loadingMessage }) => (
   </div>
 );
 
+ModelLoadStatus.displayName = 'ModelLoading';
+
 export default ModelLoading;

@@ -154,7 +154,7 @@ const Page = () => {
                 </div>
             </div>
             <div className={`fixed bottom-2 flex w-full justify-center`}>
-                <div className={`flex justify-between mx-4 ${active === "/Admin" ? "grid gap-2 w-full" : "w-full md:w-1/4"}`}>
+                <div className={`flex justify-between mx-4 ${active && active === "/Admin" ? "grid gap-2 w-full" : "w-full md:w-1/4"}`}>
                     <button onClick={goBack} className="bg-green-700 text-white px-4 rounded-full" >Back</button>
                     {!add && <button type="button" onClick={() => setAdd(!add)} className="bg-green-700 text-white px-4 rounded-full">Add</button>}
                 </div>
