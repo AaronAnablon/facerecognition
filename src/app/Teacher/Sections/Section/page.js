@@ -150,7 +150,7 @@ const Page = () => {
                                 {(studentProfile?.filter((studentes) => studentes.id === student.id)).map((stud, studentIndex) => (
                                     <p key={studentIndex}>{stud.firstName} {stud.lastName}</p>
                                 ))}
-                                <div key={studeIndex} className="flex gap-2 items-center">
+                                <div className="flex gap-2 items-center">
                                     {student.status === "present" ? (
                                         <button onClick={() => handleChangeStatus(students.id, student, "absent")} className="bg-white rounded-full text-green-700 p-1">
                                             <FaCheck size={14} />
