@@ -19,7 +19,7 @@ import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 
 
-export default ({ }) => {
+export default AddFacePhoto = ({ }) => {
   const [selectedUploadOption, setSelectedUploadOption] = useState(DEFAULT_UPLOAD_OPTION);
   const [isAllModelLoaded, setIsAllModelLoaded] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState("");

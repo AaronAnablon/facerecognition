@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 
-export default ({ studentList }) => {
+export default ListView = ({ studentList }) => {
 
     return (
         <ul className="divide-y divide-gray-200">

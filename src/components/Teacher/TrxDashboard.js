@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ListView from "./ListView";
 import { faceDescData } from "./faceDescData";
 
-export default (props) => {
+export default TrxDashBoard = (props) => {
     const { participants } = props;
 
     // Create a map of studentIds for faster lookup

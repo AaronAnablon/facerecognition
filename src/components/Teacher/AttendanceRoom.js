@@ -4,7 +4,7 @@ import ProcessFaceRecognition from "./ProcessFaceRecognition";
 import TrxDashboard from "./TrxDashboard";
 import { faceDescData } from "./faceDescData";
 
-export default (props) => {
+export default AttendanceRoom = (props) => {
     const [isOn, setIsOn] = useState(true);
     const [faceMatcher, setFaceMatcher] = useState([]);
 

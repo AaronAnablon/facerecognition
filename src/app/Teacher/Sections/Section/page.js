@@ -64,9 +64,14 @@ const Page = () => {
         }
     };
 
+    const please = ""
+
     useEffect(() => {
-        profile && handleGetData();
-        profile && handleGetStudents();
+        if (profile) {
+            handleGetData();
+            handleGetStudents();
+            console.log("this is called")
+        }
     }, [profile]);
 
     const filterDataByDate = (date) => {
@@ -139,13 +144,13 @@ const Page = () => {
                             <p>{students.time}</p>
                             <p>&#40;{students.event}&#41;</p>
                         </div>
-                        {students.students.map((student) => (
-                            <div key={student.id} className="flex ml-4 justify-between">
+                        {students.students.map((student, index) => (
+                            <div key={index} className="flex ml-4 justify-between">
                                 {/* <p>{student.id}</p> */}
-                                {(studentProfile?.filter((studentes) => studentes.id === student.id)).map((stud) => (
-                                    <p>{stud.firstName} {stud.lastName}</p>
+                                {(studentProfile?.filter((studentes) => studentes.id === student.id)).map((stud, studentIndex) => (
+                                    <p key={studentIndex}>{stud.firstName} {stud.lastName}</p>
                                 ))}
-                                <div className="flex gap-2 items-center">
+                                <div key={studeIndex} className="flex gap-2 items-center">
                                     {student.status === "present" ? (
                                         <button onClick={() => handleChangeStatus(students.id, student, "absent")} className="bg-white rounded-full text-green-700 p-1">
                                             <FaCheck size={14} />
