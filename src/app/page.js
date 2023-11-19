@@ -19,6 +19,7 @@ export default function Home() {
   const router = useRouter()
   const { data: session } = useSession();
 
+  console.log("url", url)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
