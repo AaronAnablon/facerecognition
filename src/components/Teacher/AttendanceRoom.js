@@ -68,7 +68,7 @@ const AttendanceRoom = (props) => {
     );
 };
 
-ModelLoadStatus.displayName = 'AttendanceRoom';
+AttendanceRoom.displayName = 'AttendanceRoom';
 
 
 export default AttendanceRoom;

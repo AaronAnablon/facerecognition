@@ -212,6 +212,6 @@ const Page = () => {
     );
 }
 
-ModelLoadStatus.displayName = 'StudentAttendance';
+Page.displayName = 'StudentAttendance';
 
 export default Page;

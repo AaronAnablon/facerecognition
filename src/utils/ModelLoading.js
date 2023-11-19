@@ -22,6 +22,6 @@ const ModelLoading = ({ loadingMessage }) => (
   </div>
 );
 
-ModelLoadStatus.displayName = 'ModelLoading';
+ModelLoading.displayName = 'ModelLoading';
 
 export default ModelLoading;

@@ -192,7 +192,7 @@ const ProcessFaceRecognition = (props) => {
     );
 };
 
-ModelLoadStatus.displayName = 'ProcessFaceRecognition';
+ProcessFaceRecognition.displayName = 'ProcessFaceRecognition';
 
 
 export default ProcessFaceRecognition

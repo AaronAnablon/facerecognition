@@ -251,7 +251,7 @@ const AddFacePhoto = ({ }) => {
   );
 };
 
-ModelLoadStatus.displayName = 'AddFacePhoto';
+AddFacePhoto.displayName = 'AddFacePhoto';
 
 
 export default AddFacePhoto;
