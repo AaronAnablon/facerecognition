@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default ModelLoading = ({ loadingMessage }) => (
+const ModelLoading = ({ loadingMessage }) => (
   <div className="flex items-center justify-center min-h-150">
     <div className="mr-8">
       <svg
@@ -21,3 +21,5 @@ export default ModelLoading = ({ loadingMessage }) => (
     <div>{loadingMessage}</div>
   </div>
 );
+
+export default ModelLoading;

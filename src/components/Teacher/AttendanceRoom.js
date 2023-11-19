@@ -4,7 +4,7 @@ import ProcessFaceRecognition from "./ProcessFaceRecognition";
 import TrxDashboard from "./TrxDashboard";
 import { faceDescData } from "./faceDescData";
 
-export default AttendanceRoom = (props) => {
+const AttendanceRoom = (props) => {
     const [isOn, setIsOn] = useState(true);
     const [faceMatcher, setFaceMatcher] = useState([]);
 
@@ -67,3 +67,5 @@ export default AttendanceRoom = (props) => {
         </div>
     );
 };
+
+export default AttendanceRoom;

@@ -14,7 +14,7 @@ import { DEFAULT_WEBCAM_RESOLUTION, inputSize, webcamResolutionType } from "@/gl
 import TrxDashboard from "./TrxDashboard";
 
 
-export default ProcessFaceRecognition = (props) => {
+const ProcessFaceRecognition = (props) => {
     const { participants, faceMatcher } = props;
     const webcamRef = useRef();
     const canvasRef = useRef();
@@ -191,3 +191,5 @@ export default ProcessFaceRecognition = (props) => {
         </div>
     );
 };
+
+export default ProcessFaceRecognition

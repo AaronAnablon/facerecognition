@@ -5,7 +5,7 @@ import {
   isFacialLandmarkDetectionModelLoaded,
 } from '../app/faceUtil';
 
-export default ModelLoadStatus = ({ errorMessage }) => (
+const ModelLoadStatus = ({ errorMessage }) => (
   <div className="bg-white opacity-80 p-4 rounded-md">
     <p>
       Face Detector:{' '}
@@ -45,3 +45,5 @@ export default ModelLoadStatus = ({ errorMessage }) => (
     </p>
   </div>
 );
+
+export default ModelLoadStatus;

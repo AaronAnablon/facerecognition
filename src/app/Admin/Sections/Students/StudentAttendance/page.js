@@ -21,7 +21,7 @@ import { IoMdCloseCircle } from "react-icons/io";
 
 const Page = () => {
     const { showConfirmation, ConfirmationDialog } = useConfirmation();
-    const [viewLetter, setViewLetter] = useState(false)
+    const [viewLetter, setViewLetter] = useState()
     const [uploadLetter, setUploadLetter] = useState(false)
     const [schedule, setSchedule] = useState()
     const [student, setStudent] = useState()
@@ -169,19 +169,19 @@ const Page = () => {
                                                         <button onClick={() => handleChangeStatus(item.id, filteredStudent, "present")} className="bg-white rounded-full text-red-700 p-1">
                                                             <IoClose size={16} /></button>}
                                                     {filteredStudent.letterUrl ?
-                                                        <button onClick={() => setViewLetter(!viewLetter)} className="bg-white rounded-full text-blue-700 p-1">
+                                                        <button onClick={() => setViewLetter(filteredStudent.letterUrl)} className="bg-white rounded-full text-blue-700 p-1">
                                                             <MdOutlineMailOutline size={14} /></button> :
                                                         // <button onClick={() => handleUploadLetter(item.id, filteredStudent)} className="bg-white rounded-full text-blue-700 p-1">
                                                         //     <MdOutlineMailOutline size={16} /></button> :
                                                         <button onClick={() => setUploadLetter(!uploadLetter)} className="bg-white rounded-full text-green-700 p-1">
                                                             <FaPlus size={14} /></button>}
                                                 </div>
-                                                {viewLetter && filteredStudent.letterUrl && <Modal>
+                                                {viewLetter && <Modal>
                                                     <div className="relative w-full h-full">
                                                         <button className="absolute rounded-full bg-white text-red-700 -top-2 -right-2"
-                                                            onClick={() => setViewLetter(!viewLetter)}><IoMdCloseCircle size={28} style={{ color: 'red' }} /></button>
-                                                        <Link href={filteredStudent.letterUrl} target="blank">
-                                                            <Image src={filteredStudent.letterUrl} height={400} width={400} alt="letter" />
+                                                            onClick={() => setViewLetter("")}><IoMdCloseCircle size={28} style={{ color: 'red' }} /></button>
+                                                        <Link href={viewLetter} target="blank">
+                                                            <Image src={viewLetter} height={400} width={400} alt="letter" />
                                                         </Link>
                                                     </div>
                                                 </Modal>}
