@@ -10,6 +10,7 @@ import { url, headers } from "@/utils/api";
 import { useSearchParams } from "next/navigation";
 import { useSession } from 'next-auth/react';
 import Link from "next/link";
+import { FiArrowRightCircle } from "react-icons/fi";
 
 const Page = () => {
     const [schedule, setSchedule] = useState()
@@ -100,8 +101,8 @@ const Page = () => {
                             {groupedSchedule[day].map((item, itemIndex) => (
                                 <li className="flex flex-wrap justify-between w-full my-1" key={itemIndex}>
                                     <p>{item.time} {item.section}</p>
-                                    <Link href={`Schedule/RecordAttendance?AttendanceId=${item.id}`}>
-                                        Record Attendance
+                                    <Link className="bg-white rounded-full text-green-700 p-1" href={`Schedule/RecordAttendance?AttendanceId=${item.id}`}>
+                                        <FiArrowRightCircle size={16} />
                                     </Link>
                                 </li>
                             ))}

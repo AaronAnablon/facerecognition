@@ -12,7 +12,7 @@ cloudinary.config({
 export const GET = async (request, { params }) => {
     try {
         const { id } = params;
-        const post = await prisma.facephotos.findUnique({
+        const post = await prisma.facephotos.findMany({
             where: {
                 owner: id
             }

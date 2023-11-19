@@ -126,61 +126,58 @@ const Page = (props) => {
     ));
     return (
         <div className="">
-            <div className="flex-1">
-                <div className="mx-auto p-6">
-                    <div className="mb-8">
-                        <div className="flex gap-2">
-                            <h2 className="font-bold text-lg">Attdendance Details:</h2>
-                            <div className="flex font-semibold text-lg gap-4 ml-4">
-                                <p>{attendance?.date} {attendance?.time}</p>
-                                <p>&#40;{attendance?.section}&#41;</p>
-                                <p>{attendance?.event}</p>
-                            </div>
-                        </div>
-                        <div className="flex gap-2">
-                            <h4 className="mb-4">Attendance Setting</h4>
-                            <form>
-                                <div className="">
-                                    <div className="flex items-center">
-                                        <input
-                                            type="checkbox"
-                                            onChange={(e) => handleIsOnChange(e.target.checked)}
-                                            checked={isOn}
-                                            className="mr-2"
-                                        />
-                                        {isOn
-                                            ? " (Open)"
-                                            : " (Closed)"}
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
-                    </div>
-                    {faceMatcher && profile &&
-                        isOn && (
-                            <ProcessFaceRecognition
-                                {...props}
-                                faceMatcher={faceMatcher}
-                                participants={profile}
-                            />
-                        )}
-
-                    <div className="grid">
-                        <p>List of Students that have uploaded photo:</p>
-                        {profile && removeDuplicate?.map((students, index) => (
-                            <div key={index}>
-                                {profile?.filter((student) => student.id === students.owner).map((filteredProfile, profIndex) => (
-                                    <div className="bg-green-700 text-white px-4" key={profIndex}>
-                                        <p>{filteredProfile.firstName} {filteredProfile.lastName}</p>
-                                    </div>
-                                ))}
-                            </div>
-                        ))}
-                    </div>
+            <div className="flex bg-green-700 px-6 text-white gap-2">
+                <h2 className="font-bold text-lg">Attdendance Details:</h2>
+                <div className="flex font-semibold text-lg gap-4 ml-4">
+                    <p>{attendance?.date} {attendance?.time}</p>
+                    <p>&#40;{attendance?.section}&#41;</p>
+                    <p>{attendance?.event}</p>
                 </div>
             </div>
+            <div className="mx-auto p-6">
+                <div className="mb-8">
+                    <div className="flex gap-2">
+                        <h4 className="mb-4">Attendance Setting</h4>
+                        <form>
+                            <div className="">
+                                <div className="flex items-center">
+                                    <input
+                                        type="checkbox"
+                                        onChange={(e) => handleIsOnChange(e.target.checked)}
+                                        checked={isOn}
+                                        className="mr-2"
+                                    />
+                                    {isOn
+                                        ? " (Open)"
+                                        : " (Closed)"}
+                                </div>
+                            </div>
+                        </form>
+                    </div>
 
+                </div>
+                {faceMatcher && profile &&
+                    isOn && (
+                        <ProcessFaceRecognition
+                            {...props}
+                            faceMatcher={faceMatcher}
+                            participants={profile}
+                        />
+                    )}
+
+                <div className="grid w-1/4">
+                    <p>List of Students that have uploaded photo:</p>
+                    {profile && removeDuplicate?.map((students, index) => (
+                        <div key={index}>
+                            {profile?.filter((student) => student.id === students.owner).map((filteredProfile, profIndex) => (
+                                <div className="bg-green-700 text-white px-4" key={profIndex}>
+                                    <p>{filteredProfile.firstName} {filteredProfile.lastName}</p>
+                                </div>
+                            ))}
+                        </div>
+                    ))}
+                </div>
+            </div>
             <div className={`fixed bottom-2 flex w-full justify-center`}>
                 <div className={`flex justify-between mx-4 ${active === "/Teacher" ? "grid gap-2 w-full" : "w-full md:w-1/4"}`}>
                     <button onClick={goBack} className="bg-green-700 text-white px-4 rounded-full" >Back</button>
