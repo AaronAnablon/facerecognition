@@ -7,9 +7,11 @@ import { url, headers } from "@/utils/api";
 import { createMatcher } from "@/app/faceUtil";
 import ProcessFaceRecognition from "@/components/Teacher/ProcessFaceRecognition";
 import { useSearchParams } from "next/navigation";
+import TrxDashBoard from "@/components/Teacher/TrxDashboard";
 
 const Page = (props) => {
     const [isOn, setIsOn] = useState(true);
+    const [detected, setDetected] = useState([]);
     const [active, setActive] = useState()
     const currentPathname = usePathname()
     const searchParams = useSearchParams()
@@ -24,6 +26,27 @@ const Page = (props) => {
     const goBack = () => {
         router.back();
     };
+
+    const handleChangeStatusApi = async (studentIds) => {
+
+        try {
+            const response = await
+                axios.put(`${url}/api/attendance/updateStatusOfStudent/${attendanceId}`,
+                    { studentIds, status: "present", }, headers);
+            alert("Attendance Saved!")
+            console.log(response)
+        } catch (error) {
+            console.error('An error occurred:', error);
+            alert("Something went wrong while updating")
+        }
+    };
+
+    useEffect(() => {
+        if (!isOn) {
+            console.log(new Set(detected))
+            handleChangeStatusApi(new Set(detected))
+        }
+    }, [isOn])
 
     const handleIsOnChange = (value) => {
         setIsOn(value);
@@ -154,26 +177,24 @@ const Page = (props) => {
                     </div>
 
                 </div>
-                {faceMatcher && profile &&
-                    isOn && (
-                        <ProcessFaceRecognition
-                            {...props}
-                            faceMatcher={faceMatcher}
-                            participants={profile}
-                        />
-                    )}
-
-                <div className="grid w-1/4">
-                    <p>List of Students that have uploaded photo:</p>
-                    {profile && removeDuplicate?.map((students, index) => (
-                        <div key={index}>
-                            {profile?.filter((student) => student.id === students.owner).map((filteredProfile, profIndex) => (
-                                <div className="bg-green-700 text-white px-4" key={profIndex}>
-                                    <p>{filteredProfile.firstName} {filteredProfile.lastName}</p>
-                                </div>
-                            ))}
-                        </div>
-                    ))}
+                <div className="grid grid-cols-8">
+                    <div className="col-span-2 md:block hidden">
+                        <TrxDashBoard {...props} present={detected} participants={profile} />
+                    </div>
+                    <div className="col-span-8 md:col-span-6">
+                        {faceMatcher && profile &&
+                            isOn && (
+                                <ProcessFaceRecognition
+                                    {...props}
+                                    faceMatcher={faceMatcher}
+                                    participants={profile}
+                                    setDetected={setDetected}
+                                />
+                            )}
+                    </div>
+                    <div className="col-span-8 block md:hidden">
+                        <TrxDashBoard {...props} present={detected} participants={profile} />
+                    </div>
                 </div>
             </div>
             <div className={`fixed bottom-2 flex w-full justify-center`}>

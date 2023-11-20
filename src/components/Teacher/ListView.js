@@ -6,7 +6,7 @@ const ListView = ({ studentList }) => {
 
     return (
         <ul className="grid gap-1">
-            {studentList.map((student) => (
+            {studentList?.map((student) => (
                 <li key={student._id} className=" flex justify-between items-center text-white py-1 bg-green-700 px-4 rounded-lg">
                     <p className="">
                         {student.firstName} {student.lastName}

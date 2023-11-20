@@ -9,7 +9,7 @@ const TrxDashBoard = (props) => {
     const presentSet = new Set(present);
 
     // Filter faceDescData based on participant's studentId
-    const updatedFaceDescData = participants.map((student) => {
+    const updatedFaceDescData = participants?.map((student) => {
         const isPresent = presentSet?.has(student.id);
         return {
             ...student,
@@ -18,10 +18,9 @@ const TrxDashBoard = (props) => {
         };
     });
 
-
-
+  
     // Filter fullDesc based on the "Present" status
-    const attendees = updatedFaceDescData.filter((student) => student.status === "Present");
+    const attendees = updatedFaceDescData?.filter((student) => student.status === "Present");
 
     // console.log("attendees", attendees)
     return (
