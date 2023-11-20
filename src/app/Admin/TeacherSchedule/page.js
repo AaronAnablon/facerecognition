@@ -47,11 +47,11 @@ const Page = () => {
     const handleDeleteData = async (id) => {
         setLoading(true)
         try {
-            const response = await axios.delete(`${url}/api/people/getTeachers${id}`, { headers });
-            setTeachers(response.data)
+            const response = await axios.delete(`${url}/api/people/${id}`, { headers });
             setLoading(false)
+            alert("Successfully Deleted!")
         } catch (err) {
-            alert("Something went wrong while fetching teachers!")
+            alert("Something went wrong while deleting teachers!")
             console.log(err);
             setLoading(false)
         }
