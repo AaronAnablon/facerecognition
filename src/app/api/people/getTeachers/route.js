@@ -19,3 +19,4 @@ export const GET = async () => {
         return NextResponse.json({ message: "GET Error", err }, { status: 500 })
     }
 }
+export const revalidate = 0;
