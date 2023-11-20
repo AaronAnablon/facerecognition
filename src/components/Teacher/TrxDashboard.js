@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ListView from "./ListView";
-import { faceDescData } from "./faceDescData";
+
 
 const TrxDashBoard = (props) => {
     const { participants, present } = props;

@@ -6,8 +6,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { url, headers } from "@/utils/api";
 import { createMatcher } from "@/app/faceUtil";
 import ProcessFaceRecognition from "@/components/Teacher/ProcessFaceRecognition";
-import TrxDashBoard from "@/components/Teacher/TrxDashboard";
-import { faceDescData } from "@/components/Teacher/faceDescData";
 import { useSearchParams } from "next/navigation";
 
 const Page = (props) => {
