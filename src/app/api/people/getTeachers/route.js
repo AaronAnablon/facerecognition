@@ -11,7 +11,7 @@ export const GET = async () => {
         })
         return NextResponse.json(posts, {
             headers: {
-                "revalidate": "0"
+                "revalidate": 0
             }
         });
     } catch (err) {

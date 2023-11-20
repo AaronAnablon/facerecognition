@@ -36,6 +36,7 @@ const Page = () => {
         try {
             const response = await axios.get(`${url}/api/people/getTeachers`, { headers });
             setTeachers(response.data)
+            console.log(response)
             setLoading(false)
         } catch (err) {
             alert("Something went wrong while fetching teachers!")
