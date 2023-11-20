@@ -113,14 +113,14 @@ const Page = () => {
                 <div className="grid rounded-lg bg-green-700 py-4 px-2 gap-2">
                     {attendance?.length > 0 ?
                         attendance.map((student, studentIndex) => (
-                            <div className="flex px-4 text-white justify-between" key={studentIndex}>
+                            <div className="flex px-4 text-white justify-between items-center" key={studentIndex}>
                                 <p>{student.firstName} {student.lastName}</p>
                                 <div className="flex gap-2">
-                                    <Link href={`Students/StudentAttendance?id=${student.id}`} className="bg-white rounded-full text-yellow-500 p-1">
+                                    <Link href={`Students/StudentAttendance?id=${student.id}`} className="bg-white h-max rounded-full text-yellow-500 p-1">
                                         <FaClipboardList size={15} /></Link>
-                                    <button onClick={() => handleEdit(student)} className="bg-white rounded-full text-green-700 p-1">
+                                    <button onClick={() => handleEdit(student)} className="bg-white h-max rounded-full text-green-700 p-1">
                                         <FaEdit size={14} /></button>
-                                    <button onClick={() => handleDelete(student.id)} className="bg-white rounded-full text-red-700 p-1">
+                                    <button onClick={() => handleDelete(student.id)} className="bg-white h-max rounded-full text-red-700 p-1">
                                         <RiDeleteBin5Line size={16} /></button>
                                 </div>
                             </div>

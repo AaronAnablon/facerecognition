@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import Modal from "@/utils/Modal";
+import { BsFillTrash3Fill } from "react-icons/bs";
 import axios from "axios";
 import AddTeacherAccount from "./AddTeacherAccount";
 import { LoadingSpin } from "@/utils/LoadingSpin";
@@ -44,6 +44,19 @@ const Page = () => {
         }
     }
 
+    const handleDeleteData = async (id) => {
+        setLoading(true)
+        try {
+            const response = await axios.delete(`${url}/api/people/getTeachers${id}`, { headers });
+            setTeachers(response.data)
+            setLoading(false)
+        } catch (err) {
+            alert("Something went wrong while fetching teachers!")
+            console.log(err);
+            setLoading(false)
+        }
+    }
+
     useEffect(() => {
         handleGetData()
     }, [])
@@ -54,9 +67,10 @@ const Page = () => {
                 <LoadingSpin loading={loading} />
                 <ul className="w-full md:w-1/4 grid gap-2">
                     {teachers?.map((item, index) => (
-                        <li className="" key={index}>
-                            <Link className="mx-6 rounded-lg px-4 flex gap-4 bg-green-700 text-white"
+                        <li className="mx-6 rounded-lg px-4 flex justify-between items-center gap-4 bg-green-700 text-white" key={index}>
+                            <Link className=""
                                 href={`TeacherSchedule/Schedule/?id=${item.id}`}>{item.firstName} {item.lastName}</Link>
+                            <button onClick={() => handleDeleteData(item.id)} className="rounded-full h-max p-1"><BsFillTrash3Fill /></button>
                         </li>
                     ))}
                 </ul>
