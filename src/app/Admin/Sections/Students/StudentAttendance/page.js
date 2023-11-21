@@ -173,8 +173,11 @@ const Page = () => {
                                                             <MdOutlineMailOutline size={14} /></button> :
                                                         // <button onClick={() => handleUploadLetter(item.id, filteredStudent)} className="bg-white rounded-full text-blue-700 p-1">
                                                         //     <MdOutlineMailOutline size={16} /></button> :
-                                                        <button onClick={() => setUploadLetter(!uploadLetter)} className="bg-white rounded-full text-green-700 p-1">
-                                                            <FaPlus size={14} /></button>}
+                                                        // <button onClick={() => setUploadLetter(!uploadLetter)} className="bg-white rounded-full text-green-700 p-1">
+                                                        //     <FaPlus size={14} /></button>
+                                                        <div className="bg-white rounded-full text-green-700 p-1">
+                                                            <FaPlus size={14} /></div>
+                                                    }
                                                 </div>
                                                 {viewLetter && <Modal>
                                                     <div className="relative w-full h-full">

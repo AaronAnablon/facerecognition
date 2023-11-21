@@ -28,6 +28,8 @@ const Page = () => {
     const [loading, setLoading] = useState(false)
     const currentPathname = usePathname()
     const [active, setActive] = useState()
+    const [studId, setStudId] = useState()
+    const [attendId, setAttendId] = useState()
 
     useEffect(() => {
         setActive(currentPathname)
@@ -45,7 +47,7 @@ const Page = () => {
     const handleGetStudent = async () => {
         setLoading(true)
         try {
-            const response = await axios.get(`${url}/api/people/${profile.id}`, { headers });
+            const response = await axios.get(`${url}/api/people/${profile?.id}`, { headers });
             setStudent(response.data)
             setLoading(false)
         } catch (err) {
@@ -59,7 +61,7 @@ const Page = () => {
     const handleGetData = async () => {
         setLoading(true)
         try {
-            const response = await axios.get(`${url}/api/attendance/getStudents/${profile.section}`, headers);
+            const response = await axios.get(`${url}/api/attendance/getStudents/${profile?.section}`, headers);
             setSchedule(response.data)
             setLoading(false)
         } catch (err) {
@@ -100,6 +102,12 @@ const Page = () => {
     const groupedSchedule = groupByDay(schedule);
 
 
+    const handleUploadLetter = (id, studId) => {
+        setStudId(studId)
+        setAttendId(id)
+        setUploadLetter(true)
+    }
+
     return (
         <>
             <Layout>
@@ -115,16 +123,16 @@ const Page = () => {
                                         <div>
                                             {item.students.filter((student) => student.id === studentId).map((filteredStudent) => (
                                                 <div className="flex gap-4" key={filteredStudent.id}>
-                                                    <div className="flex gap-2">
+                                                    <div className="flex gap-2 items-center">
                                                         {filteredStudent.status === "present" ?
-                                                            <div className="bg-white rounded-full text-green-700 p-1">
+                                                            <div className="bg-white h-max rounded-full text-green-700 p-1">
                                                                 <FaCheck size={14} /></div> :
-                                                            <div className="bg-white rounded-full text-red-700 p-1">
+                                                            <div className="bg-white h-max rounded-full text-red-700 p-1">
                                                                 <IoClose size={16} /></div>}
                                                         {filteredStudent.letterUrl ?
-                                                            <button onClick={() => setViewLetter(!viewLetter)} className="bg-white rounded-full text-blue-700 p-1">
+                                                            <button onClick={() => setViewLetter(!viewLetter)} className="bg-white h-max rounded-full text-blue-700 p-1">
                                                                 <MdOutlineMailOutline size={14} /></button> :
-                                                            <button onClick={() => setUploadLetter(!uploadLetter)} className="bg-white rounded-full text-green-700 p-1">
+                                                            <button onClick={() => handleUploadLetter(item.id, filteredStudent.id)} className="bg-white h-max rounded-full text-green-700 p-1">
                                                                 <FaPlus size={14} /></button>}
                                                     </div>
                                                     {viewLetter && filteredStudent.letterUrl && <Modal>
@@ -135,16 +143,15 @@ const Page = () => {
                                                                 <Image src={filteredStudent.letterUrl} height={400} width={400} alt="letter" />
                                                             </Link>
                                                         </div>
+
                                                     </Modal>}
                                                     {uploadLetter && <SelectImage
                                                         handleGetStudent={handleGetStudent}
                                                         uploadLetter={uploadLetter}
                                                         setUploadLetter={setUploadLetter}
-                                                        id={item.id}
-                                                        studentId={filteredStudent.id}
-                                                        status={filteredStudent.status}
-                                                        letterUrl={filteredStudent.letterUrl}
-                                                        letterPublicId={filteredStudent.letterPublicId} />}
+                                                        id={attendId}
+                                                        studentId={studId}
+                                                    />}
                                                 </div>
                                             ))}
                                         </div>

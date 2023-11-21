@@ -8,12 +8,11 @@ import Modal from "@/utils/Modal";
 import { IoMdCloseCircle } from "react-icons/io";
 import { LoadingSpin } from "@/utils/LoadingSpin";
 
-const SelectImage = ({ handleGetStudent, setUploadLetter, uploadLetter, id, studentId, status, letterUrl, letterPublicId }) => {
+const SelectImage = ({ handleGetStudent, setUploadLetter, uploadLetter, id, studentId }) => {
     // file, prevProfileImage, studentId, status, letterUrl, letterPublicId
     const [file, setFile] = useState(null)
     const { showConfirmation, ConfirmationDialog } = useConfirmation();
     const [loading, setLoading] = useState(false)
-
 
     const handlePictureChange = (e) => {
         const picture = e.target.files[0];
@@ -35,9 +34,6 @@ const SelectImage = ({ handleGetStudent, setUploadLetter, uploadLetter, id, stud
             await axios.put(`${url}/api/uploadLetter/${id}`, {
                 file,
                 studentId,
-                status,
-                letterUrl,
-                letterPublicId
             }, { headers });
             alert("Successfully uploaded the letter!")
             handleGetStudent()

@@ -13,11 +13,11 @@ export const PUT = async (request, { params }) => {
     try {
         const { id } = params;
         const body = await request.json();
-        const { file, studentId, status, letterUrl, letterPublicId } = body;
+        const { file, studentId } = body;
 
-        if (letterPublicId) {
-            await cloudinary.uploader.destroy(letterPublicId, { invalidate: true });
-        }
+        // if (letterPublicId) {
+        //     await cloudinary.uploader.destroy(letterPublicId, { invalidate: true });
+        // }
 
         const uploadResponse = await cloudinary.uploader.upload(file, {
             upload_preset: "Afratinhs",
@@ -40,7 +40,6 @@ export const PUT = async (request, { params }) => {
                         if (student.id === studentId) {
                             return {
                                 ...student,
-                                status,
                                 letterUrl: uploadResponse.secure_url,
                                 letterPublicId: uploadResponse.public_id
                             };
