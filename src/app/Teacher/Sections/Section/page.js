@@ -64,14 +64,12 @@ const Page = () => {
         }
     };
 
-    const please = ""
-
+   
     useEffect(() => {
         if (profile) {
             handleGetData();
             handleGetStudents();
-            console.log("this is called")
-        }
+                 }
     }, [profile]);
 
     const filterDataByDate = (date) => {

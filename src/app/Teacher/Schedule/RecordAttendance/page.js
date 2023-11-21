@@ -153,11 +153,11 @@ const Page = (props) => {
             <div className="mx-auto p-6">
                 <div className="mb-8">
                     <div className="flex gap-2">
-                        <div>
+                        {/* <div>
                             {Array.isArray(present) && present?.map((studentId) => (
-                                <p>{studentId}</p>
+                                <p >{studentId}</p>
                             ))}
-                        </div>
+                        </div> */}
                         <h4 className="mb-4">Attendance Setting</h4>
                         <form>
                             <div className="">
