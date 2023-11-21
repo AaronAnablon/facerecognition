@@ -18,6 +18,7 @@ const Page = (props) => {
     const attendanceId = searchParams.get('AttendanceId')
     const [profile, setProfile] = useState()
     const router = useRouter()
+    const [present, setPresent] = useState([])
 
     useEffect(() => {
         setActive(currentPathname)
@@ -31,8 +32,8 @@ const Page = (props) => {
 
         try {
             const response = await
-                axios.put(`${url}/api/attendance/updateStatusOfStudent/${attendanceId}`,
-                    { studentIds, status: "present", }, headers);
+                axios.put(`${url}/api/attendance/updateStatusOfStudents/${attendanceId}`,
+                    { studentIds: studentIds, status: "present", }, headers);
             alert("Attendance Saved!")
             console.log(response)
         } catch (error) {
@@ -43,8 +44,10 @@ const Page = (props) => {
 
     useEffect(() => {
         if (!isOn) {
-            console.log(new Set(detected))
-            handleChangeStatusApi(new Set(detected))
+            const studentIds = new Set(detected)
+            setPresent(Array.from(studentIds))
+            console.log("new", Array.from(studentIds))
+            handleChangeStatusApi(Array.from(studentIds))
         }
     }, [isOn])
 
@@ -121,8 +124,6 @@ const Page = (props) => {
         return acc;
     }, []);
 
-    // console.log("resultarray", resultArray)
-
     useEffect(() => {
         handleGetAttendance()
         handleGetFaceData()
@@ -139,12 +140,6 @@ const Page = (props) => {
     }, [profile]);
 
 
-
-
-
-    const removeDuplicate = filteredFacePhotos?.filter((students, index, self) => (
-        index === self.findIndex((s) => s.owner === students.owner)
-    ));
     return (
         <div className="">
             <div className="flex bg-green-700 px-6 text-white gap-2">
@@ -158,6 +153,11 @@ const Page = (props) => {
             <div className="mx-auto p-6">
                 <div className="mb-8">
                     <div className="flex gap-2">
+                        <div>
+                            {Array.isArray(present) && present?.map((studentId) => (
+                                <p>{studentId}</p>
+                            ))}
+                        </div>
                         <h4 className="mb-4">Attendance Setting</h4>
                         <form>
                             <div className="">

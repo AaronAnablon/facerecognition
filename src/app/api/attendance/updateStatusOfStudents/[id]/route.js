@@ -6,7 +6,7 @@ export const PUT = async (request, { params }) => {
     try {
         const { id } = params;
         const body = await request.json();
-        const { studentIds, status, letterUrl, letterPublicId } = body;
+        const { studentIds, status } = body;
 
         const findJson = await prisma.attendance.findUnique({
             where: {
@@ -14,13 +14,10 @@ export const PUT = async (request, { params }) => {
             },
         });
 
-        console.log("findJson:", findJson);
-
         studentIds.forEach((studentId) => {
             findJson.students = findJson.students.map((student) => {
                 if (student.id === studentId) {
-                    console.log("Updating student:", student.id);
-                    return { ...student, status, letterUrl, letterPublicId };
+                    return { ...student, status, letterUrl: student.letterUrl, letterPublicId: student.letterPublicId };
                 }
                 return student;
             });
@@ -34,8 +31,6 @@ export const PUT = async (request, { params }) => {
                 students: findJson.students,
             },
         });
-
-        console.log("updatedRecord:", updatedRecord);
 
         return NextResponse.json(updatedRecord);
     } catch (err) {

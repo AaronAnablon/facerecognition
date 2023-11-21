@@ -19,6 +19,8 @@ export const GET = async (request, { params }) => {
     }
 };
 
+export const revalidate = 0;
+
 
 export const PUT = async (request, { params }) => {
     try {

@@ -18,3 +18,4 @@ export const GET = async (request, { params }) => {
     }
 }
 
+export const revalidate = 0;

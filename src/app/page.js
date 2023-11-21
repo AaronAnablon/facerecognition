@@ -82,7 +82,7 @@ export default function Home() {
               >
                 {loading ? <LoadingSpin loading={loading} /> : "Log In"}
               </button>
-              <Link href={`${url}RegisterAccount`}>Register</Link>
+              {/* <Link href={`${url}RegisterAccount`}>Register</Link> */}
             </form>
           </div>
         </div>
