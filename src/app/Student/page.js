@@ -7,6 +7,10 @@ import { useAccount } from "../contextProvider/AccountProvider";
 import Layout from "./Layout";
 import useConfirmation from "@/utils/ConfirmationHook";
 import { url } from "@/utils/api";
+import { FaHome } from "react-icons/fa";
+import { IoCallOutline } from "react-icons/io5";
+import { FaPeopleLine } from "react-icons/fa6";
+import { GiTeacher } from "react-icons/gi";
 
 const Page = () => {
     const profile = useAccount();
@@ -31,8 +35,46 @@ const Page = () => {
             <ConfirmationDialog />
             <p className="ml-2">Student&#39;s Information</p>
             <Layout />
+            <div className="grid gap-4 ml-4">
+                <div className="flex gap-2 items-center">
+                    <div className={`bg-green-700 text-white h-max p-1 rounded-full`}>
+                        <FaHome size={20} />
+                    </div>
+                    <div className="grid justify-start">
+                        <h3>{profile?.homeAddress}</h3>
+                        <p className="text-gray-600 text-xs">Address</p>
+                    </div>
+                </div>
+                <div className="flex gap-2 items-center">
+                    <div className={`bg-green-700 text-white h-max p-1 rounded-full`}>
+                        <IoCallOutline size={20} />
+                    </div>
+                    <div className="grid justify-start">
+                        <h3>{profile?.contact}</h3>
+                        <p className="text-gray-600 text-xs">Contact Number</p>
+                    </div>
+                </div>
+                <div className="flex gap-2 items-center">
+                    <div className={`bg-green-700 text-white h-max p-1 rounded-full`}>
+                        <FaPeopleLine size={20} />
+                    </div>
+                    <div className="grid justify-start">
+                        <h3>{profile?.section}</h3>
+                        <p className="text-gray-600 text-xs">Section</p>
+                    </div>
+                </div>
+                <div className="flex gap-2 items-center">
+                    <div className={`bg-green-700 text-white h-max p-1 rounded-full`}>
+                        <GiTeacher size={20} />
+                    </div>
+                    <div className="grid justify-start">
+                        <h3>{profile?.adviser}</h3>
+                        <p className="text-gray-600 text-xs">Adviser</p>
+                    </div>
+                </div>
+            </div>
             <div className="w-full absolute bottom-8 flex md:justify-start md:pl-4 justify-center items-center">
-                <button className="bg-green-700 text-white px-4 py-2 rounded-lg"
+                <button className="bg-green-700 text-white h-max px-4 py-2 rounded-lg"
                     onClick={handleSignOut}>Log Out</button>
             </div>
         </div>

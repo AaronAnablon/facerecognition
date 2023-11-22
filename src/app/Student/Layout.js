@@ -29,17 +29,20 @@ const Layout = ({ children }) => {
                             </div>
                             {profile?.firstName} {profile?.lastName} &#40;Student&#41;
                         </div>}
-                    {profile && <><Link className={`flex gap-4 items-center ${active?.includes("/Student/Schedule") &&
-                        "bg-green-700 px-4 rounded-full text-white"}`} href={`/Student/Schedule?id=${profile.id}`}>
-                        {active === "/Student" && <div className={`bg-green-700 text-white p-1 rounded-full`}>
-                            <RxCalendar size={20} />
-                        </div>}
-                        Schedule</Link>
+                    {profile && <>
+                        <Link className={`flex gap-4 items-center ${active?.includes("/Student/Schedule") &&
+                            "bg-green-700 px-4 rounded-full text-white"}`} href={`/Student/Schedule?id=${profile.id}`}>
+                            {active === "/Student" &&
+                                <div className={`bg-green-700 text-white p-1 rounded-full`}>
+                                    <RxCalendar size={20} />
+                                </div>}
+                            Schedule</Link>
                         <Link className={`flex gap-4 items-center  ${active?.includes("Student/Attendance") &&
                             "bg-green-700 px-4 rounded-full text-white"}`} href={`/Student/Attendance?id=${profile.id}`}>
-                            {active === "/Student" && <div className="bg-green-700 text-white p-1 rounded-full">
-                                <GoPeople size={20} />
-                            </div>}
+                            {active === "/Student" &&
+                                <div className="bg-green-700 text-white p-1 rounded-full">
+                                    <GoPeople size={20} />
+                                </div>}
                             Attendance</Link>
                     </>
                     }
