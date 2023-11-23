@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 export const POST = async (request) => {
     try {
         const body = await request.json();
-        const { firstName, lastName, email, homeAddress, contact, section, adviser, password, role } = body;
+        const { firstName, lastName, email, homeAddress,age,  contact, section, adviser, password, role } = body;
 
         const saltRounds = 10
 
@@ -16,6 +16,7 @@ export const POST = async (request) => {
                 lastName,
                 email,
                 homeAddress,
+                age,
                 contact,
                 section,
                 adviser,

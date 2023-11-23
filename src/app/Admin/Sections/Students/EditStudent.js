@@ -17,6 +17,7 @@ const EditStudent = ({ setEdit, edit, student, handleGetData }) => {
         lastName: student.lastName,
         email: student.email,
         homeAddress: student.homeAddress,
+        age: student.age,
         contact: student.contact,
         section: student.section,
         adviser: student.adviser,
@@ -135,6 +136,17 @@ const EditStudent = ({ setEdit, edit, student, handleGetData }) => {
                                         value={data.homeAddress}
                                         onChange={(e) => handleChange("homeAddress", e.target.value)}
                                         placeholder="Home Address"
+                                        required
+                                    />
+                                </div>
+                                <div className="mb-4 grid text-sm">
+                                    <label>Age</label>
+                                    <input
+                                        type="text"
+                                        className="w-full text-xs rounded-xl px-3 py-2 border border-green-700"
+                                        value={data.age}
+                                        onChange={(e) => handleChange("age", e.target.value)}
+                                        placeholder="Age"
                                         required
                                     />
                                 </div>

@@ -17,6 +17,7 @@ const AddStudent = ({ sectionName, role, setAdd, add, handleGetData }) => {
         lastName: "",
         email: "",
         homeAddress: "",
+        age:"",
         contact: "",
         section: sectionName,
         adviser: "",
@@ -239,6 +240,16 @@ const AddStudent = ({ sectionName, role, setAdd, add, handleGetData }) => {
                                     value={data.homeAddress}
                                     onChange={(e) => handleChange("homeAddress", e.target.value)}
                                     placeholder="Home Address"
+                                />
+                            </div>
+                            <div className="mb-4 grid text-sm">
+                                <label>Age</label>
+                                <input
+                                    type="text"
+                                    className="w-full text-xs rounded-xl px-3 py-2 border border-green-700"
+                                    value={data.age}
+                                    onChange={(e) => handleChange("age", e.target.value)}
+                                    placeholder="Age"
                                 />
                             </div>
                             <div className="mb-4 grid text-sm">

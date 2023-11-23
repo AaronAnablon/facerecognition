@@ -13,6 +13,7 @@ model People {
     lastName    String
     email       String
     homeAddress String?
+    age         String?
     contact     String?
     section     String?
     adviser     String?

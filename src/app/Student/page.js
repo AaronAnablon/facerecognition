@@ -11,6 +11,7 @@ import { FaHome } from "react-icons/fa";
 import { IoCallOutline } from "react-icons/io5";
 import { FaPeopleLine } from "react-icons/fa6";
 import { GiTeacher } from "react-icons/gi";
+import { CgTime } from "react-icons/cg";
 
 const Page = () => {
     const profile = useAccount();
@@ -47,6 +48,15 @@ const Page = () => {
                 </div>
                 <div className="flex gap-2 items-center">
                     <div className={`bg-green-700 text-white h-max p-1 rounded-full`}>
+                        <CgTime size={20} />
+                    </div>
+                    <div className="grid justify-start">
+                        <h3>{profile?.age}</h3>
+                        <p className="text-gray-600 text-xs">Age</p>
+                    </div>
+                </div>
+                <div className="flex gap-2 items-center">
+                    <div className={`bg-green-700 text-white h-max p-1 rounded-full`}>
                         <IoCallOutline size={20} />
                     </div>
                     <div className="grid justify-start">
@@ -73,7 +83,7 @@ const Page = () => {
                     </div>
                 </div>
             </div>
-            <div className="w-full absolute bottom-8 flex md:justify-start md:pl-4 justify-center items-center">
+            <div className="w-full mt-6 bottom-8 flex md:justify-start md:pl-4 justify-center items-center">
                 <button className="bg-green-700 text-white h-max px-4 py-2 rounded-lg"
                     onClick={handleSignOut}>Log Out</button>
             </div>
