@@ -121,29 +121,47 @@ const Page = () => {
                 <p className="my-2 text-green-700 text-lg ml-4">{sectionName}</p>
             </div>
             {edit && <EditStudent setEdit={setEdit} edit={edit} student={clickedStudent} handleGetData={handleGetData} />}
-
             {loading && <LoadingSpin loading={loading} />}
-            <div className="rounded-lg bg-green-700 text-white text-center py-3 my-6 mx-4">Students</div>
-            <div className="m-4">
-                <div className="grid rounded-lg bg-green-700 py-4 px-2 gap-2">
-                    {attendance?.length > 0 ?
-                        attendance.map((student, studentIndex) => (
-                            <div className="flex px-4 text-white justify-between items-center" key={studentIndex}>
-                                <p>{student.firstName} {student.lastName}</p>
-                                <div className="flex gap-2">
-                                    <Link href={`Students/StudentAttendance?id=${student.id}`} className="bg-white h-max rounded-full text-yellow-500 p-1">
-                                        <FaClipboardList size={15} /></Link>
-                                    <button onClick={() => handleEdit(student)} className="bg-white h-max rounded-full text-green-700 p-1">
-                                        <FaEdit size={14} /></button>
-                                    <button onClick={() => handleDelete(student.id)} className="bg-white h-max rounded-full text-red-700 p-1">
-                                        <RiDeleteBin5Line size={16} /></button>
-                                </div>
-                            </div>
-                        ))
-                        :
-                        <div className="text-center text-white">No record</div>
-                    }
-                </div>
+            <div className="bg-green-700 text-white text-center py-3 mt-6 mx-4">Students</div>
+            <div className="md:mx-4 mx-1">
+                <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="">
+                        <tr className="bg-green-700 text-white rounded-t-lg">
+                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                                NAME
+                            </th>
+                            <th scope="col" className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider">
+                                VIEW
+                            </th>
+                            <th scope="col" className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider">
+                                EDIT
+                            </th>
+                            <th scope="col" className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider">
+                                DELETE
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                        {attendance?.length > 0 ?
+                            attendance.map((student, studentIndex) => (
+                                <tr className="bg-green-100 py-4 hover:bg-green-400" key={studentIndex}>
+                                    <td className="px-4">{student.firstName} {student.lastName}</td>
+
+                                    <td className="flex justify-center"><Link href={`Students/StudentAttendance?id=${student.id}`} className="bg-white border-green-700 border-2 h-max rounded-full text-yellow-500 p-1">
+                                        <FaClipboardList size={15} /></Link></td>
+
+                                    <td className="text-center"><button onClick={() => handleEdit(student)} className="bg-white border-green-700 border-2 h-max rounded-full text-green-700 p-1">
+                                        <FaEdit size={14} /></button></td>
+                                    <td className="text-center"><button onClick={() => handleDelete(student.id)} className="bg-white border-green-700 border-2 h-max rounded-full text-red-700 p-1">
+                                        <RiDeleteBin5Line size={16} /></button></td>
+
+                                </tr>
+                            ))
+                            :
+                            <div className="text-center text-white">No record</div>
+                        }
+                    </tbody>
+                </table>
             </div>
             <div className={`fixed bottom-2 flex w-full justify-center`}>
                 <div className={`flex justify-between mx-4 ${active === "/Admin" ? "grid gap-2 w-full" : "w-full md:w-1/4"}`}>

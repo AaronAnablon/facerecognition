@@ -96,7 +96,7 @@ const Page = () => {
                 <LoadingSpin loading={loading} />
                 <div className="grid gap-4 w-full mx-4">
                     {Object.keys(groupedSchedule)?.map((day, index) => (
-                        <ul className="px-6 text-white bg-green-700 rounded-lg py-2 grid " key={index}>
+                        <ul className="px-6 text-white bg-green-400 rounded-lg py-2 grid " key={index}>
                             <h2 className="text-white">{day}</h2>
                             {groupedSchedule[day].map((item, itemIndex) => (
                                 <li className="flex flex-wrap justify-between w-full my-1" key={itemIndex}>

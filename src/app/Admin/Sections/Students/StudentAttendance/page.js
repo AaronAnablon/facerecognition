@@ -154,15 +154,22 @@ const Page = () => {
                 {loading && <LoadingSpin loading={loading} />}
                 <div className="grid gap-4 w-full mx-4">
                     {Object.keys(groupedSchedule)?.map((day, index) => (
-                        <ul className="px-6 text-white bg-green-700 rounded-lg py-2 grid " key={index}>
-                            <h2 className="text-white">{day}</h2>
+                        <ul className="text-white bg-green-700 rounded-lg py-2 grid " key={index}>
+                            <div className="flex px-4 justify-between">
+                                <h2 className="text-lg font-semibold">{day}</h2>
+                                <div className="flex text-xs gap-2">
+                                    <p className="mr-2">IN</p>
+                                    <p>OUT</p>
+                                    <p>LETTER</p>
+                                </div>
+                            </div>
                             {groupedSchedule[day].map((item, itemIndex) => (
-                                <li className="flex justify-between w-full my-1" key={itemIndex}>
+                                <li className="flex justify-between hover:bg-green-600 px-4 w-full my-1" key={itemIndex}>
                                     <p>{item.time} &#40;{item.section}&#41; {item.event}</p>
                                     <div>
                                         {item.students.filter((student) => student.id === studentId).map((filteredStudent) => (
                                             <div className="flex gap-4" key={filteredStudent.id}>
-                                                <div className="flex gap-2">
+                                                <div className="flex gap-3 mr-4">
                                                     {filteredStudent.statusIn === "present" ?
                                                         <button onClick={() => handleChangeStatus(item.id, filteredStudent, "absent", filteredStudent.statusOut)} className="bg-white rounded-full text-green-700 p-1">
                                                             <FaCheck size={14} /></button> :
