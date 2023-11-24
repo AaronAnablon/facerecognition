@@ -8,6 +8,7 @@ import { createMatcher } from "@/app/faceUtil";
 import ProcessFaceRecognition from "@/components/Teacher/ProcessFaceRecognition";
 import { useSearchParams } from "next/navigation";
 import TrxDashBoard from "@/components/Teacher/TrxDashboard";
+import Modal from "@/utils/Modal";
 
 const Page = (props) => {
     const [isOn, setIsOn] = useState(true);
@@ -18,7 +19,8 @@ const Page = (props) => {
     const attendanceId = searchParams.get('AttendanceId')
     const [profile, setProfile] = useState()
     const router = useRouter()
-    const [present, setPresent] = useState([])
+    const [status, setStatus] = useState(true)
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         setActive(currentPathname)
@@ -28,16 +30,17 @@ const Page = (props) => {
         router.back();
     };
 
-    const handleChangeStatusApi = async (studentIds) => {
-
+    const handleChangeStatusApi = async (studentIds, status) => {
+        setLoading(!loading)
         try {
             const response = await
                 axios.put(`${url}/api/attendance/updateStatusOfStudents/${attendanceId}`,
-                    { studentIds: studentIds, status: "present", }, headers);
+                    { studentIds, status }, headers);
             alert("Attendance Saved!")
-            console.log(response)
+            setLoading(false)
         } catch (error) {
             console.error('An error occurred:', error);
+            setLoading(!loading)
             alert("Something went wrong while updating")
         }
     };
@@ -45,9 +48,8 @@ const Page = (props) => {
     useEffect(() => {
         if (!isOn) {
             const studentIds = new Set(detected)
-            setPresent(Array.from(studentIds))
-            console.log("new", Array.from(studentIds))
-            handleChangeStatusApi(Array.from(studentIds))
+            const ArrayOfStudentIds = Array.from(studentIds)
+            handleChangeStatusApi(ArrayOfStudentIds, status ? true : false)
         }
     }, [isOn])
 
@@ -62,7 +64,6 @@ const Page = (props) => {
     const handleGetAttendance = async () => {
         try {
             const response = await axios.get(`${url}/api/attendance/getAttendanceById/${attendanceId}`, { headers });
-            // console.log("attendance", response.data);
             setAttendance(response.data);
         } catch (err) {
             alert("Something went wrong!");
@@ -88,18 +89,17 @@ const Page = (props) => {
     const handleGetFaceData = async () => {
         try {
             const response = await axios.get(`${url}/api/facePhotos`, { headers });
-            // console.log("facePhotos", response.data);
             setFaceData(response.data)
         } catch (err) {
             alert("Something went wrong!");
             console.log(err);
         }
     };
-    const filteredFacePhotos = faceData?.filter((facePhotos) => (
+    const filteredFacePhotos = faceData && faceData.filter((facePhotos) => (
         attendance?.students?.map((student) => student.id).includes(facePhotos.owner)
     ))
 
-    const resultArray = filteredFacePhotos.reduce((acc, current) => {
+    const resultArray = filteredFacePhotos && filteredFacePhotos.reduce((acc, current) => {
         const existingOwner = acc.find(item => item.owner === current.owner);
 
         if (existingOwner) {
@@ -150,15 +150,13 @@ const Page = (props) => {
                     <p>{attendance?.event}</p>
                 </div>
             </div>
-            <div className="mx-auto p-6">
-                <div className="mb-8">
-                    <div className="flex gap-2">
-                        {/* <div>
-                            {Array.isArray(present) && present?.map((studentId) => (
-                                <p >{studentId}</p>
-                            ))}
-                        </div> */}
-                        <h4 className="mb-4">Attendance Setting</h4>
+            {loading && <Modal>
+                <p>Saving the recorded attendance! Please wait...</p>
+            </Modal>}
+            <div className="mx-auto py-1">
+                <div className="mb-4">
+                    <div className="flex items-center bg-green-700 px-4 py-2 text-white gap-2">
+                        <h4 className="">Attendance Setting</h4>
                         <form>
                             <div className="">
                                 <div className="flex items-center">
@@ -174,8 +172,13 @@ const Page = (props) => {
                                 </div>
                             </div>
                         </form>
+                        <div className={`flex relative rounded-full h-max py-1 text-white bg-gray-200 border-2 border-gray-400 w-24 ${status ? "justify-start" : "justify-end"}`}>
+                            <div className="absolute text-green-700 left-4">IN</div>
+                            <button className={`bg-green-700 w-11 mx-1 px-1 rounded-full z-10`}
+                                onClick={() => setStatus(!status)}>{status ? "IN" : "OUT"}</button>
+                            <div className="absolute text-green-700 right-2">OUT</div>
+                        </div>
                     </div>
-
                 </div>
                 <div className="grid grid-cols-8">
                     <div className="col-span-2 md:block hidden">

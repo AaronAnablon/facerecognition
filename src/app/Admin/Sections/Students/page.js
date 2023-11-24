@@ -89,6 +89,21 @@ const Page = () => {
         }
     }
 
+    const handleDeleteStudentInattendance = async (id) => {
+        setLoading(true)
+        try {
+            await axios.put(`${url}/api/people/removeStudentFromStudents/${id}`, { headers });
+            handleGetData()
+            alert("Succesfully Deleted!")
+            handleRemoveStudent(id)
+            setLoading(false)
+        } catch (err) {
+            alert("Something went wrong!")
+            console.log(err);
+            setLoading(false)
+        }
+    }
+
     const handleEdit = (student) => {
         setClickedStudent(student)
         setEdit(!edit)

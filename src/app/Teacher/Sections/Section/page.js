@@ -14,6 +14,7 @@ import Modal from "@/utils/Modal";
 import { IoMdCloseCircle } from "react-icons/io";
 import SelectImage from "@/components/SelectImage";
 import { FcDataProtection } from "react-icons/fc";
+import { SlEnvolopeLetter } from "react-icons/sl";
 import Link from "next/link";
 
 const Page = () => {
@@ -64,12 +65,12 @@ const Page = () => {
         }
     };
 
-   
+
     useEffect(() => {
         if (profile) {
             handleGetData();
             handleGetStudents();
-                 }
+        }
     }, [profile]);
 
     const filterDataByDate = (date) => {
@@ -89,28 +90,28 @@ const Page = () => {
     };
 
 
-    const handleChangeStatus = (id, studentId, value) => {
+    const handleChangeStatus = (id, studentId, statusIn, statusOut,) => {
         showConfirmation(<div className='grid justify-center gap-4'>
             <div className='bg-green-700 flex items-center text-white gap-4 rounded-t-lg w-full'><FcDataProtection size={32} />Delete Schedule</div>
-            <p className='text-xl p-6'>Are you sure you want to change the status to {value}?</p>
+            <p className='text-xl p-6'>Are you sure you want to change the status?</p>
         </div>, () => {
-            handleChangeStatusApi(id, studentId, value)
+            handleChangeStatusApi(id, studentId, statusIn, statusOut,)
         });
     };
 
-    const handleChangeStatusApi = async (id, filteredStudent, value) => {
+    const handleChangeStatusApi = async (id, filteredStudent, statusIn, statusOut,) => {
         setLoading(true)
         const letterUrl = filteredStudent.letterUrl
         const letterPublicId = filteredStudent.letterPublicId
-        const status = value
+        const studentId = filteredStudent.id
         try {
             const response = await
                 axios.put(`${url}/api/attendance/updateStatusOfStudent/${id}`,
-                    { studentId: filteredStudent.id, status, letterUrl, letterPublicId }, headers);
+                    { studentId, statusIn, statusOut, letterUrl, letterPublicId }, headers);
             handleGetData();
             handleGetStudents();
             setLoading(false)
-            alert(`Successfully updated status to ${value}!`)
+            alert(`Successfully updated the status!`)
         } catch (error) {
             setLoading(false)
             console.error('An error occurred:', error);
@@ -137,10 +138,17 @@ const Page = () => {
             <div className="w-full grid gap-4">
                 {filteredData.map((students) => (
                     <div className="bg-green-800 mx-4 px-4 py-2 grid gap-1 rounded-lg text-white" key={students.id}>
-                        <div className="flex gap-4">
-                            <p>{students.date}</p>
-                            <p>{students.time}</p>
-                            <p>&#40;{students.event}&#41;</p>
+                        <div className="flex justify-between">
+                            <div className="flex gap-4">
+                                <p>{students.date}</p>
+                                <p>{students.time}</p>
+                                <p>&#40;{students.event}&#41;</p>
+                            </div>
+                            <div className="flex gap-3">
+                                <p>In</p>
+                                <p>Out</p>
+                                <p><SlEnvolopeLetter /></p>
+                            </div>
                         </div>
                         {students.students.map((student, index) => (
                             <div key={index} className="flex ml-4 justify-between">
@@ -149,15 +157,16 @@ const Page = () => {
                                     <p key={studentIndex}>{stud.firstName} {stud.lastName}</p>
                                 ))}
                                 <div className="flex gap-2 items-center">
-                                    {student.status === "present" ? (
-                                        <button onClick={() => handleChangeStatus(students.id, student, "absent")} className="bg-white rounded-full text-green-700 p-1">
-                                            <FaCheck size={14} />
-                                        </button>
-                                    ) : (
-                                        <button onClick={() => handleChangeStatus(students.id, student, "present")} className="bg-white rounded-full text-red-700 p-1">
-                                            <IoClose size={16} />
-                                        </button>
-                                    )}
+                                    {student.statusIn === "present" ?
+                                        <button onClick={() => handleChangeStatus(students.id, student, "absent", student.statusOut)} className="bg-white rounded-full text-green-700 p-1">
+                                            <FaCheck size={14} /></button> :
+                                        <button onClick={() => handleChangeStatus(students.id, student, "present", student.statusOut)} className="bg-white rounded-full text-red-700 p-1">
+                                            <IoClose size={16} /></button>}
+                                    {student.statusOut === "present" ?
+                                        <button onClick={() => handleChangeStatus(students.id, student, student.statusIn, "absent")} className="bg-white rounded-full text-green-700 p-1">
+                                            <FaCheck size={14} /></button> :
+                                        <button onClick={() => handleChangeStatus(students.id, student, student.statusIn, "present")} className="bg-white rounded-full text-red-700 p-1">
+                                            <IoClose size={16} /></button>}
                                     {student.letterUrl ? (
                                         <button onClick={() => setViewLetter(student.letterUrl)} className="bg-white rounded-full text-blue-700 p-1">
                                             <MdOutlineMailOutline size={14} />

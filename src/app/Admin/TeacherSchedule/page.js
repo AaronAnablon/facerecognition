@@ -71,7 +71,7 @@ const Page = () => {
                         <li className="mx-6 rounded-lg px-4 py-1 flex justify-between items-center gap-4 bg-green-700 text-white" key={index}>
                             <Link className=""
                                 href={`TeacherSchedule/Schedule/?id=${item.id}`}>{item.firstName} {item.lastName}</Link>
-                            <button onClick={() => handleDeleteData(item.id)} className="rounded-full bg-white text-red-700 h-max p-1"><BsFillTrash3Fill /></button>
+                            <button type="button" onClick={() => handleDeleteData(item.id)} className="rounded-full bg-white text-red-700 h-max p-1"><BsFillTrash3Fill /></button>
                         </li>
                     ))}
                 </ul>

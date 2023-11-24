@@ -85,7 +85,7 @@ const ProcessFaceRecognition = (props) => {
                     });
                 const ctx = canvasRef.current.getContext("2d");
 
-                drawRectAndLabelFace(fullDesc, faceMatcher, participants, ctx);
+                faceMatcher && drawRectAndLabelFace(fullDesc, faceMatcher, participants, ctx);
 
                 if (!!fullDesc) {
 

@@ -6,7 +6,7 @@ export const PUT = async (request, { params }) => {
     try {
         const { id } = params
         const body = await request.json();
-        const { studentId, status, letterUrl, letterPublicId } = body;
+        const { studentId, statusIn, statusOut, letterUrl, letterPublicId } = body;
 
         const findJson = await prisma.attendance.findUnique({
             where: {
@@ -21,7 +21,7 @@ export const PUT = async (request, { params }) => {
             data: {
                 students: findJson.students.map((student) => {
                     if (student.id === studentId) {
-                        return { ...student, status, letterUrl, letterPublicId };
+                        return { ...student, statusIn, statusOut, letterUrl, letterPublicId };
                     }
                     return student;
                 }),

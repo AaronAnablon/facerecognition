@@ -99,24 +99,24 @@ const Page = () => {
     };
     const groupedSchedule = groupByDay(schedule);
 
-    const handleChangeStatus = (id, studentId, value) => {
+    const handleChangeStatus = (id, studentId, statusIn, statusOut) => {
         showConfirmation(<div className='grid justify-center gap-4'>
             <div className='bg-green-700 flex items-center text-white gap-4 rounded-t-lg w-full'><FcDataProtection size={32} />Delete Schedule</div>
             <p className='text-xl p-6'>Are you sure you want to change the status to {value}?</p>
         </div>, () => {
-            handleChangeStatusApi(id, studentId, value)
+            handleChangeStatusApi(id, studentId, statusIn, statusOut)
         });
     };
 
 
-    const handleChangeStatusApi = async (id, filteredStudent, value) => {
+    const handleChangeStatusApi = async (id, filteredStudent, statusIn, statusOut) => {
         const letterUrl = filteredStudent.letterUrl
         const letterPublicId = filteredStudent.letterPublicId
-        const status = value
+        const studentId = filteredStudent.id
         try {
             const response = await
                 axios.put(`${url}/api/attendance/updateStatusOfStudent/${id}`,
-                    { studentId: filteredStudent.id, status, letterUrl, letterPublicId }, headers);
+                    { studentId, statusIn, statusOut, letterUrl, letterPublicId }, headers);
             handleGetStudent()
             alert(`Successfully updated status to ${value}!`)
         } catch (error) {
@@ -163,10 +163,15 @@ const Page = () => {
                                         {item.students.filter((student) => student.id === studentId).map((filteredStudent) => (
                                             <div className="flex gap-4" key={filteredStudent.id}>
                                                 <div className="flex gap-2">
-                                                    {filteredStudent.status === "present" ?
-                                                        <button onClick={() => handleChangeStatus(item.id, filteredStudent, "absent")} className="bg-white rounded-full text-green-700 p-1">
+                                                    {filteredStudent.statusIn === "present" ?
+                                                        <button onClick={() => handleChangeStatus(item.id, filteredStudent, "absent", filteredStudent.statusOut)} className="bg-white rounded-full text-green-700 p-1">
                                                             <FaCheck size={14} /></button> :
-                                                        <button onClick={() => handleChangeStatus(item.id, filteredStudent, "present")} className="bg-white rounded-full text-red-700 p-1">
+                                                        <button onClick={() => handleChangeStatus(item.id, filteredStudent, "present", filteredStudent.statusOut)} className="bg-white rounded-full text-red-700 p-1">
+                                                            <IoClose size={16} /></button>}
+                                                    {filteredStudent.statusOut === "present" ?
+                                                        <button onClick={() => handleChangeStatus(item.id, filteredStudent, filteredStudent.statusIn, "absent")} className="bg-white rounded-full text-green-700 p-1">
+                                                            <FaCheck size={14} /></button> :
+                                                        <button onClick={() => handleChangeStatus(item.id, filteredStudent, filteredStudent.statusIn, "present")} className="bg-white rounded-full text-red-700 p-1">
                                                             <IoClose size={16} /></button>}
                                                     {filteredStudent.letterUrl ?
                                                         <button onClick={() => setViewLetter(filteredStudent.letterUrl)} className="bg-white rounded-full text-blue-700 p-1">

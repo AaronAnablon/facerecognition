@@ -13,14 +13,14 @@ const TrxDashBoard = (props) => {
         const isPresent = presentSet?.has(student.id);
         return {
             ...student,
-            status: isPresent ? "Present" : "Absent",
+            status: isPresent ? "present" : "absent",
             attend_at: ""
         };
     });
 
   
-    // Filter fullDesc based on the "Present" status
-    const attendees = updatedFaceDescData?.filter((student) => student.status === "Present");
+    // Filter fullDesc based on the "present" status
+    const attendees = updatedFaceDescData?.filter((student) => student.status === "present");
 
     // console.log("attendees", attendees)
     return (

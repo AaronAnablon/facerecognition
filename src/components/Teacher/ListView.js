@@ -6,13 +6,13 @@ const ListView = ({ studentList }) => {
 
     return (
         <ul className="grid gap-1">
-            {studentList?.map((student) => (
-                <li key={student._id} className=" flex justify-between items-center text-white py-1 bg-green-700 px-4 rounded-lg">
+            {studentList?.map((student, index) => (
+                <li key={index} className=" flex justify-between items-center text-white py-1 bg-green-700 px-4 rounded-lg">
                     <p className="">
                         {student.firstName} {student.lastName}
                     </p>
                     <p className="">
-                        {student.status === "Present" ?
+                        {student.status === "present" ?
                             <div className="bg-white rounded-full text-green-700 p-1">
                                 <FaCheck size={14} /></div> :
                             <div className="bg-white rounded-full text-red-700 p-1">

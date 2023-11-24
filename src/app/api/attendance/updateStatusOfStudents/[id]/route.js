@@ -17,7 +17,13 @@ export const PUT = async (request, { params }) => {
         studentIds.forEach((studentId) => {
             findJson.students = findJson.students.map((student) => {
                 if (student.id === studentId) {
-                    return { ...student, status, letterUrl: student.letterUrl, letterPublicId: student.letterPublicId };
+                    return {
+                        ...student,
+                        statusIn: status ? "present" : student.statusIn,
+                        statusOut: status ? student.statusOut : "present",
+                        letterUrl: student.letterUrl,
+                        letterPublicId: student.letterPublicId
+                    };
                 }
                 return student;
             });
