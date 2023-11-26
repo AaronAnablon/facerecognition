@@ -52,7 +52,7 @@ const Page = () => {
 
     return (
         <Layout>
-            <div className="w-full flex justify-center gap-4">
+            <div className="w-full flex justify-center gap-4 mb-20">
                 <LoadingSpin loading={loading} />
                 <div className="grid gap-4 w-full mx-4">
                     {uniqueSection?.map((item, index) => (

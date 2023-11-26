@@ -64,7 +64,7 @@ const Page = () => {
 
     return (
         <Layout>
-            <div className="w-full flex justify-start md:justify-center">
+            <div className="w-full flex justify-start md:justify-center mb-20">
                 <LoadingSpin loading={loading} />
                 <ul className="w-full md:w-1/4 grid gap-2">
                     {teachers?.map((item, index) => (

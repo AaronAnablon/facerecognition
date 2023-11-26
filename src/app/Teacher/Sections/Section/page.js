@@ -135,7 +135,7 @@ const Page = () => {
                     onChange={handleDateChange}
                 />}
             </div>
-            <div className="w-full grid gap-4">
+            <div className="w-full grid gap-4 mb-20">
                 {filteredData.map((students) => (
                     <div className="bg-green-400 mx-4 px-4 py-2 grid gap-1 rounded-lg text-white" key={students.id}>
                         <div className="flex justify-between">

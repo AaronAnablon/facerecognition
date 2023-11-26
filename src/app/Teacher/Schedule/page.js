@@ -92,11 +92,11 @@ const Page = () => {
             <div className="w-full flex justify-center gap-4">
                 <div className="bg-green-700 w-full text-white mx-4 py-2 rounded-lg mb-4 text-center">{teacher?.firstName} {teacher?.lastName}</div>
             </div>
-            <div className="w-full flex justify-center gap-4">
+            <div className="w-full flex justify-center gap-4 mb-20">
                 <LoadingSpin loading={loading} />
                 <div className="grid gap-4 w-full mx-4">
                     {Object.keys(groupedSchedule)?.map((day, index) => (
-                        <ul className="px-6 text-white bg-green-400 rounded-lg py-2 grid " key={index}>
+                        <ul className="px-6 text-white bg-green-700 rounded-lg py-2 grid " key={index}>
                             <h2 className="text-white">{day}</h2>
                             {groupedSchedule[day].map((item, itemIndex) => (
                                 <li className="flex flex-wrap justify-between w-full my-1" key={itemIndex}>

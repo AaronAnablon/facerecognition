@@ -99,7 +99,7 @@ const Page = (props) => {
         attendance?.students?.map((student) => student.id).includes(facePhotos.owner)
     ))
 
-    const resultArray = filteredFacePhotos && filteredFacePhotos.reduce((acc, current) => {
+    const resultArray = profile && filteredFacePhotos && filteredFacePhotos.reduce((acc, current) => {
         const existingOwner = acc.find(item => item.owner === current.owner);
 
         if (existingOwner) {
@@ -123,11 +123,7 @@ const Page = (props) => {
 
         return acc;
     }, []);
-
-    useEffect(() => {
-        handleGetAttendance()
-        handleGetFaceData()
-    }, [])
+    
 
     useEffect(() => {
         if (resultArray?.length > 0) {
@@ -139,6 +135,13 @@ const Page = (props) => {
         }
     }, [profile]);
 
+
+    useEffect(() => {
+        handleGetAttendance()
+        handleGetFaceData()
+    }, [])
+
+   
 
     return (
         <div className="">
@@ -153,7 +156,7 @@ const Page = (props) => {
             {loading && <Modal>
                 <p>Saving the recorded attendance! Please wait...</p>
             </Modal>}
-            <div className="mx-auto py-1">
+            <div className="mx-auto py-1 mb-20">
                 <div className="mb-4">
                     <div className="flex items-center bg-green-700 px-4 py-2 text-white gap-2">
                         <h4 className="">Attendance Setting</h4>
@@ -185,7 +188,7 @@ const Page = (props) => {
                         <TrxDashBoard {...props} present={detected} participants={profile} />
                     </div>
                     <div className="col-span-8 md:col-span-6">
-                        {faceMatcher && profile &&
+                        {resultArray && faceMatcher && profile &&
                             isOn && (
                                 <ProcessFaceRecognition
                                     {...props}

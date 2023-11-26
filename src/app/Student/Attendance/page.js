@@ -111,7 +111,7 @@ const Page = () => {
     return (
         <>
             <Layout>
-                <div className="w-full flex justify-center gap-4">
+                <div className="w-full flex justify-center gap-4 mb-20">
                     {loading && <LoadingSpin loading={loading} />}
                     <div className="grid gap-4 w-full mx-4">
                         {Object.keys(groupedSchedule)?.map((day, index) => (

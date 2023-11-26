@@ -9,7 +9,7 @@ export const drawRectAndLabelFace = (fullDesc, faceMatcher, participants, ctx) =
 
       // console.log(landmarksPoint)
       // const text = desc['class'];
-      const bestMatch = faceMatcher && faceMatcher.findBestMatch(desc.descriptor);
+      const bestMatch = faceMatcher && faceMatcher?.findBestMatch(desc.descriptor);
       // Set styling
       if (bestMatch && bestMatch._label !== "unknown" && bestMatch._label !== null && bestMatch._label !== undefined) {
         let filterParticipants = participants.filter(

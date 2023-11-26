@@ -102,7 +102,7 @@ const Page = () => {
     const handleChangeStatus = (id, studentId, statusIn, statusOut) => {
         showConfirmation(<div className='grid justify-center gap-4'>
             <div className='bg-green-700 flex items-center text-white gap-4 rounded-t-lg w-full'><FcDataProtection size={32} />Delete Schedule</div>
-            <p className='text-xl p-6'>Are you sure you want to change the status to {value}?</p>
+            <p className='text-xl p-6'>Are you sure you want to modify the attendance?</p>
         </div>, () => {
             handleChangeStatusApi(id, studentId, statusIn, statusOut)
         });
@@ -118,7 +118,7 @@ const Page = () => {
                 axios.put(`${url}/api/attendance/updateStatusOfStudent/${id}`,
                     { studentId, statusIn, statusOut, letterUrl, letterPublicId }, headers);
             handleGetStudent()
-            alert(`Successfully updated status to ${value}!`)
+            alert(`Successfully updated the attendance!`)
         } catch (error) {
             console.error('An error occurred:', error);
             alert("Something went wrong while updating")
@@ -150,7 +150,7 @@ const Page = () => {
                 <div className="pl-4 p-2 text-lg">{student?.firstName} {student?.lastName}</div>
                 <Link className="pl-4 p-2 text-lg" href={`StudentAttendance/AddFacePhoto?id=${studentId}`}>Upload Profile</Link>
             </div>
-            <div className="w-full flex justify-center gap-4">
+            <div className="w-full flex justify-center gap-4 mb-20">
                 {loading && <LoadingSpin loading={loading} />}
                 <div className="grid gap-4 w-full mx-4">
                     {Object.keys(groupedSchedule)?.map((day, index) => (
