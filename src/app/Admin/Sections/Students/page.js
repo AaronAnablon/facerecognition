@@ -123,7 +123,7 @@ const Page = () => {
             {edit && <EditStudent setEdit={setEdit} edit={edit} student={clickedStudent} handleGetData={handleGetData} />}
             {loading && <LoadingSpin loading={loading} />}
             <div className="bg-green-700 text-white text-center py-3 mt-6 mx-4">Students</div>
-            <div className="md:mx-4 mx-1">
+            <div className="md:mx-4 mx-1 mb-20">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="">
                         <tr className="bg-green-700 text-white rounded-t-lg">
