@@ -54,7 +54,6 @@ const ProcessFaceRecognition = (props) => {
             setInputDevices({ ...inputDevices, inputDevice });
         });
     }, []);
-
     useEffect(() => {
         function capture() {
             if (

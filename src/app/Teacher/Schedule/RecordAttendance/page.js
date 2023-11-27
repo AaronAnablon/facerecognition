@@ -9,6 +9,7 @@ import ProcessFaceRecognition from "@/components/Teacher/ProcessFaceRecognition"
 import { useSearchParams } from "next/navigation";
 import TrxDashBoard from "@/components/Teacher/TrxDashboard";
 import Modal from "@/utils/Modal";
+import { useSession } from "next-auth/react";
 
 const Page = (props) => {
     const [isOn, setIsOn] = useState(true);
@@ -21,6 +22,7 @@ const Page = (props) => {
     const router = useRouter()
     const [status, setStatus] = useState(true)
     const [loading, setLoading] = useState(false)
+    const { data: session } = useSession()
 
     useEffect(() => {
         setActive(currentPathname)
@@ -99,7 +101,7 @@ const Page = (props) => {
         attendance?.students?.map((student) => student.id).includes(facePhotos.owner)
     ))
 
-    const resultArray = profile && filteredFacePhotos && filteredFacePhotos.reduce((acc, current) => {
+    const resultArray = filteredFacePhotos && filteredFacePhotos.reduce((acc, current) => {
         const existingOwner = acc.find(item => item.owner === current.owner);
 
         if (existingOwner) {
@@ -123,17 +125,18 @@ const Page = (props) => {
 
         return acc;
     }, []);
-    
+
 
     useEffect(() => {
-        if (resultArray?.length > 0) {
-            const matcher = async () => {
-                const profileList = resultArray && await createMatcher(resultArray, .45);
+        const matcher = async () => {
+            if (!faceMatcher || faceMatcher.length === 0) {
+                const profileList = resultArray && resultArray.length > 0 && await createMatcher(resultArray, 0.45);
                 setFaceMatcher(profileList);
             }
-            matcher()
-        }
-    }, [profile]);
+        };
+        matcher();
+    }, [resultArray, faceMatcher]);
+
 
 
     useEffect(() => {
@@ -141,7 +144,7 @@ const Page = (props) => {
         handleGetFaceData()
     }, [])
 
-   
+
 
     return (
         <div className="">
@@ -188,7 +191,7 @@ const Page = (props) => {
                         <TrxDashBoard {...props} present={detected} participants={profile} />
                     </div>
                     <div className="col-span-8 md:col-span-6">
-                        {resultArray && faceMatcher && profile &&
+                        {resultArray && resultArray.length > 0 && faceMatcher && profile &&
                             isOn && (
                                 <ProcessFaceRecognition
                                     {...props}
