@@ -92,7 +92,7 @@ const Page = () => {
 
     const handleChangeStatus = (id, studentId, statusIn, statusOut,) => {
         showConfirmation(<div className='grid justify-center gap-4'>
-            <div className='bg-green-700 flex items-center text-white gap-4 rounded-t-lg w-full'><FcDataProtection size={32} />Delete Schedule</div>
+            <div className='bg-green-700 flex items-center text-white gap-4 rounded-t-lg w-full'><FcDataProtection size={32} />Edit Attendance</div>
             <p className='text-xl p-6'>Are you sure you want to change the status?</p>
         </div>, () => {
             handleChangeStatusApi(id, studentId, statusIn, statusOut,)
