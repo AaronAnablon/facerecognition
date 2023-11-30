@@ -11,6 +11,7 @@ import { useSearchParams } from "next/navigation";
 import { useSession } from 'next-auth/react';
 import Link from "next/link";
 import { FiArrowRightCircle } from "react-icons/fi";
+import Modal from "@/utils/Modal";
 
 const Page = () => {
     const [schedule, setSchedule] = useState()
@@ -89,6 +90,9 @@ const Page = () => {
 
     return (
         <Layout>
+            {loading && <Modal>
+                <LoadingSpin loading={loading} />
+            </Modal>}
             <div className="w-full flex justify-center gap-4">
                 <div className="bg-green-700 w-full text-white mx-4 py-2 rounded-lg mb-4 text-center">{teacher?.firstName} {teacher?.lastName}</div>
             </div>
@@ -100,7 +104,6 @@ const Page = () => {
                             {groupedSchedule[day].map((item, itemIndex) => (
                                 <li className="flex px-6 flex-wrap hover:bg-green-600 justify-between w-full my-1" key={itemIndex}>
                                     <p>{item.time} {item.section}</p>
-                                    <LoadingSpin loading={loading} />
                                     <Link className="bg-white rounded-full text-green-700 p-1" href={`Schedule/RecordAttendance?AttendanceId=${item.id}`}>
                                         <FiArrowRightCircle size={16} />
                                     </Link>

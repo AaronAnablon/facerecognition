@@ -122,6 +122,9 @@ const Page = () => {
     return (
         <>
             <ConfirmationDialog />
+            {loading && <Modal>
+                <LoadingSpin loading={loading} />
+            </Modal>}
             <div className="border-b-2 w-full border-green-700">
                 <p className="my-2 text-lg ml-4">{sectionName}</p>
             </div>
@@ -156,7 +159,6 @@ const Page = () => {
                                     <p key={studentIndex}>{stud.firstName} {stud.lastName}</p>
                                 ))}
                                 <div className="flex gap-2 items-center">
-                                    <LoadingSpin loading={loading} />
                                     {student.statusIn === "present" ?
                                         <button onClick={() => handleChangeStatus(students.id, student, "absent", student.statusOut)} className="bg-white rounded-full text-green-700 p-1">
                                             <FaCheck size={14} /></button> :

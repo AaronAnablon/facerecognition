@@ -22,7 +22,6 @@ const Page = () => {
     };
     return (
         <div className="text-green-700 w-screen relative h-screen">
-
             <div className="flex items-center gap-2 mb-4 pl-4 border-b-2 border-green-700">
                 <div className="rounded-full m-4 border-4 border-green-700 text-white bg-green-700">
                     <BsPersonCircle size={44} />
@@ -30,9 +29,9 @@ const Page = () => {
                 {session?.firstName} {session?.lastName} &#40;Admin&#41;
             </div>
             <ConfirmationDialog />
-            <p>Application Control</p>
+            <p className="pl-4">Application Control</p>
             <Layout />
-            <div className="w-full absolute bottom-8 flex md:justify-start md:pl-4 justify-center items-center">
+            <div className="w-full absolute bottom-8 flex justify-center items-center">
                 <button className="bg-green-700 text-white px-4 py-2 rounded-lg"
                     onClick={handleSignOut}>Log Out</button>
             </div>

@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import Modal from './Modal';
 
 const useConfirmation = () => {
     const [isVisible, setIsVisible] = useState(false);
@@ -24,7 +25,7 @@ const useConfirmation = () => {
     const ConfirmationDialog = () => {
         return (
             isVisible && (
-                <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-75 z-40 flex justify-center items-center">
+                <Modal>
                     <div className="p-4 rounded-md">
                         <div className='grid bg-white gap-4 rounded-lg justify-center items-center'>
                             <div>{message}</div>
@@ -34,7 +35,7 @@ const useConfirmation = () => {
                             </div>
                         </div>
                     </div>
-                </div >
+                </Modal>
             )
         );
     };

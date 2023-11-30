@@ -145,7 +145,9 @@ const Page = () => {
     return (
         <>
             <ConfirmationDialog />
-
+            {loading && <Modal>
+                <LoadingSpin loading={loading} />
+            </Modal>}
             <div className="w-full mb-4 text-green-700 border-green-700 border-b-2 flex justify-between">
                 <div className="pl-4 p-2 text-lg">{student?.firstName} {student?.lastName}</div>
                 <Link className="pl-4 p-2 text-lg" href={`StudentAttendance/AddFacePhoto?id=${studentId}`}>Upload Profile</Link>
@@ -169,7 +171,6 @@ const Page = () => {
                                         {item.students.filter((student) => student.id === studentId).map((filteredStudent) => (
                                             <div className="flex gap-4" key={filteredStudent.id}>
                                                 <div className="flex gap-3 mr-4">
-                                                    <LoadingSpin loading={loading} />
                                                     {filteredStudent.statusIn === "present" ?
                                                         <button onClick={() => handleChangeStatus(item.id, filteredStudent, "absent", filteredStudent.statusOut)} className="bg-white rounded-full text-green-700 p-1">
                                                             <FaCheck size={14} /></button> :

@@ -31,7 +31,7 @@ const Page = () => {
             <ConfirmationDialog />
             <p className="ml-2">Teacher&#39;s Information</p>
             <Layout />
-            <div className="w-full absolute bottom-8 flex md:justify-start md:pl-4 justify-center items-center">
+            <div className="w-full absolute bottom-8 flex justify-center items-center">
                 <button className="bg-green-700 text-white px-4 py-2 rounded-lg"
                     onClick={handleSignOut}>Log Out</button>
             </div>

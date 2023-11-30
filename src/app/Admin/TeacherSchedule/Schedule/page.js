@@ -15,6 +15,7 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 import EditSchedule from "./EditSchedule";
 import useConfirmation from "@/utils/ConfirmationHook";
 import { FcDataProtection } from "react-icons/fc";
+import Modal from "@/utils/Modal";
 
 const Page = () => {
     const { showConfirmation, ConfirmationDialog } = useConfirmation();
@@ -125,6 +126,9 @@ const Page = () => {
         <Layout>
             {edit && clickedAttendance && <EditSchedule handleGetData={handleGetData} attendance={clickedAttendance} setEdit={setEdit} edit={edit} />}
             <ConfirmationDialog />
+            {loading && <Modal>
+                <LoadingSpin loading={loading} />
+            </Modal>}
             <div className="w-full flex justify-center gap-4">
                 <div className="bg-green-700 w-full text-white mx-4 py-2 rounded-lg mb-4 text-center">{teacher?.firstName} {teacher?.lastName}</div>
             </div>
@@ -135,9 +139,8 @@ const Page = () => {
                             <h2 className="text-white px-6">{day}</h2>
                             {groupedSchedule[day].map((item, itemIndex) => (
                                 <li className="flex hover:bg-green-500 px-6 justify-between my-1" key={itemIndex}>
-                                    <p>{item.time} {item.section}</p>
+                                    <p>{item.time} {item.section} &#40;{item.event}&#41;</p>
                                     <div className="flex gap-2">
-                                        <LoadingSpin loading={loading} />
                                         <button onClick={() => handleEdit(item)} className="bg-white rounded-full text-green-700 p-1">
                                             <FaEdit size={14} /></button>
                                         <button onClick={() => handleDelete(item.id)} className="bg-white rounded-full text-red-700 p-1">

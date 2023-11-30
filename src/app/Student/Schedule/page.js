@@ -8,6 +8,8 @@ import axios from "axios";
 import { LoadingSpin } from "@/utils/LoadingSpin";
 import { url, headers } from "@/utils/api";
 import { useAccount } from "@/app/contextProvider/AccountProvider";
+import Link from "next/link";
+import Modal from "@/utils/Modal";
 
 const Page = () => {
     const profile = useAccount()
@@ -64,18 +66,18 @@ const Page = () => {
     };
     const groupedSchedule = groupByDay(schedule);
 
-    console.log(groupedSchedule)
-
     return (
         <Layout>
             <div className="w-full flex justify-center gap-4 mb-20">
+                {loading && <Modal>
+                    <LoadingSpin loading={loading} />
+                </Modal>}
                 <div className="grid gap-4 w-full mx-4">
                     {Object.keys(groupedSchedule)?.map((day, index) => (
                         <ul className="px-6 text-white bg-green-700 rounded-lg py-2 grid " key={index}>
                             <h2 className="text-white">{day}</h2>
                             {groupedSchedule[day].map((item, itemIndex) => (
                                 <li className="flex justify-between my-1" key={itemIndex}>
-                                    <LoadingSpin loading={loading} />
                                     <p>{item.time} &#40;{item.section}&#41; {item.event}</p>
                                 </li>
                             ))}
@@ -85,7 +87,7 @@ const Page = () => {
             </div>
             <div className={`fixed bottom-2 flex w-full justify-center`}>
                 <div className={`flex justify-between mx-4 ${active === "/Admin" ? "grid gap-2 w-full" : "w-full md:w-1/4"}`}>
-                    <button onClick={goBack} className="bg-green-700 text-white px-4 rounded-full" >Back</button>
+                    <Link href={"/Student"} className="bg-green-700 text-white px-4 rounded-full" >Back</Link>
                 </div>
             </div>
         </Layout>

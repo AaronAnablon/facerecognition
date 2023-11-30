@@ -112,6 +112,9 @@ const Page = () => {
         <>
             <Layout>
                 <div className="w-full flex justify-center gap-4 mb-20">
+                    {loading && <Modal>
+                        <LoadingSpin loading={loading} />
+                    </Modal>}
                     <div className="grid gap-4 w-full mx-4">
                         {Object.keys(groupedSchedule)?.map((day, index) => (
                             <ul className="px-6 text-white bg-green-700 rounded-lg py-2 grid " key={index}>
@@ -123,11 +126,15 @@ const Page = () => {
                                             {item.students.filter((student) => student.id === studentId).map((filteredStudent) => (
                                                 <div className="flex gap-4" key={filteredStudent.id}>
                                                     <div className="flex gap-2 items-center">
-                                                        <LoadingSpin loading={loading} />
-                                                        {filteredStudent.status === "present" ?
-                                                            <div className="bg-white h-max rounded-full text-green-700 p-1">
+                                                        {filteredStudent.statusIn === "present" ?
+                                                            <div className="bg-white rounded-full text-green-700 p-1">
                                                                 <FaCheck size={14} /></div> :
-                                                            <div className="bg-white h-max rounded-full text-red-700 p-1">
+                                                            <div className="bg-white rounded-full text-red-700 p-1">
+                                                                <IoClose size={16} /></div>}
+                                                        {filteredStudent.statusOut === "present" ?
+                                                            <div lassName="bg-white rounded-full text-green-700 p-1">
+                                                                <FaCheck size={14} /></div> :
+                                                            <div className="bg-white rounded-full text-red-700 p-1">
                                                                 <IoClose size={16} /></div>}
                                                         {filteredStudent.letterUrl ?
                                                             <button onClick={() => setViewLetter(!viewLetter)} className="bg-white h-max rounded-full text-blue-700 p-1">
@@ -163,7 +170,7 @@ const Page = () => {
                 </div>
                 <div className={`fixed bottom-2 flex w-full justify-center`}>
                     <div className={`flex justify-between mx-4 ${active === "/Admin" ? "grid gap-2 w-full" : "w-full md:w-1/4"}`}>
-                        <button onClick={goBack} className="bg-green-700 text-white px-4 rounded-full" >Back</button>
+                        <Link href={"/Student"} className="bg-green-700 text-white px-4 rounded-full" >Back</Link>
                     </div>
                 </div>
             </Layout>

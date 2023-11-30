@@ -13,6 +13,8 @@ import { LoadingSpin } from "@/utils/LoadingSpin";
 import { url, headers } from "@/utils/api";
 import useConfirmation from "@/utils/ConfirmationHook";
 import { FcDataProtection } from "react-icons/fc";
+import { FaClipboardList } from "react-icons/fa";
+import Modal from "@/utils/Modal";
 
 const Page = () => {
     const { showConfirmation, ConfirmationDialog } = useConfirmation();
@@ -62,14 +64,25 @@ const Page = () => {
         }
     }
 
+    const handleDeleteAttendance = async (id) => {
+        try {
+            const deleteAttendance = await axios.delete(`${url}/api/attendance/getAttendanceById/${id}`, { headers });
+        } catch (err) {
+            alert("Something went wrong while deleting teachers!")
+            console.log(err);
+            setLoading(false)
+        }
+    }
+
     const handleDelete = (id) => {
         showConfirmation(<div className='grid justify-center gap-4'>
             <div className='bg-green-700 flex items-center text-white gap-4 rounded-t-lg w-full'><FcDataProtection size={32} />Delete Teacher</div>
             <div className="flex justify-center italic text-xs">
-                <p className='w-3/4'>This will delete including the attendance created under his or her schedule.</p>
+                <p className='w-3/4'>This will delete the teacher&#39;s data including the attendance created under his or her schedule.</p>
             </div>
             <p className='text-xl p-6'>Are you sure you want to delete teacher?</p>
         </div>, () => {
+            handleDeleteAttendance(id)
             handleDeleteData(id)
         });
     };
@@ -81,17 +94,31 @@ const Page = () => {
     return (
         <Layout>
             <ConfirmationDialog />
-            <div className="w-full flex justify-start md:justify-center mb-20">
-                <ul className="w-full md:w-1/3 grid gap-2">
+            {loading &&
+                <Modal>
+                    <LoadingSpin loading={loading} />
+                </Modal>}
+            <div className="flex justify-start md:justify-center mb-20">
+                <ul className="grid w-full gap-2">
                     {teachers?.map((item, index) => (
                         <li className="mx-6 rounded-lg px-4 py-1 flex justify-between items-center gap-4 bg-green-700 text-white" key={index}>
                             <Link className=""
-                                href={`TeacherSchedule/Schedule/?id=${item.id}`}>{item.firstName} {item.lastName}</Link>
-                            <button type="button"
-                                onClick={() => handleDelete(item.id)}
-                                disabled={loading}
-                                className={`rounded-full bg-white text-red-700 h-max p-1`}>
-                                {loading ? <LoadingSpin loading={loading} /> : <BsFillTrash3Fill />}</button>
+                                href={`TeacherSchedule/Schedule/?id=${item.id}`}>
+                                {item.firstName} {item.lastName}
+                            </Link>
+                            <div className="flex gap-2">
+                                <Link href={`TeacherSchedule/Schedule/?id=${item.id}`}
+                                    className="rounded-full bg-white text-yellow-500 h-max p-1">
+                                    <FaClipboardList size={15} />
+                                </Link>
+                                <button type="button"
+                                    onClick={() => handleDelete(item.id)}
+                                    disabled={loading}
+                                    className={`rounded-full bg-white text-red-700 h-max p-1`}>
+                                    <BsFillTrash3Fill />
+                                </button>
+                            </div>
+
                         </li>
                     ))}
                 </ul>

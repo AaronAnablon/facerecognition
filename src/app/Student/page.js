@@ -34,7 +34,7 @@ const Page = () => {
                 {profile?.firstName} {profile?.lastName} &#40;Student&#41;
             </div>
             <ConfirmationDialog />
-            <p className="ml-2">Student&#39;s Information</p>
+            <p className="ml-4">Student&#39;s Information</p>
             <Layout />
             <div className="grid gap-4 ml-4">
                 <div className="flex gap-2 items-center">
@@ -83,7 +83,7 @@ const Page = () => {
                     </div>
                 </div>
             </div>
-            <div className="w-full mt-6 bottom-8 flex md:justify-start md:pl-4 justify-center items-center">
+            <div className="w-full mt-6 bottom-8 flex justify-center items-center">
                 <button className="bg-green-700 text-white h-max px-4 py-2 rounded-lg"
                     onClick={handleSignOut}>Log Out</button>
             </div>

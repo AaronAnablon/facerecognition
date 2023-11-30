@@ -16,6 +16,7 @@ import EditStudent from "./EditStudent";
 import { FcDataProtection } from "react-icons/fc";
 import Link from "next/link";
 import useConfirmation from "@/utils/ConfirmationHook";
+import Modal from "@/utils/Modal";
 
 const Page = () => {
     const [add, setAdd] = useState(false)
@@ -120,6 +121,9 @@ const Page = () => {
             <div className="border-b-2 w-full border-green-700">
                 <p className="my-2 text-green-700 text-lg ml-4">{sectionName}</p>
             </div>
+            {loading && <Modal>
+                <LoadingSpin loading={loading} />
+            </Modal>}
             {edit && <EditStudent setEdit={setEdit} edit={edit} student={clickedStudent} handleGetData={handleGetData} />}
             <div className="bg-green-700 text-white text-center py-3 mt-6 mx-4">Students</div>
             <div className="md:mx-4 mx-1 mb-20">
@@ -145,13 +149,24 @@ const Page = () => {
                             attendance.map((student, studentIndex) => (
                                 <tr className="bg-green-100 py-4 hover:bg-green-400" key={studentIndex}>
                                     <td className="px-4">{student.firstName} {student.lastName}</td>
-                                    <LoadingSpin loading={loading} />
-                                    <td className="flex justify-center"><Link href={`Students/StudentAttendance?id=${student.id}`} className="bg-white border-green-700 border-2 h-max rounded-full text-yellow-500 p-1">
-                                        <FaClipboardList size={15} /></Link></td>
-                                    <td className="text-center"><button onClick={() => handleEdit(student)} className="bg-white border-green-700 border-2 h-max rounded-full text-green-700 p-1">
-                                        <FaEdit size={14} /></button></td>
-                                    <td className="text-center"><button onClick={() => handleDelete(student.id)} className="bg-white border-green-700 border-2 h-max rounded-full text-red-700 p-1">
-                                        <RiDeleteBin5Line size={16} /></button></td>
+                                    <td className="flex justify-center">
+                                        <Link href={`Students/StudentAttendance?id=${student.id}`}
+                                            className="bg-white border-green-700 border-2 h-max rounded-full text-yellow-500 p-1">
+                                            <FaClipboardList size={15} />
+                                        </Link>
+                                    </td>
+                                    <td className="text-center">
+                                        <button onClick={() => handleEdit(student)}
+                                            className="bg-white border-green-700 border-2 h-max rounded-full text-green-700 p-1">
+                                            <FaEdit size={14} />
+                                        </button>
+                                    </td>
+                                    <td className="text-center">
+                                        <button onClick={() => handleDelete(student.id)}
+                                            className="bg-white border-green-700 border-2 h-max rounded-full text-red-700 p-1">
+                                            <RiDeleteBin5Line size={16} />
+                                        </button>
+                                    </td>
                                 </tr>
                             ))
                             :

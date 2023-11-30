@@ -27,7 +27,7 @@ export const DELETE = async (request, { params }) => {
 
         await prisma.attendance.deleteMany({
             where: {
-                section: id
+                teacher: id
             }
         });
 
