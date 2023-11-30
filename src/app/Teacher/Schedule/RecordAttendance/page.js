@@ -139,9 +139,9 @@ const Page = (props) => {
     }, [resultArray, faceMatcher]);
 
     const handleChangeStatus = () => {
-        alert(`This will be saved to the "${!status ? "IN" : "OUT"}" attendance!`)
         setStatus(!status)
         setDetected([])
+        alert(`This will be saved to the "${!status ? "IN" : "OUT"}" attendance!`)
     }
 
 
