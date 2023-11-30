@@ -50,13 +50,13 @@ const Page = () => {
     return (
         <Layout>
             <div className="w-full flex justify-center gap-4 mb-20">
-                <LoadingSpin loading={loading} />
                 <div className="grid gap-4 w-full mx-4">
                     <ul className="grid gap-4">
                         {uniqueSection?.map((item, index) => (
                             <Link className="px-6 text-white bg-green-700 rounded-lg py-2 grid "
                                 key={index} href={`Sections/Students?section=${item}`}>
                                 <li className="flex flex-wrap justify-between w-full my-1" >
+                                    <LoadingSpin loading={loading} />
                                     {item}
                                 </li>
                             </Link>

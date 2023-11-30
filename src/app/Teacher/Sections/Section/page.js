@@ -125,7 +125,6 @@ const Page = () => {
             <div className="border-b-2 w-full border-green-700">
                 <p className="my-2 text-lg ml-4">{sectionName}</p>
             </div>
-            <LoadingSpin loading={loading} />
             <div className=" flex justify-center my-2 gap-2">
                 <label htmlFor="datePicker">Select Date:</label>
                 {studentProfile && section && <input
@@ -139,7 +138,7 @@ const Page = () => {
                 {filteredData.map((students) => (
                     <div className="bg-green-700 mx-4 px-4 py-2 grid gap-1 rounded-lg text-white" key={students.id}>
                         <div className="flex justify-between">
-                            <div className="flex gap-4">
+                            <div className="md:flex grid gap-4">
                                 <p>{students.date}</p>
                                 <p>{students.time}</p>
                                 <p>&#40;{students.event}&#41;</p>
@@ -157,6 +156,7 @@ const Page = () => {
                                     <p key={studentIndex}>{stud.firstName} {stud.lastName}</p>
                                 ))}
                                 <div className="flex gap-2 items-center">
+                                    <LoadingSpin loading={loading} />
                                     {student.statusIn === "present" ?
                                         <button onClick={() => handleChangeStatus(students.id, student, "absent", student.statusOut)} className="bg-white rounded-full text-green-700 p-1">
                                             <FaCheck size={14} /></button> :

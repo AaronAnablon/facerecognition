@@ -156,7 +156,7 @@ const Page = (props) => {
         <div className="">
             <div className="flex bg-green-700 px-6 text-white gap-2">
                 <h2 className="font-bold text-lg">Attdendance Details:</h2>
-                <div className="flex font-semibold text-lg gap-4 ml-4">
+                <div className="md:flex grid font-semibold text-lg gap-4 ml-4">
                     <p>{attendance?.date} {attendance?.time}</p>
                     <p>&#40;{attendance?.section}&#41;</p>
                     <p>{attendance?.event}</p>

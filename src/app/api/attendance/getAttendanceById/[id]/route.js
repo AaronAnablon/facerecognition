@@ -19,3 +19,20 @@ export const GET = async (request, { params }) => {
 }
 
 export const revalidate = 0;
+
+
+export const DELETE = async (request, { params }) => {
+    try {
+        const { id } = params;
+
+        await prisma.attendance.deleteMany({
+            where: {
+                section: id
+            }
+        });
+
+        return NextResponse.json("Post has been deleted");
+    } catch (err) {
+        return NextResponse.json({ message: "DELETE Error", err }, { status: 500 });
+    }
+};

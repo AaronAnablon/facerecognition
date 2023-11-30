@@ -93,7 +93,6 @@ const Page = () => {
                 <div className="bg-green-700 w-full text-white mx-4 py-2 rounded-lg mb-4 text-center">{teacher?.firstName} {teacher?.lastName}</div>
             </div>
             <div className="w-full flex justify-center gap-4 mb-20">
-                <LoadingSpin loading={loading} />
                 <div className="grid gap-4 w-full mx-4 mb-20">
                     {Object.keys(groupedSchedule)?.map((day, index) => (
                         <ul className="text-white bg-green-700 rounded-lg py-2 grid" key={index}>
@@ -101,6 +100,7 @@ const Page = () => {
                             {groupedSchedule[day].map((item, itemIndex) => (
                                 <li className="flex px-6 flex-wrap hover:bg-green-600 justify-between w-full my-1" key={itemIndex}>
                                     <p>{item.time} {item.section}</p>
+                                    <LoadingSpin loading={loading} />
                                     <Link className="bg-white rounded-full text-green-700 p-1" href={`Schedule/RecordAttendance?AttendanceId=${item.id}`}>
                                         <FiArrowRightCircle size={16} />
                                     </Link>

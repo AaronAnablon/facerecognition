@@ -112,7 +112,6 @@ const Page = () => {
         <>
             <Layout>
                 <div className="w-full flex justify-center gap-4 mb-20">
-                    {loading && <LoadingSpin loading={loading} />}
                     <div className="grid gap-4 w-full mx-4">
                         {Object.keys(groupedSchedule)?.map((day, index) => (
                             <ul className="px-6 text-white bg-green-700 rounded-lg py-2 grid " key={index}>
@@ -124,6 +123,7 @@ const Page = () => {
                                             {item.students.filter((student) => student.id === studentId).map((filteredStudent) => (
                                                 <div className="flex gap-4" key={filteredStudent.id}>
                                                     <div className="flex gap-2 items-center">
+                                                        <LoadingSpin loading={loading} />
                                                         {filteredStudent.status === "present" ?
                                                             <div className="bg-white h-max rounded-full text-green-700 p-1">
                                                                 <FaCheck size={14} /></div> :

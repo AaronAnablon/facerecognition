@@ -68,7 +68,6 @@ const Page = () => {
 
     return (
         <Layout>
-            {loading && <LoadingSpin loading={loading} />}
             <div className="w-full flex justify-center gap-4 mb-20">
                 <div className="grid gap-4 w-full mx-4">
                     {Object.keys(groupedSchedule)?.map((day, index) => (
@@ -76,6 +75,7 @@ const Page = () => {
                             <h2 className="text-white">{day}</h2>
                             {groupedSchedule[day].map((item, itemIndex) => (
                                 <li className="flex justify-between my-1" key={itemIndex}>
+                                    <LoadingSpin loading={loading} />
                                     <p>{item.time} &#40;{item.section}&#41; {item.event}</p>
                                 </li>
                             ))}

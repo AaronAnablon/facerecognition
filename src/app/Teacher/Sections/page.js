@@ -53,12 +53,12 @@ const Page = () => {
     return (
         <Layout>
             <div className="w-full flex justify-center gap-4 mb-20">
-                <LoadingSpin loading={loading} />
                 <div className="grid gap-4 w-full mx-4">
                     {uniqueSection?.map((item, index) => (
                         <Link key={index} href={`Sections/Section?section=${item}`}>
                             <ul className=" text-white bg-green-700 rounded-lg py-2 grid " >
                                 <li className="flex hover:bg-green-600 px-6 flex-wrap justify-between w-full my-1" >
+                                    <LoadingSpin loading={loading} />
                                     {item}
                                 </li>
                             </ul>
