@@ -42,7 +42,7 @@ const Page = (props) => {
             setLoading(false)
         } catch (error) {
             console.error('An error occurred:', error);
-            setLoading(!loading)
+            setLoading(false)
             alert("Something went wrong while updating")
         }
     };
@@ -54,6 +54,7 @@ const Page = (props) => {
             handleChangeStatusApi(ArrayOfStudentIds, status ? true : false)
         }
     }, [isOn])
+
 
     const handleIsOnChange = (value) => {
         setIsOn(value);
@@ -137,6 +138,11 @@ const Page = (props) => {
         matcher();
     }, [resultArray, faceMatcher]);
 
+    const handleChangeStatus = () => {
+        alert(`This will be saved to the "${!status ? "IN" : "OUT"}" attendance!`)
+        setStatus(!status)
+        setDetected([])
+    }
 
 
     useEffect(() => {
@@ -157,13 +163,24 @@ const Page = (props) => {
                 </div>
             </div>
             {loading && <Modal>
-                <p>Saving the recorded attendance! Please wait...</p>
+                <p className="text-center">Saving the recorded attendance for {status ? "IN" : "OUT"}! Please wait...</p>
+                <div className="flex bg-green-700 px-6 text-white gap-2">
+                    <h2 className="font-bold text-lg">Attdendance Details:</h2>
+                    <div className="flex font-semibold text-lg gap-4 ml-4">
+                        <p>{attendance?.date} {attendance?.time}</p>
+                        <p>&#40;{attendance?.section}&#41;</p>
+                        <p>{attendance?.event}</p>
+                    </div>
+                </div>
             </Modal>}
             <div className="mx-auto py-1 mb-20">
                 <div className="mb-4">
                     <div className="flex items-center bg-green-700 px-4 py-2 text-white gap-2">
-                        <h4 className="">Attendance Setting</h4>
-                        <form>
+                        <div className="grid justify-center">
+                            <h4 className="text-center">Attendance Setting</h4>
+                            {isOn && <p className="text-xs">&#40;Close this to save the recorded attendance.&#41;</p>}
+                        </div>
+                        {faceMatcher && profile && <form>
                             <div className="">
                                 <div className="flex items-center">
                                     <input
@@ -177,11 +194,11 @@ const Page = (props) => {
                                         : " (Closed)"}
                                 </div>
                             </div>
-                        </form>
+                        </form>}
                         <div className={`flex relative rounded-full h-max py-1 text-white bg-gray-200 border-2 border-gray-400 w-24 ${status ? "justify-start" : "justify-end"}`}>
                             <div className="absolute text-green-700 left-4">IN</div>
                             <button className={`bg-green-700 w-11 mx-1 px-1 rounded-full z-10`}
-                                onClick={() => setStatus(!status)}>{status ? "IN" : "OUT"}</button>
+                                onClick={handleChangeStatus}>{status ? "IN" : "OUT"}</button>
                             <div className="absolute text-green-700 right-2">OUT</div>
                         </div>
                     </div>
@@ -202,7 +219,7 @@ const Page = (props) => {
                             )}
                     </div>
                     <div className="col-span-8 block md:hidden">
-                        <TrxDashBoard {...props} present={detected} participants={profile} />
+                        <TrxDashBoard {...props} status={status} present={detected} participants={profile} />
                     </div>
                 </div>
             </div>

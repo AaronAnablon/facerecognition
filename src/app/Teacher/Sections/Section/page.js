@@ -137,7 +137,7 @@ const Page = () => {
             </div>
             <div className="w-full grid gap-4 mb-20">
                 {filteredData.map((students) => (
-                    <div className="bg-green-700 hover:bg-green-500 mx-4 px-4 py-2 grid gap-1 rounded-lg text-white" key={students.id}>
+                    <div className="bg-green-700 mx-4 px-4 py-2 grid gap-1 rounded-lg text-white" key={students.id}>
                         <div className="flex justify-between">
                             <div className="flex gap-4">
                                 <p>{students.date}</p>
@@ -151,7 +151,7 @@ const Page = () => {
                             </div>
                         </div>
                         {students.students.map((student, index) => (
-                            <div key={index} className="flex ml-4 justify-between">
+                            <div key={index} className="flex ml-4 hover:bg-green-500 px-6 justify-between">
                                 {/* <p>{student.id}</p> */}
                                 {(studentProfile?.filter((studentes) => studentes.id === student.id)).map((stud, studentIndex) => (
                                     <p key={studentIndex}>{stud.firstName} {stud.lastName}</p>

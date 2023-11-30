@@ -28,7 +28,6 @@ const ProcessFaceRecognition = (props) => {
     const [loadingMessageError, setLoadingMessageError] = useState("");
     const [fullDesc, setFullDesc] = useState(null);
     const [waitText, setWaitText] = useState("");
-    const [present, setPresent] = useState([]);
 
     useEffect(() => {
         async function loadingtheModel() {
@@ -93,7 +92,6 @@ const ProcessFaceRecognition = (props) => {
                             const bestMatch = faceMatcher.findBestMatch(desc.descriptor);
 
                             if (bestMatch._label != "unknown") {
-                                setPresent(prevPresent => [...prevPresent, bestMatch._label]);
                                 setDetected(prevPresent => [...prevPresent, bestMatch._label]);
                             }
                         }
