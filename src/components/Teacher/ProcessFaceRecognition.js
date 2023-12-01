@@ -11,7 +11,7 @@ import { drawRectAndLabelFace } from "@/utils/drawRectAndLabelFace";
 import ModelLoading from "@/utils/ModelLoading";
 import ModelLoadStatus from "@/utils/ModelLoadStatus";
 import { DEFAULT_WEBCAM_RESOLUTION, inputSize, webcamResolutionType } from "@/globalData";
-import TrxDashboard from "./TrxDashboard";
+
 
 
 const ProcessFaceRecognition = (props) => {
@@ -45,14 +45,17 @@ const ProcessFaceRecognition = (props) => {
         loadingtheModel();
     }, [isAllModelLoaded]);
 
+
     useEffect(() => {
         navigator.mediaDevices.enumerateDevices().then(async (devices) => {
-            let inputDevice = await devices.filter(
-                (device) => device.kind === "videoinput"
-            );
-            setInputDevices({ ...inputDevices, inputDevice });
+            let inputDevice = await devices
+                .filter((device) => device.kind === "videoinput")
+                .map(({ deviceId, label }) => ({ deviceId, label }));
+            setInputDevices(inputDevice);
         });
     }, []);
+
+
     useEffect(() => {
         function capture() {
             if (
@@ -180,9 +183,9 @@ const ProcessFaceRecognition = (props) => {
                             <select
                                 defaultValue="Select Webcam"
                                 className="p-2 border border-gray-300 rounded-md"
-                                onChange={handleSelectWebcam}
+                                onChange={(e) => handleSelectWebcam(e.target.value)}
                             >
-                                {inputDevices?.inputDevice?.map((device) => (
+                                {inputDevices?.map((device) => (
                                     <option key={device.deviceId} value={device.deviceId}>
                                         {device.label}
                                     </option>
