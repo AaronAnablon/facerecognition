@@ -98,8 +98,9 @@ const SelectImage = ({ handleGetStudent, setUploadLetter, uploadLetter, id, stud
                                 {/* <label className="text-center absolute top-4 right-4" htmlFor="inputFile">CHOOSE IMAGE</label> */}
                             </div>
                             <button type="submit"
+                                disabled={loading}
                                 className={`bg-green-700 w-40 h-max rounded-lg`}>
-                                {loading ? <LoadingSpin /> : "UPLOAD"}</button>
+                                {loading ? <LoadingSpin loading={loading} /> : "UPLOAD"}</button>
                         </div>
                     </form>
                 </div>

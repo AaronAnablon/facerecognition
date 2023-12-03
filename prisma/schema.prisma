@@ -8,19 +8,21 @@ datasource db {
 }
 
 model People {
-    id          String   @id @default(auto()) @map("_id") @db.ObjectId
-    firstName   String
-    lastName    String
-    email       String
-    homeAddress String?
-    age         String?
-    contact     String?
-    section     String?
-    adviser     String?
-    password    String
-    role        Int
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
+    id              String   @id @default(auto()) @map("_id") @db.ObjectId
+    firstName       String
+    lastName        String
+    email           String
+    homeAddress     String?
+    age             String?
+    contact         String?
+    section         String?
+    adviser         String?
+    profile         String?
+    profilePublicId String?
+    password        String
+    role            Int
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
 }
 
 model Facephotos {
@@ -56,9 +58,3 @@ model Status {
     createdAt      DateTime @default(now())
     updatedAt      DateTime @updatedAt
 }
-
-// This is the Json for students
-// id: student.id || "",
-// status: student.id || "",
-// letterUrl: student.id || "",
-// letterPublicId: student.id || "",

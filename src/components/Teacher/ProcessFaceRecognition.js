@@ -164,10 +164,10 @@ const ProcessFaceRecognition = (props) => {
                                 />
                             </div>
                         </>
-                        <div className="mt-4 flex">
+                        <div className="mt-4 flex items-center border border-gray-300 rounded-md my-1 justify-between">
                             <label className="block text-sm font-semibold mb-2">Webcam Size:</label>
                             <select
-                                className="p-2 border border-gray-300 rounded-md"
+                                className="p-2 "
                                 defaultValue={DEFAULT_WEBCAM_RESOLUTION.label}
                                 onChange={(e) => handleWebcamResolution(e.target.value)}
                             >
@@ -178,11 +178,12 @@ const ProcessFaceRecognition = (props) => {
                                 ))}
                             </select>
                         </div>
-                        {inputDevices && <div className="mb-4 flex">
+                        {inputDevices && 
+                        <div className="mb-4 flex items-center border border-gray-300 rounded-md my-1 justify-between">
                             <label className="block text-sm font-semibold mb-2">Webcam:</label>
                             <select
                                 defaultValue="Select Webcam"
-                                className="p-2 border border-gray-300 rounded-md"
+                                className="p-2"
                                 onChange={(e) => handleSelectWebcam(e.target.value)}
                             >
                                 {inputDevices?.map((device) => (

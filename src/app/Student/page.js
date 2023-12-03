@@ -6,14 +6,20 @@ import { FcDataProtection } from "react-icons/fc";
 import { useAccount } from "../contextProvider/AccountProvider";
 import Layout from "./Layout";
 import useConfirmation from "@/utils/ConfirmationHook";
-import { url } from "@/utils/api";
 import { FaHome } from "react-icons/fa";
 import { IoCallOutline } from "react-icons/io5";
 import { FaPeopleLine } from "react-icons/fa6";
 import { GiTeacher } from "react-icons/gi";
 import { CgTime } from "react-icons/cg";
+import UploadProfile from "@/components/UploadProfile";
+import { useEffect, useState } from "react";
+import { url, headers } from "@/utils/api";
+import axios from "axios";
+import Image from "next/image";
 
 const Page = () => {
+    const [uploadProfile, setUploadProfile] = useState(false)
+    const [account, setAccount] = useState()
     const profile = useAccount();
     const { showConfirmation, ConfirmationDialog } = useConfirmation();
     const handleSignOut = (e) => {
@@ -25,14 +31,52 @@ const Page = () => {
             signOut({ callbackUrl: `${url}/` })
         });
     };
+
+    const handleGetStudent = async () => {
+        try {
+            const response = await axios.get(`${url}/api/people/${profile?.id}`, { headers });
+            setAccount(response.data)
+        } catch (err) {
+            alert("Something went wrong!")
+            console.log(err);
+        }
+    }
+
+
+    useEffect(() => {
+        profile?.id && handleGetStudent()
+    }, [profile])
+
     return (
         <div className="text-green-700 w-screen relative h-screen">
             <div className="flex items-center gap-2 mb-4 pl-4 border-b-2 border-green-700">
-                <div className="rounded-full m-4 border-4 border-green-700 text-white bg-green-700">
-                    <BsPersonCircle size={44} />
-                </div>
+                <button className="rounded-full m-4 border-4 border-green-700 text-white bg-green-700"
+                    onClick={() => setUploadProfile(!uploadProfile)}>
+                    {account ?
+                        account?.profile ?
+                            <div className="w-12 h-12 rounded-full object-fill bg-green-700 overflow-hidden border-4 border-white">
+                                <Image
+                                    src={account?.profile}
+                                    alt="profile"
+                                    width={44}
+                                    height={44}
+                                    className="object-fill rounded-full"
+                                />
+                            </div>
+                            :
+                            <BsPersonCircle size={44} />
+                        :
+                        <BsPersonCircle size={44} />
+                    }
+                </button>
                 {profile?.firstName} {profile?.lastName} &#40;Student&#41;
             </div>
+            {uploadProfile && profile && account &&
+                <UploadProfile
+                    handleGetStudent={handleGetStudent}
+                    setUploadProfile={setUploadProfile}
+                    uploadProfile={uploadProfile}
+                    account={account} />}
             <ConfirmationDialog />
             <p className="ml-4">Student&#39;s Information</p>
             <Layout />
