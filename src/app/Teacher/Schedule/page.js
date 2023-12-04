@@ -103,7 +103,7 @@ const Page = () => {
                             <h2 className="px-6 text-white">{day}</h2>
                             {groupedSchedule[day].map((item, itemIndex) => (
                                 <li className="flex px-6 flex-wrap hover:bg-green-600 justify-between w-full my-1" key={itemIndex}>
-                                    <p>{item.time} {item.section}</p>
+                                    <p>{item.time} {item.section} &#40;{item.event}&#41;</p>
                                     <Link className="bg-white rounded-full text-green-700 p-1" href={`Schedule/RecordAttendance?AttendanceId=${item.id}`}>
                                         <FiArrowRightCircle size={16} />
                                     </Link>
