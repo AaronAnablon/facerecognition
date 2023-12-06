@@ -73,10 +73,9 @@ const Page = () => {
         }
     }, [profile]);
 
-    const filterDataByDate = (date) => {
-        const filteredData = section?.filter((item) => item.date === date);
-        return filteredData;
-    };
+
+
+    const [selectedDate, setSelectedDate] = useState()
 
     const handleDateChange = (event) => {
         const date = new Date(event.target.value).toLocaleDateString("en-US", {
@@ -85,9 +84,21 @@ const Page = () => {
             month: "long",
             day: "numeric",
         });
-        const filterData = filterDataByDate(date);
-        setFilteredData(filterData || []);
+        setSelectedDate(date)
     };
+
+    const filterDataByDate = (date) => {
+        const filteredData = section?.filter((item) =>
+            item.date === date
+            && item.section === sectionName);
+        return filteredData;
+    };
+
+
+    useEffect(() => {
+        const filterData = filterDataByDate(selectedDate);
+        setFilteredData(filterData || []);
+    }, [selectedDate, section]);
 
 
     const handleChangeStatus = (id, studentId, statusIn, statusOut,) => {
@@ -108,10 +119,10 @@ const Page = () => {
             const response = await
                 axios.put(`${url}/api/attendance/updateStatusOfStudent/${id}`,
                     { studentId, statusIn, statusOut, letterUrl, letterPublicId }, headers);
-            handleGetData();
-            handleGetStudents();
             setLoading(false)
             alert(`Successfully updated the status!`)
+            handleGetData();
+            handleGetStudents();
         } catch (error) {
             setLoading(false)
             console.error('An error occurred:', error);
@@ -146,7 +157,7 @@ const Page = () => {
                                 <p>{students.time}</p>
                                 <p>&#40;{students.event}&#41;</p>
                             </div>
-                            <div className="flex gap-3">
+                            <div className="flex gap-3 mr-7">
                                 <p>In</p>
                                 <p>Out</p>
                                 <p><SlEnvolopeLetter /></p>
@@ -154,7 +165,6 @@ const Page = () => {
                         </div>
                         {students.students.map((student, index) => (
                             <div key={index} className="flex ml-4 hover:bg-green-500 px-6 justify-between">
-                                {/* <p>{student.id}</p> */}
                                 {(studentProfile?.filter((studentes) => studentes.id === student.id)).map((stud, studentIndex) => (
                                     <p key={studentIndex}>{stud.firstName} {stud.lastName}</p>
                                 ))}

@@ -144,13 +144,10 @@ const Page = (props) => {
         alert(`This will be saved to the "${!status ? "IN" : "OUT"}" attendance!`)
     }
 
-
     useEffect(() => {
         handleGetAttendance()
         handleGetFaceData()
     }, [])
-
-
 
     return (
         <div className="">
@@ -175,32 +172,35 @@ const Page = (props) => {
             </Modal>}
             <div className="mx-auto py-1 mb-20">
                 <div className="mb-4">
-                    <div className="flex items-center bg-green-700 px-4 py-2 text-white gap-2">
-                        <div className="grid justify-center">
-                            <h4 className="text-center">Attendance Setting</h4>
-                            {isOn && <p className="text-xs">&#40;Close this to save the recorded attendance.&#41;</p>}
-                        </div>
-                        {faceMatcher && profile && <form>
-                            <div className="">
-                                <div className="flex items-center">
-                                    <input
-                                        type="checkbox"
-                                        onChange={(e) => handleIsOnChange(e.target.checked)}
-                                        checked={isOn}
-                                        className="mr-2"
-                                    />
-                                    {isOn
-                                        ? " (Open)"
-                                        : " (Closed)"}
-                                </div>
+                    <div className="flex justify-between items-center bg-green-700 px-4 py-2 text-white gap-2">
+                        <div className="flex gap-3 items-center">
+                            <div className="grid justify-center">
+                                <h4 className="text-center">Attendance Setting</h4>
+                                {isOn &&
+                                    <p className="text-xs">&#40;Close this to save the recorded attendance.&#41;</p>}
                             </div>
-                        </form>}
+                            {faceMatcher && profile &&
+                                <form>
+                                    <div className="flex items-center">
+                                        <input
+                                            type="checkbox"
+                                            onChange={(e) => handleIsOnChange(e.target.checked)}
+                                            checked={isOn}
+                                            className="mr-2"
+                                        />
+                                        {isOn
+                                            ? " (Open)"
+                                            : " (Closed)"}
+                                    </div>
+                                </form>}
+                        </div>
                         <div className={`flex relative rounded-full h-max py-1 text-white bg-gray-200 border-2 border-gray-400 w-24 ${status ? "justify-start" : "justify-end"}`}>
                             <div className="absolute text-green-700 left-4">IN</div>
                             <button className={`bg-green-700 w-11 mx-1 px-1 rounded-full z-10`}
                                 onClick={handleChangeStatus}>{status ? "IN" : "OUT"}</button>
                             <div className="absolute text-green-700 right-2">OUT</div>
                         </div>
+                        <p>Code: {attendance?.id}</p>
                     </div>
                 </div>
                 <div className="grid grid-cols-8">
