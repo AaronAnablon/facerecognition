@@ -1,19 +1,21 @@
-import prisma from "@/utils/prismadb"
+import prisma from "@/utils/prismadb";
 import { NextResponse } from "next/server";
-
 
 export const PUT = async (request, { params }) => {
     try {
         const { id } = params;
         const body = await request.json();
-        const { idToCopy } = body;
+        const { code } = body;
 
-        const attendanceData = await prisma.attendance.findUnique({
+        const attendanceData = await prisma.attendance.findFirst({
             where: {
-                id: idToCopy
+                code: parseInt(code, 10)
             }
         });
 
+        if (!attendanceData) {
+            return NextResponse.json({ message: "Attendance record not found" }, { status: 404 });
+        }
 
         const updatedRecord = await prisma.attendance.update({
             where: {

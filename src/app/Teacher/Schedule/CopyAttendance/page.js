@@ -116,7 +116,7 @@ const Page = () => {
         setLoading(true)
         try {
             await axios.put(`${url}/api/attendance/copyAttendance/${attendanceId}`,
-                { idToCopy }, headers);
+                { code: idToCopy }, headers);
             setLoading(false)
             alert(`Successfully copied the attendance!`)
             handleGetData();

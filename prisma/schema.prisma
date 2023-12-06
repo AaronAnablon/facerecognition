@@ -42,6 +42,7 @@ model Attendance {
     time      String
     teacher   String
     event     String
+    code      Int?
     section   String
     students  Json?
     createdAt DateTime @default(now())

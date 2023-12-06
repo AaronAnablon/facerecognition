@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
 import { url, headers } from "@/utils/api";
@@ -9,7 +9,6 @@ import ProcessFaceRecognition from "@/components/Teacher/ProcessFaceRecognition"
 import { useSearchParams } from "next/navigation";
 import TrxDashBoard from "@/components/Teacher/TrxDashboard";
 import Modal from "@/utils/Modal";
-import { useSession } from "next-auth/react";
 
 const Page = (props) => {
     const [isOn, setIsOn] = useState(true);
@@ -22,7 +21,6 @@ const Page = (props) => {
     const router = useRouter()
     const [status, setStatus] = useState(true)
     const [loading, setLoading] = useState(false)
-    const { data: session } = useSession()
 
     useEffect(() => {
         setActive(currentPathname)
@@ -54,6 +52,7 @@ const Page = (props) => {
             handleChangeStatusApi(ArrayOfStudentIds, status ? true : false)
         }
     }, [isOn])
+
 
 
     const handleIsOnChange = (value) => {
@@ -98,7 +97,7 @@ const Page = (props) => {
             console.log(err);
         }
     };
-    const filteredFacePhotos = faceData && faceData.filter((facePhotos) => (
+    const filteredFacePhotos = faceData && faceData?.filter((facePhotos) => (
         attendance?.students?.map((student) => student.id).includes(facePhotos.owner)
     ))
 
@@ -148,7 +147,6 @@ const Page = (props) => {
         handleGetAttendance()
         handleGetFaceData()
     }, [])
-
     return (
         <div className="">
             <div className="flex bg-green-700 px-6 text-white gap-2">
@@ -200,7 +198,7 @@ const Page = (props) => {
                                 onClick={handleChangeStatus}>{status ? "IN" : "OUT"}</button>
                             <div className="absolute text-green-700 right-2">OUT</div>
                         </div>
-                        <p>Code: {attendance?.id}</p>
+                        <p>Code: {attendance?.code}</p>
                     </div>
                 </div>
                 <div className="grid grid-cols-8">

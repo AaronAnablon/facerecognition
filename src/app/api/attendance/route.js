@@ -1,11 +1,26 @@
 import prisma from "@/utils/prismadb"
 import { NextResponse } from "next/server"
-import bcrypt from 'bcrypt';
 
 export const POST = async (request) => {
+    let fiveDigitNumber;
+    let isCodeUnique = false;
+
+    do {
+        fiveDigitNumber = Math.floor(10000 + Math.random() * 90000);
+
+        const findCode = await prisma.attendance.findFirst({
+            where: {
+                code: fiveDigitNumber
+            }
+        });
+
+        isCodeUnique = !findCode;
+    } while (!isCodeUnique);
+
     try {
         const body = await request.json();
         const { isOn, date, time, teacher, event, section, students } = body;
+
         const newPost = await prisma.attendance.create({
             data: {
                 isOn,
@@ -13,18 +28,19 @@ export const POST = async (request) => {
                 time,
                 teacher,
                 event,
+                code: fiveDigitNumber,
                 section,
                 students
             },
-        })
-        return NextResponse.json({ message: "Registered", newPost })
-
+        });
+        return NextResponse.json({ message: "Registered", newPost });
 
     } catch (error) {
         console.error(error);
         return NextResponse.json({ message: "POST Error", error }, { status: 500 });
     }
 };
+
 
 
 

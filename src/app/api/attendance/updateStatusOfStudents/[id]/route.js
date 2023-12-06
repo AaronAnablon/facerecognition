@@ -7,7 +7,7 @@ export const PUT = async (request, { params }) => {
         const { id } = params;
         const body = await request.json();
         const { studentIds, status } = body;
-
+    
         const findJson = await prisma.attendance.findUnique({
             where: {
                 id,
