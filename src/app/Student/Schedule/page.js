@@ -10,6 +10,7 @@ import { url, headers } from "@/utils/api";
 import { useAccount } from "@/app/contextProvider/AccountProvider";
 import Link from "next/link";
 import Modal from "@/utils/Modal";
+import useMessageHook from "@/utils/MessageHook";
 
 const Page = () => {
     const profile = useAccount()
@@ -17,6 +18,7 @@ const Page = () => {
     const [loading, setLoading] = useState(false)
     const currentPathname = usePathname()
     const [active, setActive] = useState()
+    const { showMessage, Message } = useMessageHook();
 
     useEffect(() => {
         setActive(currentPathname)
@@ -36,9 +38,9 @@ const Page = () => {
             setSchedule(response.data)
             setLoading(false)
         } catch (err) {
-            alert("Something went wrong!")
-            console.log(err);
             setLoading(false)
+            showMessage("Something went wrong!")
+            console.log(err);
         }
     }
 
@@ -68,6 +70,7 @@ const Page = () => {
 
     return (
         <Layout>
+            <Message />
             <div className="w-full flex justify-center gap-4 mb-20">
                 {loading && <Modal>
                     <LoadingSpin loading={loading} />

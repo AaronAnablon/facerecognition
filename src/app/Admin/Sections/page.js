@@ -7,8 +7,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { LoadingSpin } from "@/utils/LoadingSpin";
 import { url, headers } from "@/utils/api";
-import { useSearchParams } from "next/navigation";
-import { useSession } from 'next-auth/react';
+import useMessageHook from "@/utils/MessageHook";
 import Link from "next/link";
 import Modal from "@/utils/Modal";
 
@@ -17,7 +16,8 @@ const Page = () => {
     const [loading, setLoading] = useState(false)
     const currentPathname = usePathname()
     const [active, setActive] = useState()
-    const { data: session } = useSession();
+    const { showMessage, Message } = useMessageHook();
+
 
     useEffect(() => {
         setActive(currentPathname)
@@ -36,9 +36,9 @@ const Page = () => {
             setSection(response.data)
             setLoading(false)
         } catch (err) {
-            alert("Something went wrong!")
-            console.log(err);
             setLoading(false)
+            showMessage("Something went wrong!")
+            console.log(err);
         }
     }
 
@@ -50,6 +50,7 @@ const Page = () => {
 
     return (
         <Layout>
+            <Message />
             <div className="w-full flex justify-center gap-4 mb-20">
                 {loading && <Modal>
                     <LoadingSpin loading={loading} />

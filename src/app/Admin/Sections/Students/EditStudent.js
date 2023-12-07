@@ -5,13 +5,14 @@ import axios from "axios";
 import { LoadingSpin } from "@/utils/LoadingSpin";
 import { url, headers } from "@/utils/api";
 import Link from "next/link";
+import useMessageHook from "@/utils/MessageHook";
 
 const EditStudent = ({ setEdit, edit, student, handleGetData }) => {
     const [notPassword, setNotPassword] = useState()
     const [teachers, setTeachers] = useState()
     const [changePass, setChangePass] = useState()
     const [uploading, setUploading] = useState()
-    const [uploadPhoto, setUploadPhoto] = useState(false)
+    const { showMessage, Message } = useMessageHook();
     const [data, setData] = useState({
         firstName: student.firstName,
         lastName: student.lastName,
@@ -48,13 +49,13 @@ const EditStudent = ({ setEdit, edit, student, handleGetData }) => {
             const response = await
                 axios.put(`${url}/api/people/${student.id}`,
                     { data }, headers);
-            alert("Successfully updated!")
+            showMessage("Successfully updated!")
             setEdit(!edit)
             setUploading(false)
             handleGetData()
         } catch (error) {
             setUploading(false)
-            alert("Something went wrong while updating")
+            showMessage("Something went wrong while updating")
             console.error('An error occurred:', error);
         }
     };
@@ -65,7 +66,7 @@ const EditStudent = ({ setEdit, edit, student, handleGetData }) => {
             const response = await axios.get(`${url}/api/people/getTeachers`, { headers });
             setTeachers(response.data)
         } catch (err) {
-            alert("Something went wrong while fetching teachers!")
+            showMessage("Something went wrong while fetching teachers!")
             console.log(err);
         }
     }
@@ -77,6 +78,7 @@ const EditStudent = ({ setEdit, edit, student, handleGetData }) => {
     return (
         <>
             <Modal>
+                <Message />
                 <div>
                     <form onSubmit={handleSubmit} className="grid px-8 bg-white rounded-xl text-green-700 py-6 border-2 border-green-700 gap-4">
                         <div className="grid gap-4 grid-cols-2">

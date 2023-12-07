@@ -15,7 +15,7 @@ import { IoMdCloseCircle } from "react-icons/io";
 import SelectImage from "@/components/SelectImage";
 import { FcDataProtection } from "react-icons/fc";
 import { SlEnvolopeLetter } from "react-icons/sl";
-import Link from "next/link";
+import useMessageHook from "@/utils/MessageHook";
 
 const Page = () => {
     const { showConfirmation, ConfirmationDialog } = useConfirmation();
@@ -26,7 +26,7 @@ const Page = () => {
     const currentPathname = usePathname();
     const [active, setActive] = useState();
     const [viewLetter, setViewLetter] = useState();
-    const [uploadLetter, setUploadLetter] = useState(false);
+    const { showMessage, Message } = useMessageHook();
     const profile = useAccount();
 
     const searchParams = useSearchParams();
@@ -47,7 +47,7 @@ const Page = () => {
             const response = await axios.get(`${url}/api/people/getStudents/${sectionName}`, headers);
             setStudentProfile(response.data)
         } catch (err) {
-            alert("Something went wrong!")
+            showMessage("Something went wrong!")
             console.log(err);
         }
     }
@@ -59,9 +59,9 @@ const Page = () => {
             setSection(response?.data);
             setLoading(false);
         } catch (err) {
-            alert("Something went wrong!");
-            console.log(err);
             setLoading(false);
+            showMessage("Something went wrong!");
+            console.log(err);
         }
     };
 
@@ -120,19 +120,20 @@ const Page = () => {
                 axios.put(`${url}/api/attendance/updateStatusOfStudent/${id}`,
                     { studentId, statusIn, statusOut, letterUrl, letterPublicId }, headers);
             setLoading(false)
-            alert(`Successfully updated the status!`)
+            showMessage(`Successfully updated the status!`)
             handleGetData();
             handleGetStudents();
         } catch (error) {
             setLoading(false)
             console.error('An error occurred:', error);
-            alert("Something went wrong while updating")
+            showMessage("Something went wrong while updating")
         }
     };
 
     return (
         <>
             <ConfirmationDialog />
+            <Message />
             {loading && <Modal>
                 <LoadingSpin loading={loading} />
             </Modal>}

@@ -12,8 +12,10 @@ import { useEffect, useState } from "react";
 import UploadProfile from "@/components/UploadProfile";
 import Image from "next/image";
 import axios from "axios";
+import useMessageHook from "@/utils/MessageHook";
 
 const Page = () => {
+    const { showMessage, Message } = useMessageHook();
     const [uploadProfile, setUploadProfile] = useState(false)
     const [account, setAccount] = useState()
     const profile = useAccount();
@@ -33,7 +35,7 @@ const Page = () => {
             const response = await axios.get(`${url}/api/people/${profile?.id}`, { headers });
             setAccount(response.data)
         } catch (err) {
-            alert("Something went wrong!")
+            showMessage("Something went wrong!")
             console.log(err);
         }
     }
@@ -44,6 +46,7 @@ const Page = () => {
     }, [profile])
     return (
         <div className="text-green-700 w-screen relative h-screen">
+            <Message />
             <div className="flex items-center gap-2 mb-4 pl-4 border-b-2 border-green-700">
                 <button className="rounded-full m-4 border-4 border-green-700 text-white bg-green-700"
                     onClick={() => setUploadProfile(!uploadProfile)}>

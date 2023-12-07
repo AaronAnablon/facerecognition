@@ -13,10 +13,12 @@ import Modal from "@/utils/Modal";
 import { IoMdCloseCircle } from "react-icons/io";
 import { FcDataProtection } from "react-icons/fc";
 import { SlEnvolopeLetter } from "react-icons/sl";
+import useMessageHook from "@/utils/MessageHook";
 
 
 const Page = () => {
     const { showConfirmation, ConfirmationDialog } = useConfirmation();
+    const { showMessage, Message } = useMessageHook();
     const [section, setSection] = useState();
     const [studentProfile, setStudentProfile] = useState();
     const [loading, setLoading] = useState(false);
@@ -43,7 +45,7 @@ const Page = () => {
             const response = await axios.get(`${url}/api/people/getStudents/${sectionName}`, headers);
             setStudentProfile(response.data)
         } catch (err) {
-            alert("Something went wrong!")
+            showMessage("Something went wrong!")
             console.log(err);
         }
     }
@@ -56,7 +58,7 @@ const Page = () => {
             setLoading(false);
         } catch (err) {
             setLoading(false);
-            alert("Something went wrong!");
+            showMessage("Something went wrong!");
             console.log(err);
         }
     };
@@ -91,12 +93,12 @@ const Page = () => {
             await axios.put(`${url}/api/attendance/updateStatusOfStudent/${id}`,
                 { studentId, statusIn, statusOut, letterUrl, letterPublicId }, headers);
             setLoading(false)
-            alert(`Successfully updated the status!`)
+            showMessage(`Successfully updated the status!`)
             handleGetData();
         } catch (error) {
             setLoading(false)
             console.error('An error occurred:', error);
-            alert("Something went wrong while updating")
+            showMessage("Something went wrong while updating")
         }
     };
 
@@ -104,12 +106,13 @@ const Page = () => {
 
     const handleCopyAttendance = (e) => {
         e.preventDefault()
-        showConfirmation(<div className='grid justify-center gap-4'>
-            <div className='bg-green-700 flex items-center text-white gap-4 rounded-t-lg w-full'><FcDataProtection size={32} />Edit Attendance</div>
-            <p className='text-xl p-6'>Are you sure you want to copy the attendance from the the code entered?</p>
-        </div>, () => {
-            handleCopyAttendanceApi()
-        });
+        showConfirmation(
+            <div className='grid justify-center gap-4'>
+                <div className='bg-green-700 flex items-center text-white gap-4 rounded-t-lg w-full'><FcDataProtection size={32} />Edit Attendance</div>
+                <p className='text-xl p-6'>Are you sure you want to copy the attendance from the the code entered?</p>
+            </div>, () => {
+                handleCopyAttendanceApi()
+            });
     };
 
     const handleCopyAttendanceApi = async () => {
@@ -118,18 +121,19 @@ const Page = () => {
             await axios.put(`${url}/api/attendance/copyAttendance/${attendanceId}`,
                 { code: idToCopy, section: section?.section }, headers);
             setLoading(false)
-            alert(`Successfully copied the attendance!`)
+            showMessage(`Successfully copied the attendance!`)
             handleGetData();
         } catch (error) {
             setLoading(false)
             console.error('An error occurred:', error);
-            alert(error.response.data.message)
+            showMessage(error.response.data.message)
         }
     };
 
     return (
         <>
             <ConfirmationDialog />
+            <Message />
             {loading && <Modal>
                 <LoadingSpin loading={loading} />
             </Modal>}

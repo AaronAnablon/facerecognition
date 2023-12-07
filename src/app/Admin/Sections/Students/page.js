@@ -7,8 +7,7 @@ import axios from "axios";
 import { LoadingSpin } from "@/utils/LoadingSpin";
 import { url, headers } from "@/utils/api";
 import { useSearchParams } from "next/navigation";
-import { useSession } from 'next-auth/react';
-import { NoRecord } from "@/utils/NoRecord";
+import useMessageHook from "@/utils/MessageHook";
 import AddStudent from "./AddStudent";
 import { FaClipboardList, FaEdit } from "react-icons/fa";
 import { RiDeleteBin5Line } from "react-icons/ri";
@@ -19,6 +18,7 @@ import useConfirmation from "@/utils/ConfirmationHook";
 import Modal from "@/utils/Modal";
 
 const Page = () => {
+    const { showMessagesage, Message } = useMessageHook();
     const [add, setAdd] = useState(false)
     const [edit, setEdit] = useState(false)
     const [clickedStudent, setClickedStudent] = useState()
@@ -26,7 +26,6 @@ const Page = () => {
     const [loading, setLoading] = useState(false)
     const currentPathname = usePathname()
     const [active, setActive] = useState()
-    const { data: session } = useSession();
     const { showConfirmation, ConfirmationDialog } = useConfirmation();
 
     const searchParams = useSearchParams()
@@ -49,9 +48,9 @@ const Page = () => {
             setAttendance(response?.data)
             setLoading(false)
         } catch (err) {
-            alert("Something went wrong!")
-            console.log(err);
             setLoading(false)
+            showMessage("Something went wrong!")
+            console.log(err);
         }
     }
 
@@ -71,7 +70,7 @@ const Page = () => {
                     { studentId: id }, headers);
         } catch (error) {
             console.error('An error occurred:', error);
-            alert("Something went wrong in attendance")
+            showMessage("Something went wrong in attendance")
         }
     };
 
@@ -79,14 +78,14 @@ const Page = () => {
         setLoading(true)
         try {
             await axios.delete(`${url}/api/people/${id}`, { headers });
+            setLoading(false)
             handleGetData()
-            alert("Succesfully Deleted!")
+            showMessage("Succesfully Deleted!")
             handleRemoveStudent(id)
-            setLoading(false)
         } catch (err) {
-            alert("Something went wrong!")
-            console.log(err);
             setLoading(false)
+            showMessage("Something went wrong!")
+            console.log(err);
         }
     }
 
@@ -94,14 +93,15 @@ const Page = () => {
         setLoading(true)
         try {
             await axios.put(`${url}/api/people/removeStudentFromStudents/${id}`, { headers });
+            setLoading(false)
             handleGetData()
-            alert("Succesfully Deleted!")
+            showMessage("Succesfully Deleted!")
             handleRemoveStudent(id)
-            setLoading(false)
         } catch (err) {
-            alert("Something went wrong!")
-            console.log(err);
             setLoading(false)
+            showMessage("Something went wrong!")
+            console.log(err);
+
         }
     }
 
@@ -118,6 +118,7 @@ const Page = () => {
     return (
         <>
             <ConfirmationDialog />
+            <Message />
             <div className="border-b-2 w-full border-green-700">
                 <p className="my-2 text-green-700 text-lg ml-4">{sectionName}</p>
             </div>

@@ -13,15 +13,14 @@ import { url, headers } from "@/utils/api";
 import axios from "axios";
 import Image from "next/image";
 import UploadProfile from "@/components/UploadProfile";
-
+import useMessageHook from "@/utils/MessageHook";
 
 const Layout = ({ children }) => {
     const { data: session } = useSession();
-
+    const { showMessage, Message } = useMessageHook();
     const [uploadProfile, setUploadProfile] = useState(false)
     const [account, setAccount] = useState()
     const profile = useAccount();
-
     const currentPathname = usePathname()
     const [active, setActive] = useState()
     useEffect(() => {
@@ -33,7 +32,7 @@ const Layout = ({ children }) => {
             const response = await axios.get(`${url}/api/people/${profile?.id}`, { headers });
             setAccount(response.data)
         } catch (err) {
-            alert("Something went wrong!")
+            showMessage("Something went wrong!")
             console.log(err);
         }
     }
@@ -45,6 +44,7 @@ const Layout = ({ children }) => {
     return (
         // <TeacherRoute>
         <div className="w-full">
+            <Message />
             <div className={`my-4 w-full flex justify-center ${active !== "/Teacher" && "border-b-2 border-green-700"}`}>
                 <div className={`flex justify-between my-1 items-center mx-4 ${active === "/Teacher" ? "grid gap-2 w-full" : "w-full"} `}>
                     {active !== "/Teacher" &&

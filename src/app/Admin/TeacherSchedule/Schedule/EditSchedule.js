@@ -4,10 +4,11 @@ import Modal from "@/utils/Modal";
 import axios from "axios";
 import { LoadingSpin } from "@/utils/LoadingSpin";
 import { url, headers } from "@/utils/api";
+import useMessageHook from "@/utils/MessageHook";
 
 
 const EditSchedule = ({ setEdit, edit, attendance, handleGetData }) => {
-
+    const { showMessage, Message } = useMessageHook();
     const [date, setDate] = useState()
     const [toTime, setToTime] = useState()
     const [fromTime, setFromTime] = useState()
@@ -66,13 +67,13 @@ const EditSchedule = ({ setEdit, edit, attendance, handleGetData }) => {
             const response = await
                 axios.put(`${url}/api/attendance/${attendance.id}`,
                     { data }, headers);
-            alert("Successfully updated!")
+            showMessage("Successfully updated!")
             setEdit(!edit)
             setUploading(false)
             handleGetData()
         } catch (error) {
             setUploading(false)
-            alert("Something went wrong while updating")
+            showMessage("Something went wrong while updating")
             console.error('An error occurred:', error);
         }
     };
@@ -83,6 +84,7 @@ const EditSchedule = ({ setEdit, edit, attendance, handleGetData }) => {
     return (
         <>
             <Modal>
+                <Message />
                 <div>
                     <form onSubmit={handleSubmit} className="grid px-8 bg-white rounded-xl text-green-700 py-6 border-2 border-green-700 gap-4">
                         <div className="grid">

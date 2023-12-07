@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getFullFaceDescription } from "../../app/faceUtil";
 import { inputSize } from "@/globalData";
 import Image from "next/image";
+import useMessageHook from "@/utils/MessageHook";
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -13,7 +14,7 @@ function getBase64(file) {
 }
 
 export const UploadFromDisk = ({ setFacePhoto, setFaceDesc, handleUploadFacePhoto, loading, success }) => {
-
+  const { showMessage, Message } = useMessageHook();
   const [fullDesc, setFullDesc] = useState([]);
   const [faceDescriptor, setFaceDescriptor] = useState([]);
   const [previewImage, setPreviewImage] = useState("");
@@ -31,7 +32,7 @@ export const UploadFromDisk = ({ setFacePhoto, setFaceDesc, handleUploadFacePhot
 
     if (!fileList[0].url && !fileList[0].preview) {
       if (/\.(jpe?g|png)$/i.test(fileList[0].name) === false) {
-        alert("Not an image file (only JPG/PNG accepted)!");
+        showMessage("Not an image file (only JPG/PNG accepted)!");
         return;
       }
       fileList[0].preview = await getBase64(fileList[0]);
@@ -68,6 +69,7 @@ export const UploadFromDisk = ({ setFacePhoto, setFaceDesc, handleUploadFacePhot
 
   return (
     <>
+      <Message />
       <div className="flex items-center justify-center">
         <div className="">
           <label className="cursor-pointer">
@@ -132,10 +134,10 @@ export const UploadFromDisk = ({ setFacePhoto, setFaceDesc, handleUploadFacePhot
             </div>
             <div>
               {detectionCount > 1 && (
-                <span className="alert">Only single face allowed</span>
+                <span className="showMessage">Only single face allowed</span>
               )}
               {detectionCount === 0 && (
-                <span className="alert">No face detected</span>
+                <span className="showMessage">No face detected</span>
               )}
               <p>
                 Number of detection:{" "}

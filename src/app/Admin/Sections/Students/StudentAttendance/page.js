@@ -1,6 +1,6 @@
 "use client"
 
-import Layout from "@/app/Admin/Layout";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -18,6 +18,7 @@ import Image from "next/image";
 import { MdOutlineMailOutline } from "react-icons/md";
 import SelectImage from "@/components/SelectImage";
 import { IoMdCloseCircle } from "react-icons/io";
+import useMessageHook from "@/utils/MessageHook";
 
 const Page = () => {
     const { showConfirmation, ConfirmationDialog } = useConfirmation();
@@ -28,6 +29,7 @@ const Page = () => {
     const [loading, setLoading] = useState(false)
     const currentPathname = usePathname()
     const [active, setActive] = useState()
+    const { showMessage, Message } = useMessageHook();
 
     useEffect(() => {
         setActive(currentPathname)
@@ -49,9 +51,9 @@ const Page = () => {
             setStudent(response.data)
             setLoading(false)
         } catch (err) {
-            alert("Something went wrong!")
-            console.log(err);
             setLoading(false)
+            showMessage("Something went wrong!")
+            console.log(err);
         }
     }
 
@@ -63,9 +65,9 @@ const Page = () => {
             setSchedule(response.data)
             setLoading(false)
         } catch (err) {
-            alert("Something went wrong!")
-            console.log(err);
             setLoading(false)
+            showMessage("Something went wrong!")
+            console.log(err);
         }
     }
 
@@ -118,10 +120,10 @@ const Page = () => {
                 axios.put(`${url}/api/attendance/updateStatusOfStudent/${id}`,
                     { studentId, statusIn, statusOut, letterUrl, letterPublicId }, headers);
             handleGetStudent()
-            alert(`Successfully updated the attendance!`)
+            showMessage(`Successfully updated the attendance!`)
         } catch (error) {
             console.error('An error occurred:', error);
-            alert("Something went wrong while updating")
+            showMessage("Something went wrong while updating")
         }
     };
 
@@ -134,16 +136,17 @@ const Page = () => {
                 axios.put(`${url}/api/attendance/updateStatusOfStudent/${id}`,
                     { studentId: filteredStudent.id, status, letterUrl, letterPublicId }, headers);
             handleGetStudent()
-            alert(`Successfully uploaded the letter!`)
+            showMessage(`Successfully uploaded the letter!`)
         } catch (error) {
             console.error('An error occurred:', error);
-            alert("Something went wrong while uploading")
+            showMessage("Something went wrong while uploading")
         }
     };
 
 
     return (
         <>
+            <Message />
             <ConfirmationDialog />
             {loading && <Modal>
                 <LoadingSpin loading={loading} />

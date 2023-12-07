@@ -7,9 +7,10 @@ import { FcAddImage } from "react-icons/fc";
 import Modal from "@/utils/Modal";
 import { IoMdCloseCircle } from "react-icons/io";
 import { LoadingSpin } from "@/utils/LoadingSpin";
+import useMessageHook from "@/utils/MessageHook";
 
 const SelectImage = ({ handleGetStudent, setUploadLetter, uploadLetter, id, studentId }) => {
-    // file, prevProfileImage, studentId, status, letterUrl, letterPublicId
+    const { showMessage, Message } = useMessageHook();
     const [file, setFile] = useState(null)
     const { showConfirmation, ConfirmationDialog } = useConfirmation();
     const [loading, setLoading] = useState(false)
@@ -35,14 +36,14 @@ const SelectImage = ({ handleGetStudent, setUploadLetter, uploadLetter, id, stud
                 file,
                 studentId,
             }, { headers });
-            alert("Successfully uploaded the letter!")
+            showMessage("Successfully uploaded the letter!")
             handleGetStudent()
             setLoading(!loading)
             setUploadLetter(!uploadLetter)
         } catch (error) {
             setLoading(!loading)
             console.error('An error occurred:', error);
-            alert("Something went wrong!")
+            showMessage("Something went wrong!")
         }
     };
 
@@ -60,6 +61,7 @@ const SelectImage = ({ handleGetStudent, setUploadLetter, uploadLetter, id, stud
         <div>
             <Modal>
                 <ConfirmationDialog />
+                <Message />
                 <div className="relative p-7 bg-gray-300 rounded-lg">
                     <button
                         type="button"

@@ -4,9 +4,10 @@ import Modal from "@/utils/Modal";
 import axios from "axios";
 import { LoadingSpin } from "@/utils/LoadingSpin";
 import { url, headers } from "@/utils/api";
+import useMessageHook from "@/utils/MessageHook";
 
 const AddTeacherAccount = ({ role, setSuccess, setAdd, add, handleGetData }) => {
-
+    const { showMessage, Message } = useMessageHook();
     const [notPassword, setNotPassword] = useState()
     const [uploading, setUploading] = useState()
     const [data, setData] = useState({
@@ -43,7 +44,7 @@ const AddTeacherAccount = ({ role, setSuccess, setAdd, add, handleGetData }) => 
         try {
             const response = await axios.get(`${url}/api/findByEmail/${data.email}`, { headers });
             if (Array.isArray(response.data) && response.data.length > 0) {
-                alert("Email already exist!")
+                showMessage("Email already exist!")
                 setUploading(false)
             } else {
                 const response = await axios.post(`${url}/api/people`, data, { headers });
@@ -53,7 +54,7 @@ const AddTeacherAccount = ({ role, setSuccess, setAdd, add, handleGetData }) => 
                 setSuccess(true)
             }
         } catch (error) {
-            alert("Something went wrong!")
+            showMessage("Something went wrong!")
             console.error('Error:', error);
             setUploading(false)
         }
@@ -66,17 +67,18 @@ const AddTeacherAccount = ({ role, setSuccess, setAdd, add, handleGetData }) => 
         const hasNumbers = /\d/.test(password);
 
         if (!isLengthValid) {
-            alert('Password must be at least 8 characters long.');
+            showMessage('Password must be at least 8 characters long.');
         } else if (!hasSpecialCharacters) {
-            alert('Password must contain special characters.');
+            showMessage('Password must contain special characters.');
         } else if (!hasNumbers) {
-            alert('Password must include numbers.');
+            showMessage('Password must include numbers.');
         }
     };
 
     return (
         <>
             <Modal>
+                <Message />
                 <form onSubmit={handleSubmit} className="grid px-8 bg-white rounded-xl text-green-700 py-6 border-2 border-green-700 gap-4">
                     <div className="grid">
                         <div className="mb-4 grid text-sm">

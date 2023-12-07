@@ -17,6 +17,7 @@ import { UploadFromDisk } from "@/components/Student/UploadFromDisk";
 import { UploadFromWebcam } from "@/components/Student/UploadFromWebCam";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
+import useMessageHook from "@/utils/MessageHook";
 
 
 const AddFacePhoto = ({ }) => {
@@ -35,6 +36,7 @@ const AddFacePhoto = ({ }) => {
   const searchParams = useSearchParams()
   const currentPathname = usePathname()
   const [active, setActive] = useState()
+  const { showMessage, Message } = useMessageHook();
 
   useEffect(() => {
     setActive(currentPathname)
@@ -73,7 +75,7 @@ const AddFacePhoto = ({ }) => {
       const response = await axios.get(`${url}/api/people/${studentId}`, { headers });
       setProfile(response.data)
     } catch (err) {
-      alert("Something went wrong!")
+      showMessage("Something went wrong!")
       console.log(err);
     }
   }
@@ -83,7 +85,7 @@ const AddFacePhoto = ({ }) => {
       const response = await axios.get(`${url}/api/facePhotos/${studentId}`, { headers });
       setSavedImages(response.data)
     } catch (err) {
-      alert("Something went wrong!")
+      showMessage("Something went wrong!")
       console.log(err);
     }
   }
@@ -94,11 +96,11 @@ const AddFacePhoto = ({ }) => {
     try {
       const response = await axios.put(`${url}/api/facePhotos/deleteFacePhoto/${photo.id}`,
         { photoPublicId: photo.photoPublicId }, { headers });
-      alert("Deleted successfully!")
+      showMessage("Deleted successfully!")
       handleGetStudentFacePhotos()
       setDeleting(false)
     } catch (err) {
-      alert("Something went wrong!")
+      showMessage("Something went wrong!")
       setDeleting(!deleting)
       console.log(err);
     }
@@ -109,14 +111,14 @@ const AddFacePhoto = ({ }) => {
     try {
       const response = await axios.post(`${url}/api/facePhotos`,
         { owner: studentId, facePhoto: facePhoto, faceDescriptor: faceDesc.toString() }, headers);
-      handleGetStudentFacePhotos()
-      alert(`Successfully uploaded!`)
-      setSuccess(!success)
       setLoading(false)
+      handleGetStudentFacePhotos()
+      showMessage(`Successfully uploaded!`)
+      setSuccess(!success)
     } catch (error) {
       setLoading(!loading)
       console.error('An error occurred:', error);
-      alert("Something went wrong while uploading")
+      showMessage("Something went wrong while uploading")
     }
     // console.log(studentId, facePhoto, faceDesc.toString())
   }
@@ -130,6 +132,7 @@ const AddFacePhoto = ({ }) => {
 
   return (
     <div className="p-4 text-green-700">
+      <Message />
       <div className="border-b-2 w-full border-green-700">
         <p className="my-2 text-green-700 text-lg ml-4">{profile?.firstName} {profile?.lastName} &#40;{profile?.section}&#41;</p>
       </div>

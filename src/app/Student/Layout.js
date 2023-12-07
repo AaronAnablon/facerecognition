@@ -10,8 +10,10 @@ import UploadProfile from "@/components/UploadProfile";
 import { url, headers } from "@/utils/api";
 import axios from "axios";
 import Image from "next/image";
+import useMessageHook from "@/utils/MessageHook";
 
 const Layout = ({ children }) => {
+    const { showMessage, Message } = useMessageHook();
     const profile = useAccount()
     const currentPathname = usePathname()
     const [active, setActive] = useState()
@@ -27,7 +29,7 @@ const Layout = ({ children }) => {
             const response = await axios.get(`${url}/api/people/${profile?.id}`, { headers });
             setAccount(response.data)
         } catch (err) {
-            alert("Something went wrong!")
+            showMessage("Something went wrong!")
             console.log(err);
         }
     }
@@ -39,6 +41,7 @@ const Layout = ({ children }) => {
     return (
         // <StudentRoute>
         <div className="w-full">
+            <Message />
             <div className={`my-4 w-full flex justify-center ${active !== "/Student" && "border-b-2 border-green-700"}`}>
                 <div className={`flex justify-between items-center mx-4 ${active === "/Student" ? "grid gap-2 w-full" : "w-full"} `}>
                     {active !== "/Student" &&
@@ -91,8 +94,8 @@ const Layout = ({ children }) => {
                         {active !== "/Student" &&
                             <Link
                                 className={`flex gap-4 h-max items-center ${active?.includes("Student/Attendance") &&
-                                    "bg-green-700 px-4 rounded-full text-white"}`} 
-                                    href={`/Student/Attendance?id=${profile.id}`}>
+                                    "bg-green-700 px-4 rounded-full text-white"}`}
+                                href={`/Student/Attendance?id=${profile.id}`}>
                                 Attendance</Link>}
                     </>
                     }

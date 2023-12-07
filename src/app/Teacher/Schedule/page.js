@@ -13,8 +13,10 @@ import Link from "next/link";
 import { FiArrowRightCircle } from "react-icons/fi";
 import { GrCopy } from "react-icons/gr";
 import Modal from "@/utils/Modal";
+import useMessageHook from "@/utils/MessageHook";
 
 const Page = () => {
+    const { showMessage, Message } = useMessageHook();
     const [schedule, setSchedule] = useState()
     const [teacher, setTeacher] = useState()
     const [loading, setLoading] = useState(false)
@@ -43,9 +45,9 @@ const Page = () => {
             setTeacher(response.data)
             setLoading(false)
         } catch (err) {
-            alert("Something went wrong!")
-            console.log(err);
             setLoading(false)
+            showMessage("Something went wrong!")
+            console.log(err);
         }
     }
 
@@ -57,9 +59,10 @@ const Page = () => {
             setSchedule(response.data)
             setLoading(false)
         } catch (err) {
-            alert("Something went wrong!")
-            console.log(err);
             setLoading(false)
+            showMessage("Something went wrong!")
+            console.log(err);
+
         }
     }
 
@@ -91,6 +94,7 @@ const Page = () => {
 
     return (
         <Layout>
+            <Message />
             {loading && <Modal>
                 <LoadingSpin loading={loading} />
             </Modal>}

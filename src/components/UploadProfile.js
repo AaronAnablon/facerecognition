@@ -7,11 +7,13 @@ import { FcAddImage } from "react-icons/fc";
 import Modal from "@/utils/Modal";
 import { IoMdCloseCircle } from "react-icons/io";
 import { LoadingSpin } from "@/utils/LoadingSpin";
+import useMessageHook from "@/utils/MessageHook";
 
 const UploadProfile = ({ handleGetStudent, setUploadProfile, uploadProfile, account }) => {
     const [file, setFile] = useState(null)
     const { showConfirmation, ConfirmationDialog } = useConfirmation();
     const [loading, setLoading] = useState(false)
+    const { showMessage, Message } = useMessageHook();
 
     const handlePictureChange = (e) => {
         const picture = e.target.files[0];
@@ -34,14 +36,14 @@ const UploadProfile = ({ handleGetStudent, setUploadProfile, uploadProfile, acco
                 file,
                 account,
             }, { headers });
-            alert("Successfully uploaded your profile!")
-            handleGetStudent()
             setLoading(false)
+            showMessage("Successfully uploaded your profile!")
+            handleGetStudent()
             setUploadProfile(false)
         } catch (error) {
             setLoading(false)
             console.error('An error occurred:', error);
-            alert("Something went wrong!")
+            showMessage("Something went wrong!")
         }
     };
 
@@ -58,6 +60,7 @@ const UploadProfile = ({ handleGetStudent, setUploadProfile, uploadProfile, acco
     return (
         <div>
             <Modal>
+                <Message />
                 <ConfirmationDialog />
                 <div className="relative p-7 bg-gray-300 rounded-lg">
                     <button

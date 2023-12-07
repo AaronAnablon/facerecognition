@@ -9,8 +9,10 @@ import ProcessFaceRecognition from "@/components/Teacher/ProcessFaceRecognition"
 import { useSearchParams } from "next/navigation";
 import TrxDashBoard from "@/components/Teacher/TrxDashboard";
 import Modal from "@/utils/Modal";
+import useMessageHook from "@/utils/MessageHook";
 
 const Page = (props) => {
+    const { showMessage, Message } = useMessageHook();
     const [isOn, setIsOn] = useState(true);
     const [detected, setDetected] = useState([]);
     const [active, setActive] = useState()
@@ -36,12 +38,12 @@ const Page = (props) => {
             const response = await
                 axios.put(`${url}/api/attendance/updateStatusOfStudents/${attendanceId}`,
                     { studentIds, status }, headers);
-            alert("Attendance Saved!")
             setLoading(false)
+            showMessage("Attendance Saved!")
         } catch (error) {
             console.error('An error occurred:', error);
             setLoading(false)
-            alert("Something went wrong while updating")
+            showMessage("Something went wrong while updating")
         }
     };
 
@@ -68,7 +70,7 @@ const Page = (props) => {
             const response = await axios.get(`${url}/api/attendance/getAttendanceById/${attendanceId}`, { headers });
             setAttendance(response.data);
         } catch (err) {
-            alert("Something went wrong!");
+            showMessage("Something went wrong!");
             console.log(err);
         }
     };
@@ -79,7 +81,7 @@ const Page = (props) => {
             // console.log("profile", response)
             setProfile(response.data)
         } catch (err) {
-            alert("Something went wrong!");
+            showMessage("Something went wrong!");
             console.log(err);
         }
     };
@@ -93,7 +95,7 @@ const Page = (props) => {
             const response = await axios.get(`${url}/api/facePhotos`, { headers });
             setFaceData(response.data)
         } catch (err) {
-            alert("Something went wrong!");
+            showMessage("Something went wrong!");
             console.log(err);
         }
     };
@@ -140,7 +142,7 @@ const Page = (props) => {
     const handleChangeStatus = () => {
         setStatus(!status)
         setDetected([])
-        alert(`This will be saved to the "${!status ? "IN" : "OUT"}" attendance!`)
+        showMessage(`This will be saved to the "${!status ? "IN" : "OUT"}" attendance!`)
     }
 
     useEffect(() => {
@@ -149,6 +151,7 @@ const Page = (props) => {
     }, [])
     return (
         <div className="">
+            <Message />
             <div className="flex bg-green-700 px-6 text-white gap-2">
                 <h2 className="font-bold text-lg">Attdendance Details:</h2>
                 <div className="md:flex grid font-semibold text-lg gap-4 ml-4">

@@ -6,8 +6,10 @@ import Link from "next/link";
 import { url, headers } from "@/utils/api";
 import { LoadingSpin } from "@/utils/LoadingSpin";
 import Image from "next/image";
+import useMessageHook from "@/utils/MessageHook";
 
 const RegisterAccount = () => {
+    const { showMessage, Message } = useMessageHook();
     const [notPassword, setNotPassword] = useState()
     const [uploading, setUploading] = useState()
     const [data, setData] = useState({
@@ -44,7 +46,7 @@ const RegisterAccount = () => {
         try {
             const response = await axios.get(`${url}/api/findByEmail/${data.email}`, { headers });
             if (Array.isArray(response.data) && response.data.length > 0) {
-                alert("Email already exist!")
+                showMessage("Email already exist!")
                 setUploading(false)
             } else {
                 const response = await axios.post(`${url}/api/people`, data, { headers });
@@ -63,18 +65,17 @@ const RegisterAccount = () => {
         const hasNumbers = /\d/.test(password);
 
         if (!isLengthValid) {
-            alert('Password must be at least 8 characters long.');
+            showMessage('Password must be at least 8 characters long.');
         } else if (!hasSpecialCharacters) {
-            alert('Password must contain special characters.');
+            showMessage('Password must contain special characters.');
         } else if (!hasNumbers) {
-            alert('Password must include numbers.');
+            showMessage('Password must include numbers.');
         }
     };
 
     return (
-
-
         <div className="text-green-700 w-screen h-screen flex justify-center items-center">
+            <Message />
             <div className="mx-8 md:p-10 md:border md:rounded-xl md:h-max md:w-96">
                 <div className="flex mb-6 justify-center w-full items-center">
                     <div className='w-1/4 flex justify-center'>

@@ -5,9 +5,10 @@ import axios from "axios";
 import { LoadingSpin } from "@/utils/LoadingSpin";
 import { url, headers } from "@/utils/api";
 import Link from "next/link";
+import useMessageHook from "@/utils/MessageHook";
 
 const AddStudent = ({ sectionName, role, setAdd, add, handleGetData }) => {
-
+    const { showMessage, Message } = useMessageHook();
     const [notPassword, setNotPassword] = useState()
     const [uploadPhoto, setUploadPhoto] = useState(false)
     const [teachers, setTeachers] = useState()
@@ -17,7 +18,7 @@ const AddStudent = ({ sectionName, role, setAdd, add, handleGetData }) => {
         lastName: "",
         email: "",
         homeAddress: "",
-        age:"",
+        age: "",
         contact: "",
         section: sectionName,
         adviser: "",
@@ -41,7 +42,7 @@ const AddStudent = ({ sectionName, role, setAdd, add, handleGetData }) => {
                     { newStudent }, headers);
         } catch (error) {
             console.error('An error occurred:', error);
-            alert("Something went wrong while updating")
+            showMessage("Something went wrong while updating")
         }
     };
 
@@ -54,10 +55,10 @@ const AddStudent = ({ sectionName, role, setAdd, add, handleGetData }) => {
             const response = await
                 axios.put(`${url}/api/attendance/updateStatusOfStudent/65560c3aa1e75aff60dfe015`,
                     { studentId: "222222", status, letterUrl, letterPublicId }, headers);
-            alert("Successfully updated attendance!")
+            showMessage("Successfully updated attendance!")
         } catch (error) {
             console.error('An error occurred:', error);
-            alert("Something went wrong while updating")
+            showMessage("Something went wrong while updating")
         }
     };
 
@@ -66,10 +67,10 @@ const AddStudent = ({ sectionName, role, setAdd, add, handleGetData }) => {
             const response = await
                 axios.put(`${url}/api/attendance/removeStudentFromStudents/65560c3aa1e75aff60dfe015`,
                     { studentId: "" }, headers);
-            alert("Successfully updated attendance!")
+            showMessage("Successfully updated attendance!")
         } catch (error) {
             console.error('An error occurred:', error);
-            alert("Something went wrong while updating")
+            showMessage("Something went wrong while updating")
         }
     };
 
@@ -81,7 +82,7 @@ const AddStudent = ({ sectionName, role, setAdd, add, handleGetData }) => {
             console.log(response)
         } catch (error) {
             console.error('An error occurred:', error);
-            alert("Something went wrong while fetching")
+            showMessage("Something went wrong while fetching")
         }
     };
 
@@ -124,7 +125,7 @@ const AddStudent = ({ sectionName, role, setAdd, add, handleGetData }) => {
         try {
             const response = await axios.get(`${url}/api/findByEmail/${data.email}`, { headers });
             if (Array.isArray(response.data) && response.data.length > 0) {
-                alert("Email already exist!")
+                showMessage("Email already exist!")
                 setUploading(false)
             } else {
                 const response = await axios.post(`${url}/api/people/addStudent`, data, { headers });
@@ -133,10 +134,10 @@ const AddStudent = ({ sectionName, role, setAdd, add, handleGetData }) => {
                 handleGetData()
                 // setAdd(!add)
                 setUploadPhoto(!uploadPhoto)
-                alert("Successfully Added!")
+                showMessage("Successfully Added!")
             }
         } catch (error) {
-            alert("Something went wrong!")
+            showMessage("Something went wrong!")
             console.error('Error:', error);
             setUploading(false)
         }
@@ -150,11 +151,11 @@ const AddStudent = ({ sectionName, role, setAdd, add, handleGetData }) => {
         const hasNumbers = /\d/.test(password);
 
         if (!isLengthValid) {
-            alert('Password must be at least 8 characters long.');
+            showMessage('Password must be at least 8 characters long.');
         } else if (!hasSpecialCharacters) {
-            alert('Password must contain special characters.');
+            showMessage('Password must contain special characters.');
         } else if (!hasNumbers) {
-            alert('Password must include numbers.');
+            showMessage('Password must include numbers.');
         }
     };
 
@@ -163,7 +164,7 @@ const AddStudent = ({ sectionName, role, setAdd, add, handleGetData }) => {
             const response = await axios.get(`${url}/api/people/getTeachers`, { headers });
             setTeachers(response.data)
         } catch (err) {
-            alert("Something went wrong while fetching teachers!")
+            showMessage("Something went wrong while fetching teachers!")
             console.log(err);
         }
     }
@@ -176,6 +177,7 @@ const AddStudent = ({ sectionName, role, setAdd, add, handleGetData }) => {
     return (
         <>
             <Modal>
+                <Message />
                 <form onSubmit={handleSubmit} className="grid px-8 bg-white rounded-xl text-green-700 py-6 border-2 border-green-700 gap-4">
                     <div className="grid gap-4 grid-cols-2">
                         <div className="col-span-1">

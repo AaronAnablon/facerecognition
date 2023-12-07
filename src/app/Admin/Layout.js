@@ -13,10 +13,11 @@ import { useAccount } from "../contextProvider/AccountProvider";
 import UploadProfile from "@/components/UploadProfile";
 import Image from "next/image";
 import axios from "axios";
+import useMessageHook from "@/utils/MessageHook";
 
 const Layout = ({ children }) => {
     const { data: session } = useSession();
-
+    const { showMessage, Message } = useMessageHook();
     const [uploadProfile, setUploadProfile] = useState(false)
     const [account, setAccount] = useState()
     const profile = useAccount();
@@ -31,7 +32,7 @@ const Layout = ({ children }) => {
             const response = await axios.get(`${url}/api/people/${profile?.id}`, { headers });
             setAccount(response.data)
         } catch (err) {
-            alert("Something went wrong!")
+            showMessage("Something went wrong!")
             console.log(err);
         }
     }
@@ -43,11 +44,12 @@ const Layout = ({ children }) => {
     return (
         // <AdminRoute>
         <div className="w-full">
+            <Message />
             <div className={`mb-4 w-full flex justify-center ${active !== "/Admin" && "border-b-2 border-green-700"}`}>
                 <div className={`flex justify-between my-1 mx-4 items-center ${active === "/Admin" ? "grid gap-2 w-full" : "w-full"} `}>
                     {active !== "/Admin" &&
                         <div className="hidden md:flex items-center gap-2 ">
-                           <button className="rounded-full m-1 border-4 border-green-700 text-white bg-green-700"
+                            <button className="rounded-full m-1 border-4 border-green-700 text-white bg-green-700"
                                 onClick={() => setUploadProfile(!uploadProfile)}>
                                 {account ?
                                     account?.profile ?
@@ -68,7 +70,7 @@ const Layout = ({ children }) => {
                             </button>
                             {session?.firstName} {session?.lastName} &#40;Admin&#41;
                         </div>}
-                        {uploadProfile && profile && account &&
+                    {uploadProfile && profile && account &&
                         <UploadProfile
                             handleGetStudent={handleGetStudent}
                             setUploadProfile={setUploadProfile}

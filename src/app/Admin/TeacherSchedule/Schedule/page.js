@@ -16,8 +16,10 @@ import EditSchedule from "./EditSchedule";
 import useConfirmation from "@/utils/ConfirmationHook";
 import { FcDataProtection } from "react-icons/fc";
 import Modal from "@/utils/Modal";
+import useMessageHook from "@/utils/MessageHook";
 
 const Page = () => {
+    const { showMessage, Message } = useMessageHook();
     const { showConfirmation, ConfirmationDialog } = useConfirmation();
     const [add, setAdd] = useState(false)
     const [edit, setEdit] = useState(false)
@@ -48,9 +50,9 @@ const Page = () => {
             setTeacher(response.data)
             setLoading(false)
         } catch (err) {
-            alert("Something went wrong!")
-            console.log(err);
             setLoading(false)
+            showMessage("Something went wrong!")
+            console.log(err);
         }
     }
 
@@ -62,9 +64,9 @@ const Page = () => {
             setSchedule(response.data)
             setLoading(false)
         } catch (err) {
-            alert("Something went wrong!")
-            console.log(err);
             setLoading(false)
+            showMessage("Something went wrong!")
+            console.log(err);
         }
     }
 
@@ -107,12 +109,12 @@ const Page = () => {
         try {
             await axios.delete(`${url}/api/attendance/${id}`, { headers });
             handleGetData()
-            alert("Succesfully Deleted!")
+            showMessage("Succesfully Deleted!")
             setLoading(false)
         } catch (err) {
-            alert("Something went wrong!")
-            console.log(err);
             setLoading(false)
+            showMessage("Something went wrong!")
+            console.log(err);
         }
     }
 
@@ -124,6 +126,7 @@ const Page = () => {
 
     return (
         <Layout>
+            <Message />
             {edit && clickedAttendance && <EditSchedule handleGetData={handleGetData} attendance={clickedAttendance} setEdit={setEdit} edit={edit} />}
             <ConfirmationDialog />
             {loading && <Modal>

@@ -18,6 +18,7 @@ import { MdOutlineMailOutline } from "react-icons/md";
 import SelectImage from "@/components/SelectImage";
 import { IoMdCloseCircle } from "react-icons/io";
 import { useAccount } from "@/app/contextProvider/AccountProvider";
+import useMessageHook from "@/utils/MessageHook";
 
 const Page = () => {
     const profile = useAccount()
@@ -30,6 +31,7 @@ const Page = () => {
     const [active, setActive] = useState()
     const [studId, setStudId] = useState()
     const [attendId, setAttendId] = useState()
+    const { showMessage, Message } = useMessageHook();
 
     useEffect(() => {
         setActive(currentPathname)
@@ -51,9 +53,9 @@ const Page = () => {
             setStudent(response.data)
             setLoading(false)
         } catch (err) {
-            alert("Something went wrong!")
-            console.log(err);
             setLoading(false)
+            showMessage("Something went wrong!")
+            console.log(err);
         }
     }
 
@@ -65,9 +67,9 @@ const Page = () => {
             setSchedule(response.data)
             setLoading(false)
         } catch (err) {
-            alert("Something went wrong!")
-            console.log(err);
             setLoading(false)
+            showMessage("Something went wrong!")
+            console.log(err);
         }
     }
 
@@ -111,6 +113,7 @@ const Page = () => {
     return (
         <>
             <Layout>
+                <Message />
                 <div className="w-full flex justify-center gap-4 mb-20">
                     {loading && <Modal>
                         <LoadingSpin loading={loading} />

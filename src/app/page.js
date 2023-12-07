@@ -10,14 +10,16 @@ import { PublicRoute } from '@/utils/auth';
 import { LoadingSpin } from '@/utils/LoadingSpin';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import useMessageHook from '@/utils/MessageHook';
 
 export default function Home() {
-
+  const { showMessage, Message } = useMessageHook();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false)
   const router = useRouter()
   const { data: session } = useSession();
+
 
 
   const handleSubmit = async (e) => {
@@ -32,10 +34,10 @@ export default function Home() {
       });
       setLoading(false)
       response.ok && router.push(`${url}AuthenticateAccount`)
-      response.error && alert("Failed to Login! Please check the email or password.")
+      response.error && showMessage("Failed to Login! Please check the email or password.")
     } else {
-      alert("You don't have account yet!")
       setLoading(false)
+      showMessage("You don't have account yet!")
     }
   };
 
@@ -45,6 +47,7 @@ export default function Home() {
 
   return (
     <main >
+      <Message />
       <PublicRoute>
         <div className="text-green-700 w-screen h-screen flex justify-center items-center">
           <div className="mx-8 md:p-10 md:border md:rounded-xl md:h-96 md:w-96">

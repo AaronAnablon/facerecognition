@@ -15,8 +15,10 @@ import useConfirmation from "@/utils/ConfirmationHook";
 import { FcDataProtection } from "react-icons/fc";
 import { FaClipboardList } from "react-icons/fa";
 import Modal from "@/utils/Modal";
+import useMessageHook from "@/utils/MessageHook";
 
 const Page = () => {
+    const { showMessage, Message } = useMessageHook();
     const { showConfirmation, ConfirmationDialog } = useConfirmation();
     const [add, setAdd] = useState(false)
     const [teachers, setTeachers] = useState()
@@ -33,7 +35,7 @@ const Page = () => {
     };
 
     useEffect(() => {
-        success && alert("Successfully Added")
+        success && showMessage("Successfully Added")
     }, [success])
 
     const handleGetData = async () => {
@@ -43,9 +45,9 @@ const Page = () => {
             setTeachers(response.data)
             setLoading(false)
         } catch (err) {
-            alert("Something went wrong while fetching teachers!")
-            console.log(err);
             setLoading(false)
+            showMessage("Something went wrong while fetching teachers!")
+            console.log(err);
         }
     }
 
@@ -56,11 +58,11 @@ const Page = () => {
             await axios.delete(`${url}/api/attendance/getAttendanceById/${id}`, { headers });
             setLoading(false)
             handleGetData()
-            alert("Successfully Deleted!")
+            showMessage("Successfully Deleted!")
         } catch (err) {
-            alert("Something went wrong while deleting teachers!")
-            console.log(err);
             setLoading(false)
+            showMessage("Something went wrong while deleting teachers!")
+            console.log(err);
         }
     }
 
@@ -68,9 +70,9 @@ const Page = () => {
         try {
             const deleteAttendance = await axios.delete(`${url}/api/attendance/getAttendanceById/${id}`, { headers });
         } catch (err) {
-            alert("Something went wrong while deleting teachers!")
-            console.log(err);
             setLoading(false)
+            showMessage("Something went wrong while deleting teachers!")
+            console.log(err);
         }
     }
 
@@ -93,6 +95,7 @@ const Page = () => {
 
     return (
         <Layout>
+            <Message />
             <ConfirmationDialog />
             {loading &&
                 <Modal>

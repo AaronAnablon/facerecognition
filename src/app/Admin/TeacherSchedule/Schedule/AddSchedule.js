@@ -4,8 +4,10 @@ import Modal from "@/utils/Modal";
 import axios from "axios";
 import { LoadingSpin } from "@/utils/LoadingSpin";
 import { url, headers } from "@/utils/api";
+import useMessageHook from "@/utils/MessageHook";
 
 const AddSchedule = ({ teacher, setAdd, add, handleGetData }) => {
+    const { showMessage, Message } = useMessageHook();
     const [date, setDate] = useState()
     const [triggerApi, setTriggerApi] = useState()
     const [toTime, setToTime] = useState()
@@ -66,10 +68,10 @@ const AddSchedule = ({ teacher, setAdd, add, handleGetData }) => {
             setUploading(false)
             handleGetData()
             setAdd(!add)
-            alert("Successfully added!")
+            showMessage("Successfully added!")
 
         } catch (error) {
-            alert("Something went wrong while adding attendance!")
+            showMessage("Something went wrong while adding attendance!")
             console.error('Error:', error);
             setUploading(false)
         }
@@ -94,7 +96,7 @@ const AddSchedule = ({ teacher, setAdd, add, handleGetData }) => {
             handleChange("students", dataOfStudents)
             setTriggerApi("call")
         } catch (error) {
-            alert("Something went wrong while adding attendance!")
+            showMessage("Something went wrong while adding attendance!")
             console.error('Error:', error);
         }
     };
@@ -103,6 +105,7 @@ const AddSchedule = ({ teacher, setAdd, add, handleGetData }) => {
     return (
         <>
             <Modal>
+                <Message />
                 <div>
                     <form onSubmit={handleSubmit} className="grid px-8 bg-white rounded-xl text-green-700 py-6 border-2 border-green-700 gap-4">
                         <div className="grid">
