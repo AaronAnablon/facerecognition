@@ -116,14 +116,14 @@ const Page = () => {
         setLoading(true)
         try {
             await axios.put(`${url}/api/attendance/copyAttendance/${attendanceId}`,
-                { code: idToCopy }, headers);
+                { code: idToCopy, section: section?.section }, headers);
             setLoading(false)
             alert(`Successfully copied the attendance!`)
             handleGetData();
         } catch (error) {
             setLoading(false)
             console.error('An error occurred:', error);
-            alert("Something went wrong while updating")
+            alert(error.response.data.message)
         }
     };
 
@@ -137,14 +137,14 @@ const Page = () => {
                 <p>{section?.date} {section?.time}</p>
                 <p>&#40;{section?.section}&#41;</p>
                 <p>{section?.event}</p>
-                <form className="flex gap-1 items-center" onSubmit={handleCopyAttendance}>
+                {section && <form className="flex gap-1 items-center" onSubmit={handleCopyAttendance}>
                     <input
                         value={idToCopy}
                         onChange={(e) => setIdToCopy(e.target.value)}
                         placeholder="Enter code"
                         className="border-2 rounded-lg pl-1 border-gray-400" />
                     <button type="submit" className="bg-green-700 rounded-lg px-4 text-white">Copy</button>
-                </form>
+                </form>}
             </div>
             <div className="w-full grid gap-1 bg-green-700 py-4 mt-6 mb-20">
                 <div className="flex mx-4 font-semibold text-white justify-between">
