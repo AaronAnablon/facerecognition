@@ -137,12 +137,10 @@ const AddStudent = ({ sectionName, role, setAdd, add, handleGetData }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
         if (!validatePassword(data.password)) {
             setUploading(false);
             return;
         }
-
         setUploading(true);
 
         try {

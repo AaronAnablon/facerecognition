@@ -126,7 +126,7 @@ const Page = () => {
                 <LoadingSpin loading={loading} />
             </Modal>}
             {edit && <EditStudent setEdit={setEdit} edit={edit} student={clickedStudent} handleGetData={handleGetData} />}
-            <div className="bg-green-700 text-white text-center py-3 mt-6 mx-4">Students</div>
+            <div className="bg-green-700 border-b border-gray-400 text-white text-center mt-2 md:mx-4 mx-1 py-4">Students</div>
             <div className="md:mx-4 mx-1 mb-20">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="">
@@ -150,11 +150,12 @@ const Page = () => {
                             attendance.map((student, studentIndex) => (
                                 <tr className="bg-green-100 py-4 hover:bg-green-400" key={studentIndex}>
                                     <td className="px-4">{student.firstName} {student.lastName}</td>
-                                    <td className="flex justify-center">
-                                        <Link href={`Students/StudentAttendance?id=${student.id}`}
-                                            className="bg-white border-green-700 border-2 h-max rounded-full text-yellow-500 p-1">
-                                            <FaClipboardList size={15} />
-                                        </Link>
+                                    <td className="text-center">
+                                        <button className="bg-white border-green-700 border-2 rounded-full text-yellow-500 p-1">
+                                            <Link href={`Students/StudentAttendance?id=${student.id}`}>
+                                                <FaClipboardList size={15} />
+                                            </Link>
+                                        </button>
                                     </td>
                                     <td className="text-center">
                                         <button onClick={() => handleEdit(student)}

@@ -42,8 +42,30 @@ const EditStudent = ({ setEdit, edit, student, handleGetData }) => {
         }
     }, [data.confirmPassword, data.password])
 
+    const validatePassword = (password) => {
+        const isLengthValid = password.length >= 8;
+        const hasSpecialCharacters = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+        const hasNumbers = /\d/.test(password);
+
+        if (!isLengthValid) {
+            showMessage('Password must be at least 8 characters long.');
+            return false;
+        } else if (!hasSpecialCharacters) {
+            showMessage('Password must contain special characters.');
+            return false;
+        } else if (!hasNumbers) {
+            showMessage('Password must include numbers.');
+            return false;
+        }
+        return true;
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
+        if (!validatePassword(data.password)) {
+            setUploading(false);
+            return;
+        }
         setUploading(true)
         try {
             const response = await
@@ -206,7 +228,7 @@ const EditStudent = ({ setEdit, edit, student, handleGetData }) => {
                                 <button
                                     type="submit"
                                     className={`bg-green-700 w-24 text-white px-4 rounded-full`}
-                                    disabled={uploading}
+                                    disabled={uploading || notPassword}
                                 >
                                     {uploading ? <LoadingSpin loading={uploading} /> : "Update"}
                                 </button>
