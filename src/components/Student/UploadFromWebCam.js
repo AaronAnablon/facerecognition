@@ -7,7 +7,7 @@ import {
     webcamResolutionType,
 } from "@/globalData";
 import { drawFaceRect } from "@/utils/drawFaceRect";
-import Image from "next/image";
+
 
 export const UploadFromWebcam = ({ setFacePhoto, setFaceDesc, handleUploadFacePhoto, loading, handleSelectUploadOption }) => {
     const [camWidth, setCamWidth] = useState(DEFAULT_WEBCAM_RESOLUTION.width);

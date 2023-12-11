@@ -117,34 +117,6 @@ const AddStudent = ({ sectionName, role, setAdd, add, handleGetData }) => {
         }
     }, [newStudent])
 
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        validatePassword(data.password)
-        setUploading(true);
-        try {
-            const response = await axios.get(`${url}/api/findByEmail/${data.email}`, { headers });
-            if (Array.isArray(response.data) && response.data.length > 0) {
-                showMessage("Email already exist!")
-                setUploading(false)
-            } else {
-                const response = await axios.post(`${url}/api/people/addStudent`, data, { headers });
-                handleAddnewStudentChange(response.data.id)
-                setUploading(false)
-                handleGetData()
-                // setAdd(!add)
-                setUploadPhoto(!uploadPhoto)
-                showMessage("Successfully Added!")
-            }
-        } catch (error) {
-            showMessage("Something went wrong!")
-            console.error('Error:', error);
-            setUploading(false)
-        }
-    };
-
-
-
     const validatePassword = (password) => {
         const isLengthValid = password.length >= 8;
         const hasSpecialCharacters = /[!@#$%^&*(),.?":{}|<>]/.test(password);
@@ -152,12 +124,47 @@ const AddStudent = ({ sectionName, role, setAdd, add, handleGetData }) => {
 
         if (!isLengthValid) {
             showMessage('Password must be at least 8 characters long.');
+            return false;
         } else if (!hasSpecialCharacters) {
             showMessage('Password must contain special characters.');
+            return false;
         } else if (!hasNumbers) {
             showMessage('Password must include numbers.');
+            return false;
+        }
+        return true;
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        if (!validatePassword(data.password)) {
+            setUploading(false);
+            return;
+        }
+
+        setUploading(true);
+
+        try {
+            const response = await axios.get(`${url}/api/findByEmail/${data.email}`, { headers });
+            if (Array.isArray(response.data) && response.data.length > 0) {
+                showMessage("Email already exists!");
+                setUploading(false);
+            } else {
+                const addStudentResponse = await axios.post(`${url}/api/people/addStudent`, data, { headers });
+                handleAddnewStudentChange(addStudentResponse.data.id);
+                setUploading(false);
+                handleGetData();
+                setUploadPhoto(!uploadPhoto);
+                showMessage("Successfully Added!");
+            }
+        } catch (error) {
+            showMessage("Something went wrong!");
+            console.error('Error:', error);
+            setUploading(false);
         }
     };
+
 
     const handleGetTeachers = async () => {
         try {
@@ -294,16 +301,17 @@ const AddStudent = ({ sectionName, role, setAdd, add, handleGetData }) => {
                             </div>
                         </div>
                         <div className="col-span-2 flex mx-16 justify-between">
-                            <button
-                                type="submit"
-                                className={`bg-green-700 w-20 text-white px-4 rounded-full`}
-                                disabled={notPassword && uploading}
-                            >
-                                {uploading ? <LoadingSpin loading={uploading} /> : "Add"}
-                            </button>
+                            {uploading ? <LoadingSpin loading={uploading} /> :
+                                <button
+                                    type="submit"
+                                    className={`bg-green-700 w-20 text-white px-4 rounded-full`}
+                                    disabled={notPassword}
+                                >
+                                    Add
+                                </button>}
                             <button type="button" onClick={() => setAdd(!add)} className="bg-green-700 w-20 text-white px-4 rounded-full">Close</button>
                         </div>
-                        {uploadPhoto && <Link href={`StudentAttendance/AddFacePhoto?id=${newStudent.id}`}>Upload Photo</Link>}
+                        {uploadPhoto && <Link href={`Students/StudentAttendance/AddFacePhoto?id=${newStudent.id}`}>Upload Photo</Link>}
                     </div>
                 </form>
             </Modal>

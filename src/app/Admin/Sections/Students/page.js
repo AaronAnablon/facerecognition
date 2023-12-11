@@ -18,7 +18,7 @@ import useConfirmation from "@/utils/ConfirmationHook";
 import Modal from "@/utils/Modal";
 
 const Page = () => {
-    const { showMessagesage, Message } = useMessageHook();
+    const { showMessage, Message } = useMessageHook();
     const [add, setAdd] = useState(false)
     const [edit, setEdit] = useState(false)
     const [clickedStudent, setClickedStudent] = useState()
