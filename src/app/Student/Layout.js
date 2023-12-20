@@ -50,13 +50,15 @@ const Layout = ({ children }) => {
                                 onClick={() => setUploadProfile(!uploadProfile)}>
                                 {account ?
                                     account?.profile ?
-                                        <Image
-                                            src={account?.profile}
-                                            alt="profile"
-                                            width={40}
-                                            height={40}
-                                            className="object-fill rounded-full"
-                                        /> :
+                                        <div className="w-12 h-12 rounded-full object-fill bg-green-700 overflow-hidden border-4 border-white">
+                                            <Image
+                                                src={account?.profile}
+                                                alt="profile"
+                                                width={40}
+                                                height={40}
+                                                className="object-fill rounded-full"
+                                            />
+                                        </div> :
                                         <BsPersonCircle size={44} />
                                     :
                                     <BsPersonCircle size={44} />
