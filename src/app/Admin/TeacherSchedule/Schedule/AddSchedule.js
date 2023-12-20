@@ -5,17 +5,21 @@ import axios from "axios";
 import { LoadingSpin } from "@/utils/LoadingSpin";
 import { url, headers } from "@/utils/api";
 import useMessageHook from "@/utils/MessageHook";
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { IoIosCloseCircle } from "react-icons/io";
 
 const AddSchedule = ({ teacher, setAdd, add, handleGetData }) => {
     const { showMessage, Message } = useMessageHook();
-    const [date, setDate] = useState()
+    const [date, setDate] = useState([])
+    const [openDatePicker, setOpenDatePicker] = useState(false)
     const [triggerApi, setTriggerApi] = useState()
     const [toTime, setToTime] = useState()
     const [fromTime, setFromTime] = useState()
     const [uploading, setUploading] = useState()
     const [data, setData] = useState({
         isOn: false,
-        date: "",
+        dates: [],
         time: "",
         teacher: teacher,
         event: "",
@@ -30,20 +34,33 @@ const AddSchedule = ({ teacher, setAdd, add, handleGetData }) => {
         }));
     };
 
-    const formattedDate = () => {
-        const formattedDate = new Date(date).toLocaleDateString('en-US', {
+    const formattedDate = (date) => {
+        return new Date(date).toLocaleDateString('en-US', {
             weekday: 'long',
             month: 'long',
             day: 'numeric',
             year: 'numeric',
         });
-        return formattedDate;
     };
 
-    useEffect(() => {
-        const formattedDateValue = formattedDate();
-        handleChange("date", formattedDateValue)
-    }, [date]);
+    const handleDateChange = (selectedDate) => {
+        setDate((prevDates) => [...prevDates, selectedDate]);
+    };
+
+    const handleRemoveDate = (index) => {
+        setDate((prevDates) => {
+            const newDates = [...prevDates];
+            newDates.splice(index, 1);
+            return newDates;
+        });
+    };
+
+    const handleSetDate = () => {
+        const formattedDates = date?.map((date) => formattedDate(date));
+        handleChange("dates", formattedDates);
+        setOpenDatePicker(false)
+    }
+
 
 
     function onTimeChange(value) {
@@ -102,23 +119,58 @@ const AddSchedule = ({ teacher, setAdd, add, handleGetData }) => {
     };
 
 
+
     return (
         <>
             <Modal>
                 <Message />
                 <div>
                     <form onSubmit={handleSubmit} className="grid px-8 bg-white rounded-xl text-green-700 py-6 border-2 border-green-700 gap-4">
+                        {openDatePicker && <Modal>
+                            <div className="bg-white text-black p-6 grid gap-1 text-sm">
+                                <div className="flex gap-2">
+                                    <ul>
+                                        <h2>Selected Dates:</h2>
+                                        {date && date?.map((selectedDate, index) => (
+                                            <li className="flex px-1 rounded-lg py-1 mt-1 bg-green-700 text-white justify-between" key={selectedDate.toString()}>
+                                                {formattedDate(selectedDate)}
+                                                <button className="rounded-full bg-red-700" onClick={() => handleRemoveDate(index)}>
+                                                    <IoIosCloseCircle size={20} /></button>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    <DatePicker
+                                        selected={null}
+                                        onChange={handleDateChange}
+                                        inline
+                                    />
+                                </div>
+                                <div className="flex justify-between mx-24">
+                                    <button
+                                        type="button"
+                                        onClick={() => setOpenDatePicker(false)}
+                                        className="px-2 py-1 bg-red-700 text-white rounded-lg">
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={handleSetDate}
+                                        className="px-2 py-1 bg-green-700 text-white rounded-lg">
+                                        Okay
+                                    </button>
+                                </div>
+
+                            </div>
+                        </Modal>}
                         <div className="grid">
                             <div className="mb-4 grid text-sm">
                                 <label>Date</label>
-                                <input
-                                    type="date"
-                                    className="w-full text-xs rounded-xl px-3 py-2 border border-green-700"
-                                    value={date}
-                                    onChange={(e) => setDate(e.target.value)}
-                                    placeholder="Date"
-                                    required
-                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setOpenDatePicker(true)}
+                                    className="w-full text-xs rounded-xl px-3 py-2 border border-green-700">
+                                    Select Date
+                                </button>
                             </div>
                             <div className="mb-4 grid text-sm">
                                 <label>Time</label>
