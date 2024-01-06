@@ -28,7 +28,6 @@ const UploadProfile = ({ handleGetStudent, setUploadProfile, uploadProfile, acco
         }
     };
 
-
     const handleuploadProfile = async () => {
         setLoading(true)
         try {
@@ -73,7 +72,7 @@ const UploadProfile = ({ handleGetStudent, setUploadProfile, uploadProfile, acco
                     <form onSubmit={handleUpdate} className="grid gap-4 justify-center">
                         <div className="grid justify-center">
                             <div className="w-60 h-60 rounded-full object-fill bg-green-700 overflow-hidden border-4 border-white mb-4">
-                                {file && (
+                                {file ?
                                     <Image
                                         src={file}
                                         alt="Selected"
@@ -81,7 +80,15 @@ const UploadProfile = ({ handleGetStudent, setUploadProfile, uploadProfile, acco
                                         height={600}
                                         className="object-fill"
                                     />
-                                )}
+                                    :
+                                    <Image
+                                        src={account.profile}
+                                        alt="Selected"
+                                        width={600}
+                                        height={600}
+                                        className="object-fill"
+                                    />
+                                }
                             </div>
 
                             <div className="flex italic text-black justify-center">Image Preview</div>
